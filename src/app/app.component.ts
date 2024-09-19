@@ -10,6 +10,5 @@ export class AppComponent {
     { title: 'Registrar Viaje', url: '/registrar-viaje', icon: 'paper-plane' },
     { title: 'Usuario', url: '/inicio', icon: 'person' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {} 
 }

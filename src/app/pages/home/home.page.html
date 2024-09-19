@@ -1,9 +1,11 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/registro" ></ion-icon>
+    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio"></ion-icon>
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -16,49 +18,46 @@
   </ion-header>
 
 <!-- card 1 -->
-  <ion-card>
+  <ion-card mode="md">
     <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      <ion-card-title>Viaje a San Pedro </ion-card-title>
+      <ion-card-subtitle>Tres asientos libres, automovil </ion-card-subtitle>
     </ion-card-header>
   
     <ion-card-content>
-      Here's a small text description for the card content. Nothing more, nothing less.
+      Vamos hacia xxx en San Pedro, por la calle xxx hasta xxx.
     </ion-card-content>
   
-    <ion-button fill="clear">Action 1</ion-button>
-    <ion-button fill="clear">Action 2</ion-button>
+    <ion-button fill="clear" href="detalle-viaje">Detalle</ion-button>
   </ion-card>
 
 <!-- card 2 -->
-  <ion-card>
+  <ion-card mode="md">
     <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      <ion-card-title>Viaje a Hualpen</ion-card-title>
+      <ion-card-subtitle>Un asiento libre, motocicleta</ion-card-subtitle>
     </ion-card-header>
   
     <ion-card-content>
-      Here's a small text description for the card content. Nothing more, nothing less.
+      Voy hasta la zona xxx de Hualpen por la ruta xxxx 
     </ion-card-content>
   
-    <ion-button fill="clear">Action 1</ion-button>
-    <ion-button fill="clear">Action 2</ion-button>
+    <ion-button fill="clear" href="detalle-viaje">Detalle</ion-button>
   </ion-card>
 
 
 <!-- card 3 -->
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Card Title</ion-card-title>
-    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-  </ion-card-header>
+  <ion-card mode="md">
+    <ion-card-header>
+      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
 
-  <ion-card-content>
+    <ion-card-content>
     Here's a small text description for the card content. Nothing more, nothing less.
-  </ion-card-content>
+    </ion-card-content>
 
-  <ion-button fill="clear">Action 1</ion-button>
-  <ion-button fill="clear">Action 2</ion-button>
-</ion-card>
+    <ion-button fill="clear" href="detalle-viaje">Detalle</ion-button>
+  </ion-card>
 
 </ion-content>

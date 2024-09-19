@@ -1,6 +1,7 @@
+
+
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>inicio</ion-title>
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
@@ -13,13 +14,29 @@
       <ion-title size="large">inicio Sesion</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-item>
-    <ion-input label="Correo" placeholder="Ingrese su Correo"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input type="password" label="Contraseña" placeholder="Ingrese su Contraseña">
-      <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-    </ion-input>
-  </ion-item>
 
+  <ion-list  class="ion-padding">
+    <form #miForm="ngForm" (ngSubmit)="enviar()">
+      <ion-item >
+        <ion-input required mode="ios" label="Usuario" labelPlacement="fixed"
+                   placeholder="Ingrese su usuario" name='usuario' [(ngModel)]="usr.username"> 
+        </ion-input>
+      </ion-item>
+      
+      <br>
+
+      <ion-item >
+        <ion-input required mode="ios" type="password" labelPlacement="fixed" label="Contraseña" placeholder="Ingrese Contraseña"
+                     name="pass" [(ngModel)]="usr.password" minlength="6">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="miForm.invalid">
+        Iniciar Sesión
+      </ion-button>
+      <ion-button expand="block" fill="soil" color="secondary" href="registro"> Registrar </ion-button>
+    
+    </form> 
+  </ion-list>
 </ion-content>
