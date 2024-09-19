@@ -12,24 +12,26 @@
     </ion-toolbar>
   </ion-header>
 
-  <form #miForm="ngForm">
-    <ion-item>  
-      <ion-input type="email" label="Correo" placeholder="Ingrese su Correo" helperText="ingrese correo"  
-                errorText="ingrese correo valido" ngModel [ngModelOptions]="{ standalone: true }" email></ion-input>
-    </ion-item>
+  <ion-list class="ion-padding">
+    <form #miForm="ngForm">
+      <ion-item>  
+        <ion-input required type="email" label="Correo" placeholder="Ingrese su Correo" helperText="ingrese correo"  
+                  errorText="ingrese correo valido" ngModel [ngModelOptions]="{ standalone: true }" email></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input label="Nombre" placeholder="Ingrese su nombre"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-input required label="Nombre" placeholder="Ingrese su nombre"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input type="password" label="Contraseña" placeholder="Ingrese Contraseña" helperText="Minimo de 6 digitos" minlength="6">
-        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-      </ion-input>
-    </ion-item>
-    
-    <ion-button type="submit" expand="block" fill="solid" color="primary">
-      Registar
-    </ion-button>
-  </form>
+      <ion-item>
+        <ion-input required type="password" label="Contraseña" placeholder="Ingrese Contraseña" helperText="Minimo de 6 digitos" minlength="6">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" fill="solid" color="primary">
+        Registar
+      </ion-button>
+    </form>
+  </ion-list>
 </ion-content>
