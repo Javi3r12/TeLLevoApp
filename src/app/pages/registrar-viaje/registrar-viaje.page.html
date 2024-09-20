@@ -9,8 +9,27 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registrar Viaje</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <form #viajeForm="ngForm" (ngSubmit)="agregarViaje(viajeForm)">
+    <ion-item>
+      <ion-label position="floating">Destino</ion-label>
+      <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Asientos Libres</ion-label>
+      <ion-input name="asientos" required type="number" [(ngModel)]="nuevoViaje.asientos"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Tipo de Vehículo</ion-label>
+      <ion-input name="vehiculo" required [(ngModel)]="nuevoViaje.vehiculo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea name="descripcion" required [(ngModel)]="nuevoViaje.descripcion"></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Agregar Viaje</ion-button>
+  </form>
+</ion-content>

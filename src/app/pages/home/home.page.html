@@ -47,17 +47,17 @@
 
 
 <!-- card 3 -->
-  <ion-card mode="md">
-    <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content>
-    Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-
-    <ion-button fill="clear" href="detalle-viaje">Detalle</ion-button>
-  </ion-card>
+  <div *ngFor="let viaje of viajes">
+    <ion-card mode="md">
+      <ion-card-header>
+        <ion-card-title>{{ viaje.destino }}</ion-card-title>
+        <ion-card-subtitle>{{ viaje.asientos }} asientos libres, {{ viaje.vehiculo }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        {{ viaje.descripcion }}
+      </ion-card-content>
+      <ion-button fill="clear" routerLink="/detalle-viaje">Detalle</ion-button>
+    </ion-card>
+  </div>
 
 </ion-content>
