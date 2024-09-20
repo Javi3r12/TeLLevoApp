@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Viaje } from 'src/app/interfaces/viaje.model';
+import { Router } from '@angular/router';
 import { ViajeService } from 'src/app/services/viaje.service';
 
 @Component({
@@ -10,10 +11,13 @@ import { ViajeService } from 'src/app/services/viaje.service';
 export class HomePage implements OnInit {
   viajes: Viaje[] = [];
 
-  constructor(private viajeService: ViajeService) {}
+  constructor(private viajeService: ViajeService, private router: Router) {}
 
   ngOnInit() {
+    this.viajeService.agregarEj();
     this.viajes = this.viajeService.obtenerViajes();
   }
-
+  irADetalle(index: number) {
+    this.router.navigate(['/detalle-viaje', index]);
+  }
 }

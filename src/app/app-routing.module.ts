@@ -34,9 +34,13 @@ const routes: Routes = [
   {
     path: 'pago',
     loadChildren: () => import('./pages/pago/pago.module').then( m => m.PagoPageModule)
-  },  {
+  },
+  {
     path: 'olvido',
     loadChildren: () => import('./pages/olvido/olvido.module').then( m => m.OlvidoPageModule)
+  },{
+    path: 'detalle-viaje/:id', 
+    loadChildren: () => import('./pages/detalle-viaje/detalle-viaje.module').then( m => m.DetalleViajePageModule)  
   }
 
 ];

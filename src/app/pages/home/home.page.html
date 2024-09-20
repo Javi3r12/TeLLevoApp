@@ -17,37 +17,8 @@
     </ion-toolbar>
   </ion-header>
 
-<!-- card 1 -->
-  <ion-card mode="md">
-    <ion-card-header>
-      <ion-card-title>Viaje a San Pedro </ion-card-title>
-      <ion-card-subtitle>Tres asientos libres, automovil </ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Vamos hacia xxx en San Pedro, por la calle xxx hasta xxx.
-    </ion-card-content>
-  
-    <ion-button fill="clear" href="detalle-viaje">Detalle</ion-button>
-  </ion-card>
-
-<!-- card 2 -->
-  <ion-card mode="md">
-    <ion-card-header>
-      <ion-card-title>Viaje a Hualpen</ion-card-title>
-      <ion-card-subtitle>Un asiento libre, motocicleta</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Voy hasta la zona xxx de Hualpen por la ruta xxxx 
-    </ion-card-content>
-  
-    <ion-button fill="clear" href="detalle-viaje">Detalle</ion-button>
-  </ion-card>
-
-
 <!-- card 3 -->
-  <div *ngFor="let viaje of viajes">
+  <div *ngFor="let viaje of viajes; let i = index">
     <ion-card mode="md">
       <ion-card-header>
         <ion-card-title>{{ viaje.destino }}</ion-card-title>
@@ -58,8 +29,9 @@
         <br>
         Precio por asiento: ${{ viaje.precio }}
       </ion-card-content>
-      <ion-button fill="clear" routerLink="/detalle-viaje">Detalle</ion-button>
+      <ion-button fill="clear" (click)="irADetalle(i)">Detalle</ion-button>
     </ion-card>
   </div>
+
 
 </ion-content>
