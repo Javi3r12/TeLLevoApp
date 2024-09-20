@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-back-button defaultHref="home" slot="start"></ion-back-button>
+    <ion-back-button defaultHref="inicio" slot="start"></ion-back-button>
     <ion-title>registro</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,13 +14,13 @@
 
   <ion-list class="ion-padding">
     <form #miForm="ngForm">
+      <ion-item>
+        <ion-input required label="Nombre" placeholder="Ingrese su nombre"></ion-input>
+      </ion-item>
+
       <ion-item>  
         <ion-input required type="email" label="Correo" placeholder="Ingrese su Correo" helperText="ingrese correo"  
                   errorText="ingrese correo valido" ngModel [ngModelOptions]="{ standalone: true }" email></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-input required label="Nombre" placeholder="Ingrese su nombre"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -29,9 +29,19 @@
         </ion-input>
       </ion-item>
 
+      <ion-item>
+        <ion-input required label="Rut" placeholder="Ingrese su Rut" helperText="Ingrese su rut con formato **** "></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input required label="Celular" placeholder="Ingrese su Numero Celular" ></ion-input>
+      </ion-item>
+      
       <ion-button type="submit" expand="block" fill="solid" color="primary">
         Registar
       </ion-button>
+
+
     </form>
   </ion-list>
 </ion-content>
