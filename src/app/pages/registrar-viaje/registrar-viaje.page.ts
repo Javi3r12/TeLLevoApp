@@ -15,7 +15,8 @@ export class RegistrarViajePage implements OnInit {
     destino: '',
     asientos: 0,
     vehiculo: '',
-    descripcion: ''
+    descripcion: '',
+    precio: 0
   };
 
   viajes: Viaje[] = [];
