@@ -8,7 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding" >
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Detalle del viaje: {{ viaje.destino }}</ion-title>
@@ -17,13 +17,43 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>{{ viaje.destino }}</ion-card-title>
-      <ion-card-subtitle>{{ viaje.asientos }} asientos libres, {{ viaje.vehiculo }}</ion-card-subtitle>
+      <ion-card-title>
+        {{ viaje.destino }}
+
+      </ion-card-title>  
     </ion-card-header>
-    <ion-card-content>
-      {{ viaje.descripcion }}
-      <br>
-      Precio por asiento: ${{ viaje.precio }}
-    </ion-card-content>
   </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{ viaje.asientos }} asientos libres, {{ viaje.vehiculo }}
+
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{ viaje.descripcion }}
+        <br>
+        Precio por asiento: ${{ viaje.precio }}
+
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        
+        Precio por asiento: ${{ viaje.precio }}
+        
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-button expand="block" fill="solid" color="primary" >
+    Pagar
+  </ion-button>
 </ion-content>
