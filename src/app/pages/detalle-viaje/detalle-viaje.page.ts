@@ -15,9 +15,18 @@ export class DetalleViajePage implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private viajeService: ViajeService) {}
 
   ngOnInit() {
-    const index = +this.route.snapshot.paramMap.get('id')!; // Obtén el índice del viaje
-    this.viaje = this.viajeService.obtenerViajePorId(index); // Obtén el viaje
+    const id = +this.route.snapshot.paramMap.get('id')!; 
+    const viaje = this.viajeService.obtenerViajePorId(id);
+    
+    if (viaje) {
+      this.viaje = viaje; 
+    } else {
+      console.error('Viaje not found with id:', id);
+      this.router.navigate(['/home']);
+    }
+
   }
+
   irAPago() {
     this.viajeService.setViaje(this.viaje)
     this.router.navigate(['/pago', this.viaje.id]); 

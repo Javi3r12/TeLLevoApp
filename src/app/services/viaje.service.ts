@@ -20,8 +20,8 @@ export class ViajeService {
     return this.viajes;
   }
 
-  obtenerViajePorId(index: number): Viaje {
-    return this.viajes[index];
+  obtenerViajePorId(id: number): Viaje | undefined {
+    return this.viajes.find(viaje => viaje.id === id);
   }
 
   agregarEj() {

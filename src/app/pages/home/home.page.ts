@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
     this.viajeService.agregarEj();
     this.viajes = this.viajeService.obtenerViajes();
   }
-  irADetalle(index: number) {
-    this.router.navigate(['/detalle-viaje', index]);
+  irADetalle(id: number) {
+    this.router.navigate(['/detalle-viaje', id ]);
   }
 }
