@@ -28,6 +28,7 @@ export class RegistrarViajePage implements OnInit {
 
   agregarViaje(form: NgForm) {
     if (form.valid) {
+      console.log(this.nuevoViaje)
       this.viajeService.agregarViaje({ ...this.nuevoViaje });
       form.resetForm(); // Resetea el formulario
     }

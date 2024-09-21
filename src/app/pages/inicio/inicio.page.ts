@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-inicio',
@@ -14,7 +15,10 @@ export class InicioPage implements OnInit {
 
   usr:usuarioLog={
     username:'',
-    password:''
+    correo:'',
+    password:'',
+    rut:'',
+    celular:0
   }
 
   constructor(private alertctrl:AlertController, private router:Router) { }
