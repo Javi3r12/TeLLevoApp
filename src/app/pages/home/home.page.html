@@ -17,6 +17,16 @@
     </ion-toolbar>
   </ion-header>
 
+<!-- Busqueda -->
+<ion-searchbar (ionInput)="handleInput($event)" placeholder="Busqueda por destino"> </ion-searchbar>
+
+<ion-list *ngIf="query.length > 0 && results.length > 0"> 
+  <ion-item *ngFor="let viaje of results">
+    {{ viaje.destino }} - {{ viaje.vehiculo }} - <br>
+    asientos: {{ viaje.asientos }} - Precio: ${{ viaje.precio }} <ion-button fill="clear" slot="end" (click)="irADetalle(viaje.id)">Detalle</ion-button>
+  </ion-item>
+</ion-list>
+
 <!-- card 3 -->
   <div *ngFor="let viaje of viajes; let i = index">
     <ion-card mode="md">

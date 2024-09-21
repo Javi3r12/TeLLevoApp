@@ -15,6 +15,8 @@
     </ion-toolbar>
   </ion-header>
 
+  <br> 
+
   <ion-card *ngIf="viaje">
     <ion-card-header>
       <ion-card-title>{{ viaje.destino }}</ion-card-title>
@@ -25,6 +27,21 @@
       Precio: ${{ viaje.precio }}
     </ion-card-content>
   </ion-card>
+  
+  <br>
+  
+  <ion-list>
+    <ion-radio-group>
+      <ion-item>
+        <ion-radio value="Tarjeta" justify="space-between">Tarjeta</ion-radio>
+      </ion-item>
+      
+      <ion-item>
+        <ion-radio value="Efectivo" justify="space-between">Efectivo</ion-radio>
+      </ion-item>
+      
+    </ion-radio-group>
+  </ion-list>
 
   <ion-button expand="block" fill="solid" color="primary">
     Confirmar Pago
