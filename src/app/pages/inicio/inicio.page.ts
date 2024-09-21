@@ -21,9 +21,10 @@ export class InicioPage implements OnInit {
     celular:0
   }
 
-  constructor(private alertctrl:AlertController, private router:Router) { }
+  constructor(private alertctrl:AlertController, private router:Router, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
+    console.log(this.usuarioService.agregarEj());
   }
 
   enviar(){
@@ -31,15 +32,22 @@ export class InicioPage implements OnInit {
 
     console.log("Form Enviado...");
     console.log(this.usr);
-    if(this.usr.username=="waco" && this.usr.password=="123"){
-      this.mensaje="ok"
-      this.usr.username='';
-      this.usr.password=''
-      this.router.navigate(['/home'])
-    }
-    else{
-      this.mensaje="Acceso denegado"
-      this.alerta()
+
+    const usuarios = this.usuarioService.obtenerUsuarios();
+
+    const usuarioEncontrado = usuarios.find(user => 
+      user.username.trim() === this.usr.username.trim() && user.password === this.usr.password
+    );
+
+
+    if (usuarioEncontrado) {
+      this.mensaje = "ok";
+      this.usr.username = '';
+      this.usr.password = '';
+      this.router.navigate(['/home']);
+    } else {
+      this.mensaje = "Acceso denegado";
+      this.alerta();
     }
   
   }
@@ -49,7 +57,7 @@ export class InicioPage implements OnInit {
     const alert = await this.alertctrl.create({
       header: 'Acceso denegado',
       subHeader: 'usuario y/o password incorrecto',
-      message: 'eso!!',
+      message: 'ingrese usuario y/o password validos',
       buttons: [{
         id:'aceptar del alert controller',
         text:'Aceptar',

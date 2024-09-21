@@ -10,7 +10,26 @@ export class UsuarioService {
     constructor() {}
 
     agregarUsuario(usuario: usuarioLog) {
-        this.usuarios.push(usuario);
+      const existeUsuario = this.usuarios.some(user => user.username === usuario.username);
+      const existeCorreo = this.usuarios.some(user => user.correo === usuario.correo);
+      const existeRut = this.usuarios.some(user => user.rut === usuario.rut);
+
+    
+      if (existeUsuario) {
+        return 'El nombre de usuario ya está en uso.';
+      }
+    
+      if (existeCorreo) {
+        return 'El correo ya está registrado.';
+      }
+
+      if (existeRut) {
+        return 'El rut ya está registrado.'
+      }
+    
+      // Si todo está bien, agregar el usuario
+      this.usuarios.push(usuario);
+      return 'Usuario agregado exitosamente.';
     }
     
     obtenerUsuarios(): usuarioLog[] {
@@ -18,7 +37,9 @@ export class UsuarioService {
     }
 
     agregarEj() {
-        this.usuarios.push( {username:'Javier ',correo:'Ja.sa@gmail.com', password:'Hola1234', rut:'21.842.442-2', celular: 912345678}
-        );
+        this.agregarUsuario( {username:'Javier',correo:'Ja.sa@gmail.com', password:'Hola1234', rut:'21.842.442-2', celular: 912345678}
+        
+        )
+        console.log(this.obtenerUsuarios()) ;
       }
 }
