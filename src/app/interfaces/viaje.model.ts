@@ -1,4 +1,5 @@
 export interface Viaje {
+    id: number;
     destino: string;
     asientos: number;
     vehiculo: string;

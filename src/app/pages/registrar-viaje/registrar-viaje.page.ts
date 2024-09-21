@@ -12,6 +12,7 @@ import { ViajeService } from 'src/app/services/viaje.service';
 export class RegistrarViajePage implements OnInit {
   
   nuevoViaje: Viaje = {
+    id: this.viajeService.getNextId() ,
     destino: '',
     asientos: 0,
     vehiculo: '',
