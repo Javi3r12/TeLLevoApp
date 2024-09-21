@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-back-button defaultHref="inicio" slot="start"></ion-back-button>
+    <ion-title size="large" class="ion-padding">Restablecer Contraseña</ion-title>
 </ion-toolbar>
 </ion-header>
 
@@ -22,10 +23,10 @@
     <ion-item>
       <ion-input name="correo" required type="email" label="Correo" placeholder="Ingrese su Correo" 
                  helperText="Ingrese correo" errorText="Ingrese correo válido" 
-                 [(ngModel)]="correo" email>
+                 [(ngModel)]="usr.correo" email>
       </ion-input>
     </ion-item>
-
+    <br>
     <ion-button type="submit" expand="full">Recuperar</ion-button>
   </form>
 </ion-content>

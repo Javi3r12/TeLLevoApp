@@ -11,7 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class InicioPage implements OnInit {
 
-  mensaje:string=""
+  mensaje:string="";
 
   usr:usuarioLog={
     username:'',
