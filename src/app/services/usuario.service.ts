@@ -42,4 +42,14 @@ export class UsuarioService {
         )
         console.log(this.obtenerUsuarios()) ;
       }
+      actualizarPassword(correo: string, nuevaPassword: string): string {
+        const usuario = this.usuarios.find(user => user.correo === correo);
+    
+        if (!usuario) {
+          return 'Usuario no encontrado.';
+        }
+    
+        usuario.password = nuevaPassword;
+        return 'Contraseña actualizada exitosamente.';
+      }
 }
