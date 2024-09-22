@@ -8,9 +8,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
       <ion-title size="large">Proceder con el pago</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -31,6 +34,9 @@
   <br>
   
   <ion-list>
+    <ion-text>
+      Seleccione metodo de pago
+    </ion-text>
     <ion-radio-group>
       <ion-item>
         <ion-radio value="Tarjeta" justify="space-between">Tarjeta</ion-radio>
@@ -43,7 +49,7 @@
     </ion-radio-group>
   </ion-list>
 
-  <ion-button expand="block" fill="solid" color="primary">
+  <ion-button expand="block" fill="solid" color="primary" (click)="cancelarPago()">
     Confirmar Pago
   </ion-button>
 </ion-content>
