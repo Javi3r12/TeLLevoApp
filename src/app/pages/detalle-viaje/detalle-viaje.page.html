@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/registro" ></ion-icon>
     <ion-title>Detalle</ion-title>
@@ -28,24 +28,27 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title> Descripcion: </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <ion-card-subtitle>
-
         Asientos libres: {{ viaje.asientos }}, Tipo de vehiculo: {{ viaje.vehiculo }}
         <br>
         {{ viaje.descripcion }} 
       </ion-card-subtitle>
-    </ion-card-header>
+    </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
       <ion-card-title> Precio por asiento: </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <ion-card-subtitle>
         
          ${{ viaje.precio }}
         
       </ion-card-subtitle>
-    </ion-card-header>
+    </ion-card-content>
   </ion-card>
   <ion-button expand="block" fill="solid" color="primary" (click)="irAPago()">
     Pagar
