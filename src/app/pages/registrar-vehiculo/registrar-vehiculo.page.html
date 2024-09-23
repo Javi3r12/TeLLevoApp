@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio" ></ion-icon>
+    <ion-title>registrar Vehiculo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form #vehiculoForm="ngForm" (ngSubmit)="agregarVehiculo(vehiculoForm)">
+    <ion-item>
+      <ion-label position="floating">Tipo de Vehículo</ion-label>
+      <ion-input name="vehiculo" required [(ngModel)]="nuevoVehiculo.tipo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Modelo</ion-label>
+      <ion-input name="destino" required [(ngModel)]="nuevoVehiculo.modelo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Patente</ion-label>
+      <ion-input name="asientos" required type="number" [(ngModel)]="nuevoVehiculo.patente"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Color</ion-label>
+      <ion-textarea name="descripcion" required [(ngModel)]="nuevoVehiculo.color"></ion-textarea>
+    </ion-item>
+
+
+    <ion-button expand="full" type="submit">Agregar Viaje</ion-button>
+  </form>
+</ion-content>

@@ -27,7 +27,7 @@ export class RegistrarViajePage implements OnInit {
   ngOnInit() {
   }
 
-  agregarViaje(form: NgForm) {
+  agregarVehiculo(form: NgForm) {
     if (form.valid) {
       console.log(this.nuevoViaje)
       this.viajeService.agregarViaje({ ...this.nuevoViaje });
