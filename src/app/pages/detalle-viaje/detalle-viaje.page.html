@@ -18,6 +18,7 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
+        Destino:        
         {{ viaje.destino }}
 
       </ion-card-title>  
@@ -26,8 +27,10 @@
 
   <ion-card>
     <ion-card-header>
+      <ion-card-title> Descripcion: </ion-card-title>
       <ion-card-subtitle>
-        {{ viaje.asientos }} asientos libres, {{ viaje.vehiculo }}
+
+        Asientos libres: {{ viaje.asientos }}, Tipo de vehiculo: {{ viaje.vehiculo }}
         <br>
         {{ viaje.descripcion }} 
       </ion-card-subtitle>
@@ -36,9 +39,10 @@
 
   <ion-card>
     <ion-card-header>
+      <ion-card-title> Precio por asiento: </ion-card-title>
       <ion-card-subtitle>
         
-        Precio por asiento: ${{ viaje.precio }}
+         ${{ viaje.precio }}
         
       </ion-card-subtitle>
     </ion-card-header>
