@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio" ></ion-icon>
-    <ion-title>registrar Vehiculo</ion-title>
+    <ion-title>Registrar Vehiculo</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,12 +16,12 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Modelo</ion-label>
-      <ion-input name="destino" required [(ngModel)]="nuevoVehiculo.modelo"></ion-input>
+      <ion-input name="modelo" required [(ngModel)]="nuevoVehiculo.modelo"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Patente</ion-label>
-      <ion-input name="asientos" required type="number" [(ngModel)]="nuevoVehiculo.patente"></ion-input>
+      <ion-input name="patento" maxlength="6" minlength="6" required [(ngModel)]="nuevoVehiculo.patente"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -30,6 +30,6 @@
     </ion-item>
 
 
-    <ion-button expand="full" type="submit">Agregar Viaje</ion-button>
+    <ion-button expand="full" type="submit">Agregar Vehiculo</ion-button>
   </form>
 </ion-content>

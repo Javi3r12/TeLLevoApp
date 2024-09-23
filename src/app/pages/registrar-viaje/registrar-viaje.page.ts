@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { ViajeService } from 'src/app/services/viaje.service';
+import { VehiculoService } from 'src/app/services/vehiculo.service'; 
+import { Vehiculo } from '../../interfaces/vehiculo.model';
 
 @Component({
   selector: 'app-registrar-viaje',
@@ -20,14 +22,17 @@ export class RegistrarViajePage implements OnInit {
     precio: 0
   };
 
+  vehiculos: Vehiculo[] = [];
+
   viajes: Viaje[] = [];
 
-  constructor(private viajeService: ViajeService) {}
+  constructor(private viajeService: ViajeService, private vehiculosServise: VehiculoService) {}
 
   ngOnInit() {
+    this.vehiculos = this.vehiculosServise.obtenerVehiculo();
   }
 
-  agregarVehiculo(form: NgForm) {
+  agregarViaje(form: NgForm) {
     if (form.valid) {
       console.log(this.nuevoViaje)
       this.viajeService.agregarViaje({ ...this.nuevoViaje });
