@@ -12,7 +12,7 @@ export class ViajeService {
   constructor() {}
 
   agregarViaje(viaje: Omit<Viaje, 'id'>) {
-    const newViaje: Viaje = { id: this.nextId++, ...viaje }; // Assign an ID and spread the rest
+    const newViaje: Viaje = { id: this.nextId++, ...viaje };
     this.viajes.push(newViaje);
   }
 
