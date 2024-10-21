@@ -41,7 +41,19 @@ const routes: Routes = [
   {
     path: 'registrar-vehiculo',
     loadChildren: () => import('./pages/registrar-vehiculo/registrar-vehiculo.module').then( m => m.RegistrarVehiculoPageModule)
+  },  {
+    path: 'historial-viajes',
+    loadChildren: () => import('./pages/historial-viajes/historial-viajes.module').then( m => m.HistorialViajesPageModule)
+  },
+  {
+    path: 'gestion-vehiculos',
+    loadChildren: () => import('./pages/gestion-vehiculos/gestion-vehiculos.module').then( m => m.GestionVehiculosPageModule)
+  },
+  {
+    path: 'gestion-viajes',
+    loadChildren: () => import('./pages/gestion-viajes/gestion-viajes.module').then( m => m.GestionViajesPageModule)
   }
+
 
 ];
 

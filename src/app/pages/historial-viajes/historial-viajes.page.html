@@ -1,0 +1,37 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio"></ion-icon>
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Historial</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+<!-- card 3 -->
+  <div *ngFor="let viaje of viajes; let i = index">
+    <ion-card mode="md">
+      <ion-card-header>
+        <ion-card-title>{{ viaje.destino }}</ion-card-title>
+        <ion-card-subtitle>{{ viaje.asientos }} asientos libres, {{ viaje.vehiculo }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        {{ viaje.descripcion }}
+        <br>
+        Precio por asiento: ${{ viaje.precio }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+</ion-content>
