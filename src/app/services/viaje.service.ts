@@ -36,10 +36,10 @@ export class ViajeService {
   }
   
   setViaje(viaje: Viaje) {
-    this.viajeActual = viaje; // Store the current viaje
+    this.viajeActual = viaje; 
   }
 
   obtenerViajeActual(): Viaje | null {
-    return this.viajeActual; // Retrieve the current viaje
+    return this.viajeActual;
   }
 }

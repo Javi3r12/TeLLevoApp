@@ -19,7 +19,6 @@ export class PagoPage implements OnInit {
     this.viaje = this.viajerService.obtenerViajeActual();
 
     if (!this.viaje) {
-      // Handle the case where viaje is undefined
       this.router.navigate(['/home']); 
     }
   }

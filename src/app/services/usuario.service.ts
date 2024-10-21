@@ -27,7 +27,6 @@ export class UsuarioService {
         return 'El rut ya está registrado.'
       }
     
-      // Si todo está bien, agregar el usuario
       this.usuarios.push(usuario);
       return 'Usuario agregado exitosamente.';
     }
