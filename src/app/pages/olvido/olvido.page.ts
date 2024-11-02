@@ -58,7 +58,7 @@ export class OlvidoPage implements OnInit {
       if (usuarioEncontrado) {
         console.log(usuarioEncontrado)
         this.cargarUsuario(usuarioEncontrado.id)
-        this.codigoGenerado = 123456;
+        this.codigoGenerado = Math.floor(100000 + Math.random() * 900000);
         this.cambio = true;
         console.log(this.codigoGenerado)
 
