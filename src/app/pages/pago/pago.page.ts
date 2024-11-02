@@ -47,7 +47,7 @@ export class PagoPage implements OnInit {
         text:'Aceptar',
         cssClass:'color-aceptar',
         handler:()=>{
-          console.log(event);
+          this.router.navigate(['/home']);
         }
       }],
     });
