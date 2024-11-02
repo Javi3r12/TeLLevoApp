@@ -1,24 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+    <ion-back-button defaultHref="home" slot="start"></ion-back-button>
+    
     <ion-icon slot="end" name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
     <ion-title>Proceder con el pago</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title size="large">Proceder con el pago</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <br> 
 
   <ion-card *ngIf="viaje">
     <ion-card-header>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ViajeService } from 'src/app/services/viaje.service';
 import { Viaje } from 'src/app/interfaces/viaje.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-pago',
@@ -13,18 +14,27 @@ export class PagoPage implements OnInit {
 
   viaje: Viaje | null = null;
 
-  constructor(private alertctrl:AlertController, private router: Router, private viajerService: ViajeService) { }
+  constructor(private alertctrl:AlertController, private router: Router, private route: ActivatedRoute ,private firebase: FirebaseService ) { }
 
   ngOnInit() {
-    this.viaje = this.viajerService.obtenerViajeActual();
-
-    if (!this.viaje) {
+    const viajeId = this.route.snapshot.paramMap.get('id');
+    if (viajeId) {
+      this.cargarViaje(viajeId);
+    } else {
       this.router.navigate(['/home']); 
     }
   }
 
   cancelarPago(){
     this.alerta()
+  }
+
+  cargarViaje(id: string) {
+    this.firebase.getDocument<Viaje>('viajes', id).subscribe(viaje => {
+      if (viaje) {
+        this.viaje = viaje;
+      }
+    });
   }
 
   async alerta(){
