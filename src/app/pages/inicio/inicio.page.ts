@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { sesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-inicio',
@@ -25,11 +26,14 @@ export class InicioPage implements OnInit {
 
   usuarios : usuarioLog [] = [];
 
-  constructor(private alertctrl:AlertController, private router:Router, private firebase: FirebaseService) { }
+  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,public sesion: sesionService) { }
 
   ngOnInit() {
-    this.cargarUsuarios()
-    
+    if (this.sesion.isLoggedIn()) {
+      // this.router.navigate(['/perfil']);
+    } else {
+      this.cargarUsuarios()
+    }
   }
 
   enviar(form: NgForm){
@@ -44,10 +48,9 @@ export class InicioPage implements OnInit {
 
 
         if (usuarioEncontrado) {
-          this.mensaje = "ok";
-          this.usr.username = '';
-          this.usr.password = '';
-          this.router.navigate(['/home']);
+          this.sesion.login(usuarioEncontrado);
+          //this.router.navigate(['/perfil']);
+          //this.router.navigate(['/home']);
         } else {
           this.mensaje = "Acceso denegado";
           this.alerta();
@@ -80,9 +83,6 @@ export class InicioPage implements OnInit {
         handler:()=>{
           console.log(event);
         }
-      },{
-        text:'Cancelar',
-        cssClass:'color-cancelar'
       }],
     });
 

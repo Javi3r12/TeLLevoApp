@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ViajeService } from 'src/app/services/viaje.service';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
