@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service'; 
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-gestion-viajes',
@@ -12,7 +13,7 @@ export class GestionViajesPage implements OnInit {
 
   viajes : Viaje[] = [];
 
-  constructor(private router: Router, private firebase: FirebaseService) { }
+  constructor(private router: Router, private firebase: FirebaseService, private alertctrl: AlertController) { }
 
   ngOnInit() {
     this.cargarviajes()
@@ -26,7 +27,8 @@ export class GestionViajesPage implements OnInit {
 
   eliminarViaje(viaje: Viaje){
     console.log('eliminar =>', viaje)
-    this.firebase.deleteDocument('vehiculos', viaje.id)
+    this.alerta(viaje)
+    // this.firebase.deleteDocument('viajes', viaje.id)
   }
 
   cargarviajes(){
@@ -38,6 +40,25 @@ export class GestionViajesPage implements OnInit {
         
       }
     })
+  }
+
+  async alerta(viaje: Viaje) {
+    console.log("Alerta desde controller");
+    const alert = await this.alertctrl.create({
+      header: 'Confirmacion',
+      message: 'Seguro que desea eliminar este vehiculo,',
+      buttons: [{
+        text:'Aceptar',
+        cssClass:'color-aceptar',
+        handler: () => {
+          this.firebase.deleteDocument('viajes', viaje.id)
+        }
+      },{
+        text: 'Cancelar'
+      }],
+    });
+
+    await alert.present();
   }
   
 }

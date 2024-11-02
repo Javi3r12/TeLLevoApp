@@ -20,12 +20,12 @@
   <div *ngFor="let vehiculo of vehiculos; let i = index">
     <ion-card mode="md">
       <ion-card-header>
-        <ion-card-title>{{ vehiculo.patente }}</ion-card-title>
+        <ion-card-title>Patente: {{ vehiculo.patente }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        {{ vehiculo.tipo }} <br> 
-        {{ vehiculo.modelo }} <br>
-        {{ vehiculo.color }}
+        Tipo: {{ vehiculo.tipo }} <br> 
+        Modelo: {{ vehiculo.modelo }} <br>
+        Color: {{ vehiculo.color }}
         <br> <br>
         <ion-buttons>
           <ion-button class="edit-button" (click)="editarVehiculo(vehiculo)" >

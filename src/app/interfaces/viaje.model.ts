@@ -5,4 +5,5 @@ export interface Viaje {
     vehiculo: string;
     descripcion: string
     precio: number;
+    activo: boolean;
   }

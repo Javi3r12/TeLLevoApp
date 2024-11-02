@@ -21,11 +21,11 @@
   <div *ngFor="let viaje of viajes; let i = index">
     <ion-card mode="md">
       <ion-card-header>
-        <ion-card-title>{{ viaje.destino }}</ion-card-title>
+        <ion-card-title>Destino: {{ viaje.destino }}</ion-card-title>
         <ion-card-subtitle>{{ viaje.asientos }} asientos libres</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
-        {{ viaje.descripcion }}
+        Descripcion: {{ viaje.descripcion }}
         <br>
         Precio por asiento: ${{ viaje.precio }}
         <br> <br>
