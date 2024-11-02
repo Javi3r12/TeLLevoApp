@@ -24,6 +24,11 @@ export class GestionVehiculosPage implements OnInit {
 
   }
 
+  eliminarVehiculo(vehiculo: Vehiculo){
+    console.log('eliminar =>', vehiculo)
+    this.firebase.deleteDocument('vehiculos', vehiculo.id)
+  }
+
   cargarvehiculos(){
     this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data =>{
       console.log(data)

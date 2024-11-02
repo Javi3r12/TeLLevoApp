@@ -24,6 +24,11 @@ export class GestionViajesPage implements OnInit {
 
   }
 
+  eliminarViaje(viaje: Viaje){
+    console.log('eliminar =>', viaje)
+    this.firebase.deleteDocument('vehiculos', viaje.id)
+  }
+
   cargarviajes(){
     this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data =>{
       console.log(data)

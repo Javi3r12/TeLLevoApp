@@ -26,10 +26,16 @@
         {{ vehiculo.tipo }} <br> 
         {{ vehiculo.modelo }} <br>
         {{ vehiculo.color }}
-        <br>
-        <ion-button (click)="editarVehiculo(vehiculo)">
-          Editar Vehiculo
-        </ion-button>
+        <br> <br>
+        <ion-buttons>
+          <ion-button class="edit-button" (click)="editarVehiculo(vehiculo)" >
+            Editar Vehiculo
+          </ion-button>
+
+          <ion-button class="delete-button" (click)="eliminarVehiculo(vehiculo)" >
+            Eliminar
+          </ion-button>
+        </ion-buttons>
       </ion-card-content>
     </ion-card>
   </div>
