@@ -16,14 +16,14 @@ export class DetalleViajePage implements OnInit {
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id')!; 
-    const viaje = this.viajeService.obtenerViajePorId(id);
+    //const viaje = this.viajeService.obtenerViajePorId(id);
     
-    if (viaje) {
-      this.viaje = viaje; 
-    } else {
-      console.error('Viaje not found with id:', id);
-      this.router.navigate(['/home']);
-    }
+    //if (viaje) {
+    //  this.viaje = viaje; 
+    //} else {
+    //  console.error('Viaje not found with id:', id);
+    // this.router.navigate(['/home']);
+    //}
 
   }
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'; 
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model'; 
-import { VehiculoService } from '../../services/vehiculo.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+
 @Component({
   selector: 'app-registrar-vehiculo',
   templateUrl: './registrar-vehiculo.page.html',
@@ -14,19 +15,26 @@ export class RegistrarVehiculoPage implements OnInit {
     tipo: '',
     modelo: '',
     color: '',
+    id: this.firebase.createId()
   };
 
-  constructor(private vehiculoService: VehiculoService) { }
+  constructor( private firebase: FirebaseService) { }
 
   ngOnInit() {
+    this.test()
+  }
+
+  test(){
+  this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data =>{
+    console.log(data)});
   }
 
   agregarVehiculo(form: NgForm) {
     if (form.valid) {
       console.log(this.nuevoVehiculo)
-      this.vehiculoService.agregarVehiculo({...this.nuevoVehiculo})
-      // this.VehiculoService. ({ ...this.nuevoViaje });
-      form.resetForm(); // Resetea el formulario
+      this.firebase.createDocumentID(this.nuevoVehiculo, 'vehiculos', this.nuevoVehiculo.id)
+      form.resetForm(); 
     }
+
   }
 }

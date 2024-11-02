@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Router } from '@angular/router';
 import { ViajeService } from 'src/app/services/viaje.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -13,18 +14,26 @@ export class HomePage implements OnInit {
   results: Viaje[] = [];
   query: string = '';
 
-  constructor(private viajeService: ViajeService, private router: Router) {}
+  constructor( private router: Router, private firebase: FirebaseService) {}
 
   ngOnInit() {
-    this.viajeService.agregarEj();
-    this.viajes = this.viajeService.obtenerViajes();
+    this.cargarviajes()
     this.results = [...this.viajes]
   }
-  irADetalle(id: number) {
+  irADetalle(id: string) {
     this.router.navigate(['/detalle-viaje', id ]);
   }
 
-
+  cargarviajes(){
+    this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data =>{
+      console.log(data)
+      if(data){
+        console.log(this.viajes)
+        this.viajes = data;
+        
+      }
+    })
+  }
 
   handleInput(event: Event) {
     const query = (event.target as HTMLInputElement).value.toLowerCase().trim();

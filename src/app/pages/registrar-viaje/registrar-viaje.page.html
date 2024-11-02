@@ -22,7 +22,9 @@
 
     <ion-item>
       <ion-select name="vehiculo" [(ngModel)]="nuevoViaje.vehiculo"> Seleccione su vehiculo
-        <ion-select-option *ngFor="let vehiculo of vehiculos; let i = index"> {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }} </ion-select-option>
+        <ion-select-option *ngFor="let vehiculo of vehiculos; let i = index"  [value]="vehiculo.id"> 
+          {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }} 
+        </ion-select-option>
       </ion-select>
     </ion-item>
 

@@ -3,4 +3,5 @@ export interface Vehiculo {
     tipo: string;
     modelo: string;
     color: string;
+    id: string;
   }

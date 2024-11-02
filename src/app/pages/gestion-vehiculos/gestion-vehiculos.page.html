@@ -17,5 +17,17 @@
     </ion-toolbar>
   </ion-header>
 
+  <div *ngFor="let vehiculo of vehiculos; let i = index">
+    <ion-card mode="md">
+      <ion-card-header>
+        <ion-card-title>{{ vehiculo.patente }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ vehiculo.tipo }} <br> 
+        {{ vehiculo.modelo }} <br>
+        {{ vehiculo.color }}
+      </ion-card-content>
+    </ion-card>
+  </div>
   
 </ion-content>

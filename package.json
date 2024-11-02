@@ -29,9 +29,11 @@
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
     "firebase": "^11.0.1",
+    "firestore": "^1.1.6",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "uuid": "^11.0.2",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
