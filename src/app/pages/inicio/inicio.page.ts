@@ -35,24 +35,28 @@ export class InicioPage implements OnInit {
   enviar(form: NgForm){
     if (form.valid) {
       console.log("Form Enviado...");
+      if (this.usr.username && this.usr.password) {
+ 
+        const usuarioEncontrado = this.usuarios.find(user => 
+          user.username?.trim() === this.usr.username?.trim() && user.password?.trim() === this.usr.password?.trim()
+        );
 
-      const usuarioEncontrado = this.usuarios.find(user => 
-        user.username.trim() === this.usr.username.trim() && user.password === this.usr.password
-      );
 
 
-      if (usuarioEncontrado) {
-        this.mensaje = "ok";
-        this.usr.username = '';
-        this.usr.password = '';
-        this.router.navigate(['/home']);
+        if (usuarioEncontrado) {
+          this.mensaje = "ok";
+          this.usr.username = '';
+          this.usr.password = '';
+          this.router.navigate(['/home']);
+        } else {
+          this.mensaje = "Acceso denegado";
+          this.alerta();
+        }
       } else {
-        this.mensaje = "Acceso denegado";
-        this.alerta();
-      }
+        this.mensaje = "Complete todos los campos";
+      } 
     }
   }
-
   cargarUsuarios(){
     this.firebase.getCollectionChanges<usuarioLog>('usuario').subscribe(data =>{
       console.log(data)

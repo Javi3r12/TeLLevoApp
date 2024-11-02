@@ -23,7 +23,10 @@
 <ion-list *ngIf="query.length > 0 && results.length > 0"> 
   <ion-item *ngFor="let viaje of results">
     {{ viaje.destino }} - {{ viaje.vehiculo }} - <br>
-    asientos: {{ viaje.asientos }} - Precio: ${{ viaje.precio }} <ion-button fill="clear" slot="end" (click)="irADetalle(viaje.id)">Detalle</ion-button>
+    asientos: {{ viaje.asientos }} - Precio: ${{ viaje.precio }} 
+    <ion-button fill="clear" slot="end" (click)="irADetalle(viaje)">
+      Detalle
+    </ion-button>
   </ion-item>
 </ion-list>
 
@@ -39,7 +42,7 @@
         <br>
         Precio por asiento: ${{ viaje.precio }}
       </ion-card-content>
-      <ion-button fill="clear" (click)="irADetalle(viaje.id)">Detalle</ion-button>
+      <ion-button fill="clear" (click)="irADetalle(viaje)">Detalle</ion-button>
     </ion-card>
   </div>
 

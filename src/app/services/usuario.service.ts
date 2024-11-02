@@ -35,7 +35,7 @@ export class UsuarioService {
         return this.usuarios;
     }
 
-      actualizarPassword(correo: string, nuevaPassword: string): string {
+    actualizarPassword(correo: string, nuevaPassword: string): string {
         const usuario = this.usuarios.find(user => user.correo === correo);
     
         if (!usuario) {
@@ -44,5 +44,5 @@ export class UsuarioService {
     
         usuario.password = nuevaPassword;
         return 'Contraseña actualizada exitosamente.';
-      }
+    }
 }

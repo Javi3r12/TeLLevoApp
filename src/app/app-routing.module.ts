@@ -57,7 +57,12 @@ const routes: Routes = [
   {
     path: 'editar-viaje/:id',
     loadChildren: () => import('./pages/editar-viaje/editar-viaje.module').then( m => m.EditarViajePageModule)
+  },
+  {
+    path: 'editar-vehiculo/:id',
+    loadChildren: () => import('./pages/editar-vehiculo/editar-vehiculo.module').then( m => m.EditarVehiculoPageModule)
   }
+
 
 
 ];

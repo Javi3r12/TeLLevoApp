@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -26,16 +25,25 @@ export class OlvidoPage implements OnInit {
     celular:0,
     id:''
   }
+  usuario:usuarioLog={
+    username:'',
+    correo:'',
+    password:'',
+    rut:'',
+    celular:0,
+    id:''
+  }
   usuarios: usuarioLog[] = [] ;
 
   private codigoGenerado: number | null = null;
 
 
 
-  constructor(private alertctrl:AlertController, private router:Router, private usuarioService: UsuarioService, private firebase: FirebaseService) { }
+  constructor(private alertctrl:AlertController, private router:Router,  private firebase: FirebaseService) { }
 
   ngOnInit() {
     this.cargarUsuarios()
+  
   }
   
   enviar(form: NgForm) {
@@ -43,15 +51,17 @@ export class OlvidoPage implements OnInit {
 
       const usuarioEncontrado = this.usuarios.find(user => 
         user.correo.trim() === this.usr.correo.trim() 
-      );
+        
+      )
+      
 
       if (usuarioEncontrado) {
-        this.usr.username = '';
-        this.usr.password = '';
+        console.log(usuarioEncontrado)
+        this.cargarUsuario(usuarioEncontrado.id)
         this.codigoGenerado = 123456;
         this.cambio = true;
         console.log(this.codigoGenerado)
-        // this.router.navigate(['/home']); 
+
       } else {
         this.mensaje = "Acceso denegado";
         this.alerta();
@@ -59,27 +69,51 @@ export class OlvidoPage implements OnInit {
     }
   }
 
-  cambiarContrasena() {
-    const codigoIngresado = this.codigo;
+  cambiarContrasena(form: NgForm) {
+    if (form.valid) {
 
-    if (codigoIngresado !== this.codigoGenerado) {
-      this.errorMensaje = "Código incorrecto.";
-      return;
-    }
+      const codigoIngresado = this.codigo;
 
-    if (this.usr.password === '' || this.confirmPass === '') {
-      this.errorMensaje = "La contraseñasno puede estar vacía.";
-      return;
+      if (codigoIngresado !== this.codigoGenerado) {
+        this.errorMensaje = "Código incorrecto.";
+        return;
+      }
+
+      if (this.usr.password === '' || this.confirmPass === '') {
+        this.errorMensaje = "La contraseñas no pueden estar vacías.";
+        return;
+      }
+
+      if (this.usr.password !== this.confirmPass) {
+        this.errorMensaje = "Las contraseñas no coinciden.";
+        return;
+      }
+
+      this.errorMensaje = ""; 
+      console.log("Contraseña cambiada con éxito!");
+      this.editarContraseña(this.usr.password)
+      this.cambio = false;
     }
+  }
+
+  editarContraseña(contraseña: string) {
+    this.usuario.password = contraseña;
+    this.firebase.createDocumentID(this.usuario, 'usuario', this.usuario.id).then(() => {
+      console.log("Contraseña cambiada exitosamente", this.usuario);
+      if (this.usuario.password = contraseña){
+        this.router.navigate(['/inicio'])
+      }
+    });
     
-    if (this.usr.password !== this.confirmPass) {
-      this.errorMensaje = "Las contraseñas no coinciden.";
-      return;
-    }
+  }
 
-    this.errorMensaje = ""; 
-    console.log("Contraseña cambiada con éxito!");
-    this.usuarioService.actualizarPassword(this.usr.correo, this.confirmPass)
+  cargarUsuario(id: string) {
+    this.firebase.getDocument<usuarioLog>('usuario', id).subscribe(usuario => {
+      if (usuario) {
+        console.log('cargarUsuario:',usuario )
+        this.usuario = usuario;
+      }
+    });
   }
 
   async alerta(){

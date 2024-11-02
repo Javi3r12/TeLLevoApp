@@ -2,69 +2,77 @@
   <ion-toolbar>
     <ion-back-button defaultHref="inicio" slot="start"></ion-back-button>
     <ion-title size="large" class="ion-padding">Restablecer Contraseña</ion-title>
-</ion-toolbar>
+  </ion-toolbar>
 </ion-header>
-
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
-       <ion-title size="large" class="ion-padding">Restablecer <br> Contraseña</ion-title>
+      <ion-title size="large" class="ion-padding">Restablecer <br> Contraseña</ion-title>
     </ion-toolbar>
   </ion-header>
-  
-  <form #miForm="ngForm" (ngSubmit)="enviar(miForm)">
-    <ion-item lines="none">
-      <ion-text>
-        Ingrese su correo para recuperar su contraseña
-      </ion-text>
-    </ion-item>
-    <br>
-    <ion-item>
-      <ion-input id="correoInput" name="correo" required type="email" label="Correo" placeholder="Ingrese su Correo" 
-                  errorText="Ingrese correo válido" 
-                 [(ngModel)]="usr.correo" email>
-      </ion-input>
-    </ion-item>
-    <br>
-    <ion-button type="submit" expand="full" >Recuperar</ion-button>
-  </form>
 
-  <br><br>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Recuperar Contraseña</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form #miForm="ngForm" (ngSubmit)="enviar(miForm)">
+        <ion-item lines="none">
+          <ion-text>
+            Ingrese su correo para recuperar su contraseña
+          </ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-input id="correoInput" name="correo" required type="email" placeholder="Ingrese su Correo" 
+                      errorText="Ingrese correo válido" 
+                      [(ngModel)]="usr.correo" email>
+          </ion-input>
+        </ion-item>
+        <ion-button type="submit" expand="full" >Recuperar</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
 
-  <form *ngIf="cambio" (ngSubmit)="cambiarContrasena()">
-    <ion-item>
-      <ion-text>
-        Ingrese el codigo que se le envio y complete el formulario para cambiar su contraseña
-      </ion-text>
-    </ion-item>
-    <br>
-    <ion-item>
-      <ion-label position="floating">Codigo </ion-label> <br>
-      <ion-input id="codigoInput" name="codigo" required type="number"  placeholder="Ingrese el codigo" minlength="6" maxlength="6" [(ngModel)]="codigo"></ion-input>
-    </ion-item>
-    <br>
+  <ion-card *ngIf="cambio">
+    <ion-card-header>
+      <ion-card-title>Cambiar Contraseña</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form #contra="ngForm" (ngSubmit)="cambiarContrasena(contra)">
+        <ion-item>
+          <ion-text>
+            Ingrese el código que se le envió y complete el formulario para cambiar su contraseña
+          </ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Código</ion-label> <br>
+          <ion-input id="codigoInput" name="codigo" required type="number" placeholder="Ingrese el código" 
+                      minlength="6" maxlength="6" [(ngModel)]="codigo"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label> <br>
-      <ion-input id="password" name="password" required type="password" placeholder="Ingrese Contraseña" minlength="6" [(ngModel)]="usr.password" >
-        <ion-input-password-toggle slot="end" id="verPass"></ion-input-password-toggle>
-      </ion-input>
-    </ion-item>
-    <br>
-    <ion-item>
-      <ion-label position="floating">Confirme contraseña</ion-label> <br>
-      <ion-input id="confirmPass" name="password" required type="password" placeholder="Ingrese Contraseña" minlength="6"  [(ngModel)]="confirmPass"  >
-        <ion-input-password-toggle slot="end" id="VerConfirm"></ion-input-password-toggle>
-      </ion-input>
-    </ion-item>
-    <br>
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label> <br>
+          <ion-input id="password" name="password" required type="password" placeholder="Ingrese Contraseña" 
+                      minlength="6" [(ngModel)]="usr.password">
+            <ion-input-password-toggle slot="end" id="verPass"></ion-input-password-toggle>
+          </ion-input>
+        </ion-item>
 
-    <ion-button expand="full" type="submit">Cambiar contraseña</ion-button>
+        <ion-item>
+          <ion-label position="floating">Confirme Contraseña</ion-label> <br>
+          <ion-input id="confirmPass" name="confirmPass" required type="password" placeholder="Confirme Contraseña" 
+                      minlength="6" [(ngModel)]="confirmPass">
+            <ion-input-password-toggle slot="end" id="VerConfirm"></ion-input-password-toggle>
+          </ion-input>
+        </ion-item>
 
-    <div *ngIf="errorMensaje" style="color:red;">
-      {{ errorMensaje }}
-    </div>
+        <ion-button expand="full" type="submit">Cambiar contraseña</ion-button>
 
-  </form>
+        <div *ngIf="errorMensaje" style="color:red; margin-top: 10px;">
+          {{ errorMensaje }}
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

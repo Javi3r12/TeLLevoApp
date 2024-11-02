@@ -17,11 +17,13 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.cargarviajes()
-    this.results = [...this.viajes]
   }
-  irADetalle(id: string) {
-    this.router.navigate(['/detalle-viaje', id ]);
+  
+  irADetalle(viaje: Viaje) {
+    console.log(viaje)
+    this.router.navigate(['/detalle-viaje', viaje.id ]);
   }
+  
 
   cargarviajes(){
     this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data =>{
@@ -29,23 +31,19 @@ export class HomePage implements OnInit {
       if(data){
         console.log(this.viajes)
         this.viajes = data;
+        this.results = data;
         
       }
     })
   }
 
-  handleInput(event: Event) {
-    const query = (event.target as HTMLInputElement).value.toLowerCase().trim();
-    this.query = query;
-
-    if (query === ''){
-      this.results = [];
-    } else {
-      this.results = this.viajes.filter((viaje)=> 
-        viaje.destino.toLowerCase().includes(this.query));
-    }
-   
+  handleInput(event: any) {
+    this.query = event.target.value.toLowerCase(); 
+    this.results = this.viajes.filter(viaje => 
+      viaje.destino.toLowerCase().includes(this.query) 
+    );
   }
+
 
 
 }

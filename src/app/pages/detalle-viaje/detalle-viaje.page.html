@@ -1,55 +1,62 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/registro" ></ion-icon>
-    <ion-title>Detalle</ion-title>
+    <ion-back-button defaultHref="home" slot="start"></ion-back-button>
+    <ion-icon slot="end" name="person" routerDirection="root" routerLink="/registro"></ion-icon>
+    <ion-title>Detalle del Viaje</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding" >
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Detalle del viaje: <br> </ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        Destino:        
-        {{ viaje.destino }}
+  <div *ngIf="viajee">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Destino: {{ viajee.destino }}
+        </ion-card-title>
+        <ion-card-subtitle>
+          Asientos libres: {{ viajee.asientos }}
+        </ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
 
-      </ion-card-title>  
-    </ion-card-header>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title> Descripcion: </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-card-subtitle>
-        Asientos libres: {{ viaje.asientos }}, Tipo de vehiculo: {{ viaje.vehiculo }}
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Descripción</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf="vehiculo; else loadingVehiculo">
+          <ion-item>
+            <ion-label>
+              Vehículo: {{ vehiculo.modelo }}
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              Asientos disponibles: {{ viajee.asientos }}
+            </ion-label>
+          </ion-item>
+        </div>
+        <ng-template #loadingVehiculo>
+          <p>Cargando información del vehículo...</p>
+        </ng-template>
         <br>
-        {{ viaje.descripcion }} 
-      </ion-card-subtitle>
-    </ion-card-content>
-  </ion-card>
+        <p>{{ viajee.descripcion }}</p>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title> Precio por asiento: </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-card-subtitle>
-        
-         ${{ viaje.precio }}
-        
-      </ion-card-subtitle>
-    </ion-card-content>
-  </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Precio por asiento</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-card-subtitle>
+          ${{ viajee.precio }}
+        </ion-card-subtitle>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
   <ion-button expand="block" fill="solid" color="primary" (click)="irAPago()">
     Pagar
   </ion-button>
