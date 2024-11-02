@@ -4,4 +4,5 @@ export interface usuarioLog{
     password:string,
     rut:string,
     celular:number
+    id: string
 }

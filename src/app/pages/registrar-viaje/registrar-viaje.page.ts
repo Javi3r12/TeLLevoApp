@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Viaje } from 'src/app/interfaces/viaje.model';
-import { ViajeService } from 'src/app/services/viaje.service';
 import { Vehiculo } from '../../interfaces/vehiculo.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
@@ -25,8 +24,12 @@ export class RegistrarViajePage implements OnInit {
   vehiculos: Vehiculo[] = [];
 
   viajes: Viaje[] = [];
+  
+  cargando: boolean | undefined;
 
-  constructor(private viajeService: ViajeService,  private firebase: FirebaseService) {}
+  
+
+  constructor(private firebase: FirebaseService) {}
 
   ngOnInit() {
     this.cargarvehiculos()
@@ -45,7 +48,9 @@ export class RegistrarViajePage implements OnInit {
   agregarViaje(form: NgForm) {
     if (form.valid) {
       console.log(this.nuevoViaje)
+      this.cargando = true;
       this.firebase.createDocumentID(this.nuevoViaje, 'viajes', this.nuevoViaje.id)
+      this.cargando = false;
       form.resetForm(); 
     }
   }

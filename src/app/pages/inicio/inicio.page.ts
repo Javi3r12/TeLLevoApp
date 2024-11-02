@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-inicio',
@@ -18,38 +19,48 @@ export class InicioPage implements OnInit {
     correo:'',
     password:'',
     rut:'',
-    celular:0
+    celular:0,
+    id:''
   }
 
-  constructor(private alertctrl:AlertController, private router:Router, private usuarioService: UsuarioService) { }
+  usuarios : usuarioLog [] = [];
+
+  constructor(private alertctrl:AlertController, private router:Router, private firebase: FirebaseService) { }
 
   ngOnInit() {
-    console.log(this.usuarioService.agregarEj());
+    this.cargarUsuarios()
+    
   }
 
-  enviar(){
+  enviar(form: NgForm){
+    if (form.valid) {
+      console.log("Form Enviado...");
+
+      const usuarioEncontrado = this.usuarios.find(user => 
+        user.username.trim() === this.usr.username.trim() && user.password === this.usr.password
+      );
 
 
-    console.log("Form Enviado...");
-    console.log(this.usr);
-
-    const usuarios = this.usuarioService.obtenerUsuarios();
-
-    const usuarioEncontrado = usuarios.find(user => 
-      user.username.trim() === this.usr.username.trim() && user.password === this.usr.password
-    );
-
-
-    if (usuarioEncontrado) {
-      this.mensaje = "ok";
-      this.usr.username = '';
-      this.usr.password = '';
-      this.router.navigate(['/home']);
-    } else {
-      this.mensaje = "Acceso denegado";
-      this.alerta();
+      if (usuarioEncontrado) {
+        this.mensaje = "ok";
+        this.usr.username = '';
+        this.usr.password = '';
+        this.router.navigate(['/home']);
+      } else {
+        this.mensaje = "Acceso denegado";
+        this.alerta();
+      }
     }
-  
+  }
+
+  cargarUsuarios(){
+    this.firebase.getCollectionChanges<usuarioLog>('usuario').subscribe(data =>{
+      console.log(data)
+      if(data){
+        console.log(this.usuarios)
+        this.usuarios = data
+      }
+    })
   }
   
   async alerta(){

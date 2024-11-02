@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service'; 
-// import { Viaje2 } from 'src/app/interfaces/viaje.model copy'; 
 import { Viaje } from 'src/app/interfaces/viaje.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gestion-viajes',
@@ -12,10 +12,16 @@ export class GestionViajesPage implements OnInit {
 
   viajes : Viaje[] = [];
 
-  constructor(private firebase: FirebaseService) { }
+  constructor(private router: Router, private firebase: FirebaseService) { }
 
   ngOnInit() {
     this.cargarviajes()
+  }
+
+  editarViaje(viaje: Viaje){
+    console.log('edit =>', viaje)
+    this.router.navigate(['/editar-viaje', viaje.id ]);
+
   }
 
   cargarviajes(){
@@ -28,5 +34,5 @@ export class GestionViajesPage implements OnInit {
       }
     })
   }
-
+  
 }

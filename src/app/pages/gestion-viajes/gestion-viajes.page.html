@@ -28,7 +28,12 @@
         {{ viaje.descripcion }}
         <br>
         Precio por asiento: ${{ viaje.precio }}
+        <br>
+        <ion-button (click)="editarViaje(viaje)">
+          Editar Viaje 
+        </ion-button>
       </ion-card-content>
+
     </ion-card>
   </div>
 

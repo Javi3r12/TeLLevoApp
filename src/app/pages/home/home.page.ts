@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Router } from '@angular/router';
-import { ViajeService } from 'src/app/services/viaje.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({

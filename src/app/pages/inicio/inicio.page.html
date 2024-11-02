@@ -15,9 +15,9 @@
   </ion-header>
 
   <ion-list  class="ion-padding">
-    <form #miForm="ngForm" (ngSubmit)="enviar()">
+    <form #inicioForm="ngForm" (ngSubmit)="enviar(inicioForm)">
       <ion-item >
-        <ion-input required mode="ios" label="Usuario" labelPlacement="fixed"
+        <ion-input required mode="ios" label="Nombre" labelPlacement="fixed"
                    placeholder="Ingrese su usuario" name='usuario' [(ngModel)]="usr.username"> 
         </ion-input>
       </ion-item>
@@ -35,7 +35,7 @@
         <ion-text color="secondary" routerLink="/olvido">¿olvido su contraseña?</ion-text>
       </ion-item>
       <br>
-      <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="miForm.invalid">
+      <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="inicioForm.invalid">
         Iniciar Sesión
       </ion-button>
       <ion-button expand="block" fill="solid" color="tertiary" href="registro">

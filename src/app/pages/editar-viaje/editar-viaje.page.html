@@ -1,15 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio" ></ion-icon>
-    <ion-title>Registrar Viaje</ion-title>
+    <ion-back-button defaultHref="inicio" slot="start"></ion-back-button>
+    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/gestion-viaje" ></ion-icon>
+    <ion-title>Editar Viaje</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form #viajeForm="ngForm" (ngSubmit)="agregarViaje(viajeForm)">
+  <form #viajeForm="ngForm" (ngSubmit)="editarViaje(viajeForm)">
     <ion-item>
       <ion-label position="floating">Destino</ion-label>
       <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino"></ion-input>
@@ -40,12 +38,7 @@
 
 
 
-    <ion-button expand="full" type="submit">Agregar Viaje</ion-button>
+    <ion-button expand="full" type="submit">Guardar</ion-button>
   </form>
-  @if (cargando) {
-    <div style="text-align: center;">
-    <ion-spinner name="bubbles">
 
-    </ion-spinner>
-  </div>}
 </ion-content>

@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-registro',
@@ -17,34 +17,48 @@ export class RegistroPage implements OnInit {
     correo:'',
     password:'',
     rut:'',
-    celular: 0
+    celular: 0,
+    id: this.firebase.createId()
   };
 
   usuarios : usuarioLog [] = [];
 
-  constructor(private usuarioService: UsuarioService, private alertCtrl:AlertController, private router:Router ) {}
+  constructor( private alertCtrl:AlertController, private router:Router, private firebase: FirebaseService) {}
 
   ngOnInit() {
-    console.log(this.usuarioService.agregarEj());
+    this.cargarUsuarios()
   }
 
-  async agregarUsuario(form: NgForm) {
+  agregarUsuario(form: NgForm) {
     if (form.valid) {
-      const mensaje = this.usuarioService.agregarUsuario({ ...this.nuevoUsuario });
-
-      if (mensaje === 'Usuario agregado exitosamente.') {
-        form.resetForm(); // Resetea el formulario
-        console.log(mensaje)
-        console.log(this.usuarioService.obtenerUsuarios)
-        // Aquí podrías mostrar un mensaje de éxito, si lo deseas
-      } else {
-        console.log(mensaje)
-        console.log(this.usuarioService.obtenerUsuarios)
-        await this.mostrarAlerta(mensaje);
-        
+      const correoExistente = this.usuarios.some(usuario => usuario.correo === this.nuevoUsuario.correo);
+      const rutExistente = this.usuarios.some(usuario => usuario.rut === this.nuevoUsuario.rut);
+      
+      if (correoExistente || rutExistente) {
+ 
+        console.log("El correo o rut ya están registrados en el sistema.");
+        this.mostrarAlerta("El correo o rut ya están registrados en el sistema. Por favor, use uno diferente o pruebe a iniciar sesion.");
+        return;
       }
+      console.log(this.nuevoUsuario)
+      this.firebase.createDocumentID(this.nuevoUsuario, 'usuario', this.nuevoUsuario.id)
+      form.resetForm(); 
     }
+
   }
+
+  cargarUsuarios(){
+    this.firebase.getCollectionChanges<usuarioLog>('usuario').subscribe(data =>{
+      console.log(data)
+      if(data){
+        console.log(this.usuarios)
+        this.usuarios = data
+      }
+    })
+  }
+
+
+
   async mostrarAlerta(mensaje: string) {
     const alert = await this.alertCtrl.create({
       header: 'Registro Fallido',
@@ -52,9 +66,13 @@ export class RegistroPage implements OnInit {
       buttons: [{
         text: 'Iniciar sesion',
         handler: () => {
-          this.router.navigate(['/inicio']); // Redirige a la página de inicio
+          this.router.navigate(['/inicio']); 
         }
-      }]
+      },{
+        text: 'Ok',
+        role: 'cancel'
+      }
+    ] 
     });
     await alert.present();
   }

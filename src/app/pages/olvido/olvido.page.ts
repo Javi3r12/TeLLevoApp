@@ -4,6 +4,7 @@ import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-olvido',
@@ -16,12 +17,14 @@ export class OlvidoPage implements OnInit {
   errorMensaje: string = "";
   mensaje:string="";
   cambio:boolean=false;
+  
   usr:usuarioLog={
     username:'',
     correo:'',
     password:'',
     rut:'',
-    celular:0
+    celular:0,
+    id:''
   }
   usuarios: usuarioLog[] = [] ;
 
@@ -29,31 +32,31 @@ export class OlvidoPage implements OnInit {
 
 
 
-  constructor(private alertctrl:AlertController, private router:Router, private usuarioService: UsuarioService) { }
+  constructor(private alertctrl:AlertController, private router:Router, private usuarioService: UsuarioService, private firebase: FirebaseService) { }
 
   ngOnInit() {
+    this.cargarUsuarios()
   }
   
   enviar(form: NgForm) {
+    if (form.valid) {
 
-    const usuarios = this.usuarioService.obtenerUsuarios();
+      const usuarioEncontrado = this.usuarios.find(user => 
+        user.correo.trim() === this.usr.correo.trim() 
+      );
 
-    const usuarioEncontrado = usuarios.find(user => 
-      user.correo.trim() === this.usr.correo.trim() 
-    );
-
-    if (usuarioEncontrado) {
-      this.usr.username = '';
-      this.usr.password = '';
-      this.codigoGenerado = 123456;
-      this.cambio = true;
-      console.log(this.codigoGenerado)
-      // this.router.navigate(['/home']); 
-    } else {
-      this.mensaje = "Acceso denegado";
-      this.alerta();
+      if (usuarioEncontrado) {
+        this.usr.username = '';
+        this.usr.password = '';
+        this.codigoGenerado = 123456;
+        this.cambio = true;
+        console.log(this.codigoGenerado)
+        // this.router.navigate(['/home']); 
+      } else {
+        this.mensaje = "Acceso denegado";
+        this.alerta();
+      }
     }
-    
   }
 
   cambiarContrasena() {
@@ -96,5 +99,15 @@ export class OlvidoPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  cargarUsuarios(){
+    this.firebase.getCollectionChanges<usuarioLog>('usuario').subscribe(data =>{
+      console.log(data)
+      if(data){
+        console.log(this.usuarios)
+        this.usuarios = data
+      }
+    })
   }
 }

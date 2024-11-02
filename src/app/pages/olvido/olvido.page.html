@@ -22,7 +22,7 @@
     <br>
     <ion-item>
       <ion-input id="correoInput" name="correo" required type="email" label="Correo" placeholder="Ingrese su Correo" 
-                 helperText="Ingrese correo" errorText="Ingrese correo válido" 
+                  errorText="Ingrese correo válido" 
                  [(ngModel)]="usr.correo" email>
       </ion-input>
     </ion-item>
@@ -35,7 +35,7 @@
   <form *ngIf="cambio" (ngSubmit)="cambiarContrasena()">
     <ion-item>
       <ion-text>
-        Ingrese el codigo que se le envio
+        Ingrese el codigo que se le envio y complete el formulario para cambiar su contraseña
       </ion-text>
     </ion-item>
     <br>

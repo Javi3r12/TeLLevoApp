@@ -35,12 +35,6 @@ export class UsuarioService {
         return this.usuarios;
     }
 
-    agregarEj() {
-        this.agregarUsuario( {username:'Javier',correo:'Ja.sa@gmail.com', password:'Hola1234', rut:'21.842.442-2', celular: 912345678}
-        
-        )
-        console.log(this.obtenerUsuarios()) ;
-      }
       actualizarPassword(correo: string, nuevaPassword: string): string {
         const usuario = this.usuarios.find(user => user.correo === correo);
     
