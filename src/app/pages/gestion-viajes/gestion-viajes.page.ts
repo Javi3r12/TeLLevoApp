@@ -45,15 +45,15 @@ export class GestionViajesPage implements OnInit {
   }
 
   cargarviajes() {
-    this.firebase.getCollectionChanges<{ usuario: string, viaje: string }>('viajesIns')
+    this.firebase.getCollectionChanges<{ id_user: string, id: string }>('viajes')
       .subscribe(viajeIns => {
         if (viajeIns) {
           console.log('viajesIns =>',viajeIns)
 
-          const viajesUsuario = viajeIns.filter(v => v.usuario === this.userId);
+          const viajesUsuario = viajeIns.filter(v => v.id_user === this.userId);
           console.log('viajesUsuario', viajesUsuario)
 
-          const viajeIds = viajesUsuario.map(v => v.viaje);
+          const viajeIds = viajesUsuario.map(v => v.id);
           console.log('viajesIds =>',viajeIds)
 
           this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data => {
