@@ -3,6 +3,7 @@ import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
+import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +21,12 @@ export class HomePage implements OnInit {
     tipo: '',
     modelo: '',
     color: '',
-    id: this.firebase.createId()
+    id: this.firebase.createId(),
+    id_user: this.sesion.getUser()?.id
   }
 
-  constructor( private router: Router, private firebase: FirebaseService) {}
+  constructor( private router: Router, private firebase: FirebaseService,
+    private sesion: sesionService) {}
 
   ngOnInit() {
     this.cargarVehiculos()

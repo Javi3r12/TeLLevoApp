@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Vehiculo } from '../../interfaces/vehiculo.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { sesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-registrar-viaje',
@@ -19,7 +20,8 @@ export class RegistrarViajePage implements OnInit {
     vehiculo: '',
     descripcion: '',
     precio: 0,
-    activo: true
+    activo: true,
+    id_user: this.sesion.getUser()?.id ,
   };
 
   vehiculos: Vehiculo[] = [];
@@ -30,7 +32,7 @@ export class RegistrarViajePage implements OnInit {
 
   
 
-  constructor(private firebase: FirebaseService) {}
+  constructor(private firebase: FirebaseService, private sesion: sesionService) {}
 
   ngOnInit() {
     this.cargarvehiculos()

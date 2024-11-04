@@ -14,7 +14,7 @@ export class HistorialViajesPage implements OnInit {
   viajes: Viaje[] = [];
   userId: any;
   vehiculos: Vehiculo[] = [];
-
+  loaded = false;
 
   constructor(
     private firebase: FirebaseService,

@@ -19,7 +19,7 @@
 
 
   <div *ngFor="let viaje of viajes; let i = index">
-    <ion-card mode="md">
+    <ion-card mode="md" *ngIf="viaje.activo" >
       <ion-card-header>
         <ion-card-title>Destino: {{ viaje.destino }}</ion-card-title>
         <ion-card-subtitle>{{ viaje.asientos }} asientos libres</ion-card-subtitle>
@@ -31,12 +31,17 @@
         <br> <br>
         <ion-buttons>
           <ion-button class="edit-button" (click)="editarViaje(viaje)" >
-            Editar Vehiculo
+            Editar
           </ion-button>
 
           <ion-button class="delete-button" (click)="eliminarViaje(viaje)" >
             Eliminar
           </ion-button>
+
+          <ion-button class="primary-button" (click)="iniciarViaje(viaje)" >
+            Iniciar Viaje
+          </ion-button>
+
         </ion-buttons>
       </ion-card-content>
 

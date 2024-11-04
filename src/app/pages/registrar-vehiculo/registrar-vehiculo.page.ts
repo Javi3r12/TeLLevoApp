@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms'; 
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model'; 
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { sesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-registrar-vehiculo',
@@ -15,10 +16,11 @@ export class RegistrarVehiculoPage implements OnInit {
     tipo: '',
     modelo: '',
     color: '',
-    id: this.firebase.createId()
+    id: this.firebase.createId(),
+    id_user: this.sesion.getUser()?.id
   };
 
-  constructor( private firebase: FirebaseService) { }
+  constructor( private firebase: FirebaseService, private sesion: sesionService) { }
 
   ngOnInit() {
     this.test()

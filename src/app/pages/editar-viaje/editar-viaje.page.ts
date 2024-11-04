@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-editar-viaje',
@@ -20,12 +21,15 @@ export class EditarViajePage implements OnInit {
     vehiculo: '',
     descripcion: '',
     precio: 0,
-    activo: true
+    activo: true,
+    id_user: this.sesion.getUser()?.id
   };
   
   vehiculos: Vehiculo[] = [];
 
-  constructor(private firebase: FirebaseService, private route: ActivatedRoute, private alertctrl:AlertController, private router: Router ) { }
+  constructor(private firebase: FirebaseService, private route: ActivatedRoute, 
+    private alertctrl:AlertController, private router: Router, private sesion: sesionService ) { }
+
 
   ngOnInit() {
     this.cargarvehiculos();

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-editar-vehiculo',
@@ -17,10 +18,12 @@ export class EditarVehiculoPage implements OnInit {
     tipo: '',
     modelo: '',
     color: '',
-    id: this.firebase.createId()
+    id: this.firebase.createId(),
+    id_user: this.sesion.getUser()?.id
   };
 
-  constructor( private alertctrl: AlertController, private firebase: FirebaseService, private route: ActivatedRoute, private router: Router) { }
+  constructor( private alertctrl: AlertController, private firebase: FirebaseService,
+     private route: ActivatedRoute, private router: Router, private sesion: sesionService) { }
 
   ngOnInit() {
     const VehiculoId = this.route.snapshot.paramMap.get('id');

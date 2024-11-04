@@ -6,4 +6,5 @@ export interface Viaje {
     descripcion: string
     precio: number;
     activo: boolean;
+    id_user: any;
   }
