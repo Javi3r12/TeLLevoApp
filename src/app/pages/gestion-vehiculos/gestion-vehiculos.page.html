@@ -17,27 +17,64 @@
     </ion-toolbar>
   </ion-header>
 
-  <div *ngFor="let vehiculo of vehiculos; let i = index">
-    <ion-card mode="md">
-      <ion-card-header>
-        <ion-card-title>Patente: {{ vehiculo.patente }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        Tipo: {{ vehiculo.tipo }} <br> 
-        Modelo: {{ vehiculo.modelo }} <br>
-        Color: {{ vehiculo.color }}
-        <br> <br>
-        <ion-buttons>
-          <ion-button class="edit-button" (click)="editarVehiculo(vehiculo)" >
-            Editar Vehiculo
-          </ion-button>
+  <div *ngIf="vehiculos && vehiculos.length > 0; else sinVehiculos">
+    <div *ngFor="let vehiculo of vehiculos; let i = index">
+      <ion-card mode="md">
+        <ion-card-header>
+          <ion-card-title>Patente: {{ vehiculo.patente }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Tipo: {{ vehiculo.tipo }} <br> 
+          Modelo: {{ vehiculo.modelo }} <br>
+          Color: {{ vehiculo.color }}
+          <br> <br>
+          <ion-buttons>
+            <ion-button class="edit-button" (click)="editarVehiculo(vehiculo)" >
+              Editar Vehiculo
+            </ion-button>
+          
+            <ion-button class="delete-button" (click)="eliminarVehiculo(vehiculo)" >
+              Eliminar
+            </ion-button>
+          </ion-buttons>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div> 
 
-          <ion-button class="delete-button" (click)="eliminarVehiculo(vehiculo)" >
-            Eliminar
-          </ion-button>
-        </ion-buttons>
-      </ion-card-content>
-    </ion-card>
-  </div>
-  
+  <ng-template #sinVehiculos>
+    <div *ngIf=" this.loaded">
+      <ion-card>
+        <ion-card-content>
+          <ion-text>
+            No ha registrado vehiculos o no ha iniciado sesion
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ion-list *ngIf="!this.loaded">
+      <ion-list-header>
+        <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+      </ion-list-header>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+  </ng-template> 
+
 </ion-content>

@@ -13,6 +13,7 @@ import { sesionService } from 'src/app/services/sesion.service';
 export class GestionViajesPage implements OnInit {
   userId: any;
   viajes : Viaje[] = [];
+  loaded = false;
 
   constructor(private router: Router, private firebase: FirebaseService, 
     private alertctrl: AlertController, private sesion: sesionService) 
@@ -59,8 +60,11 @@ export class GestionViajesPage implements OnInit {
             if (data) {
               console.log('data =>',data)
               this.viajes = data.filter(viaje => viajeIds.includes(viaje.id));
+
               console.log('viaje =>', viajeIds)
               console.log('viajes =>', this.viajes)
+              this.loaded = true;
+              console.log(this.loaded)
             }
           });
         }

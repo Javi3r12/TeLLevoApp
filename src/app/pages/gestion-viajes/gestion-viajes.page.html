@@ -17,36 +17,72 @@
     </ion-toolbar>
   </ion-header>
 
+  <div *ngIf="viajes && viajes.length > 0; else sinViajes">
+    <div *ngFor="let viaje of viajes; let i = index">
+      <ion-card mode="md" *ngIf="viaje.activo">
+        <ion-card-header>
+          <ion-card-title>Destino: {{ viaje.destino }}</ion-card-title>
+          <ion-card-subtitle>{{ viaje.asientos }} asientos libres</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Descripcion: {{ viaje.descripcion }}
+          <br>
+          Precio por asiento: ${{ viaje.precio }}
+          <br> <br>
+          <ion-buttons>
+            <ion-button class="edit-button" (click)="editarViaje(viaje)" >
+              Editar
+            </ion-button>
 
-  <div *ngFor="let viaje of viajes; let i = index">
-    <ion-card mode="md" *ngIf="viaje.activo" >
-      <ion-card-header>
-        <ion-card-title>Destino: {{ viaje.destino }}</ion-card-title>
-        <ion-card-subtitle>{{ viaje.asientos }} asientos libres</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Descripcion: {{ viaje.descripcion }}
-        <br>
-        Precio por asiento: ${{ viaje.precio }}
-        <br> <br>
-        <ion-buttons>
-          <ion-button class="edit-button" (click)="editarViaje(viaje)" >
-            Editar
-          </ion-button>
+            <ion-button class="delete-button" (click)="eliminarViaje(viaje)" >
+              Eliminar
+            </ion-button>
 
-          <ion-button class="delete-button" (click)="eliminarViaje(viaje)" >
-            Eliminar
-          </ion-button>
+            <ion-button class="primary-button" (click)="iniciarViaje(viaje)" >
+              Iniciar Viaje
+            </ion-button>
 
-          <ion-button class="primary-button" (click)="iniciarViaje(viaje)" >
-            Iniciar Viaje
-          </ion-button>
+          </ion-buttons>
+        </ion-card-content>
 
-        </ion-buttons>
-      </ion-card-content>
-
-    </ion-card>
+      </ion-card>
+    </div>
   </div>
-
   
+
+  <ng-template #sinViajes>
+    <div *ngIf=" this.loaded">
+      <ion-card>
+        <ion-card-content>
+          <ion-text>
+            No ha realizado viajes o no ha iniciado sesion
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <ion-list *ngIf="!this.loaded">
+      <ion-list-header>
+        <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+      </ion-list-header>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+  </ng-template> 
+
 </ion-content>

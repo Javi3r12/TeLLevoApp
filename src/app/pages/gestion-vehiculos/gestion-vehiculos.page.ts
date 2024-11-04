@@ -13,6 +13,7 @@ import { sesionService } from 'src/app/services/sesion.service';
 export class GestionVehiculosPage implements OnInit {
   userId: any;
   vehiculos : Vehiculo[] = [];
+  loaded = false; 
 
   constructor(private firebase: FirebaseService, private router: Router,
     private alertctrl: AlertController, private sesion: sesionService) 
@@ -63,6 +64,7 @@ export class GestionVehiculosPage implements OnInit {
               console.log(data)
               this.vehiculos = data.filter(vehiculo => viajeIds.includes(vehiculo.id));
               console.log(this.vehiculos)
+              this.loaded = true;
             }
           })
         }
