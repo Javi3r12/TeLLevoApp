@@ -24,8 +24,9 @@ export class EditarViajePage implements OnInit {
     activo: true,
     id_user: this.sesion.getUser()?.id
   };
-  
+  userId = this.sesion.getUser()?.id;
   vehiculos: Vehiculo[] = [];
+  loaded = false;
 
   constructor(private firebase: FirebaseService, private route: ActivatedRoute, 
     private alertctrl:AlertController, private router: Router, private sesion: sesionService ) { }
@@ -56,14 +57,28 @@ export class EditarViajePage implements OnInit {
     });
   }
 
-  cargarvehiculos(){
-    this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data =>{
-      console.log(data)
-      if(data){
-        console.log(this.vehiculos)
-        this.vehiculos = data
-      }
-    })
+  cargarvehiculos() {
+    this.firebase.getCollectionChanges<{ id_user: string, id: string }>('vehiculos')
+      .subscribe(viajeIns => {
+        if (viajeIns) {
+          console.log('viajesIns =>',viajeIns)
+
+          const viajesUsuario = viajeIns.filter(v => v.id_user === this.userId);
+          console.log('viajesUsuario', viajesUsuario)
+
+          const viajeIds = viajesUsuario.map(v => v.id);
+          console.log('viajesIds =>',viajeIds)
+
+          this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data => {
+            if (data) {
+              console.log(data)
+              this.vehiculos = data.filter(vehiculo => viajeIds.includes(vehiculo.id));
+              console.log(this.vehiculos)
+              this.loaded = true;
+            }
+          })
+        }
+      });
   }
 
   async alerta(){

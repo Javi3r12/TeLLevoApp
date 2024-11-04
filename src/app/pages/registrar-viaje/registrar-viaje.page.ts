@@ -30,6 +30,7 @@ export class RegistrarViajePage implements OnInit {
   
   cargando: boolean | undefined;
 
+  userId = this.sesion.getUser()?.id;
   
 
   constructor(private firebase: FirebaseService, private sesion: sesionService) {}
@@ -38,14 +39,27 @@ export class RegistrarViajePage implements OnInit {
     this.cargarvehiculos()
   }
 
-  cargarvehiculos(){
-    this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data =>{
-      console.log(data)
-      if(data){
-        console.log(this.vehiculos)
-        this.vehiculos = data
-      }
-    })
+  cargarvehiculos() {
+    this.firebase.getCollectionChanges<{ id_user: string, id: string }>('vehiculos')
+      .subscribe(viajeIns => {
+        if (viajeIns) {
+          console.log('viajesIns =>',viajeIns)
+
+          const viajesUsuario = viajeIns.filter(v => v.id_user === this.userId);
+          console.log('viajesUsuario', viajesUsuario)
+
+          const viajeIds = viajesUsuario.map(v => v.id);
+          console.log('viajesIds =>',viajeIds)
+
+          this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data => {
+            if (data) {
+              console.log(data)
+              this.vehiculos = data.filter(vehiculo => viajeIds.includes(vehiculo.id));
+              console.log(this.vehiculos)
+            }
+          })
+        }
+      });
   }
 
   agregarViaje(form: NgForm) {
