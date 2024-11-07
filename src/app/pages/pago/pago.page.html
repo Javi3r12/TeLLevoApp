@@ -23,23 +23,26 @@
   
   <br>
   
-  <ion-list>
-    <ion-text>
-      Seleccione metodo de pago
-    </ion-text>
-    <ion-radio-group>
-      <ion-item>
-        <ion-radio value="Tarjeta" justify="space-between">Tarjeta</ion-radio>
-      </ion-item>
-      
-      <ion-item>
-        <ion-radio value="Efectivo" justify="space-between">Efectivo</ion-radio>
-      </ion-item>
-      
-    </ion-radio-group>
-  </ion-list>
+  <ion-text>
+    Seleccione metodo de pago
+  </ion-text>
 
-  <ion-button expand="block" fill="solid" color="primary" (click)="cancelarPago()">
-    Confirmar Pago
-  </ion-button>
+  <form #pagoForm="ngForm" (ngSubmit)="cancelarPago(pagoForm)">
+
+    <ion-item>
+      <ion-select name="pago" [(ngModel)]="pago"> Seleccione su metodo de pago
+        <ion-select-option value="Tarjeta"> 
+          Tarjeta 
+        </ion-select-option>
+
+        <ion-select-option value="Efectivo"> 
+          Efectivo
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button type="submit" expand="block" fill="solid" color="primary">
+      Confirmar Pago
+    </ion-button>
+  </form>
 </ion-content>
