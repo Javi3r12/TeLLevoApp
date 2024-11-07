@@ -5,34 +5,43 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio"></ion-icon>
+    <ion-icon slot="end" name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
 
+  <!-- Título para la búsqueda -->
+  <ion-text>
+    <h4>Buscar Viajes: </h4>
+  </ion-text>
 
-<!-- Busqueda -->
-<ion-searchbar (ionInput)="handleInput($event)" placeholder="Busqueda por destino"> </ion-searchbar>
+  <!-- Busqueda -->
+  <ion-searchbar (ionInput)="handleInput($event)" placeholder="Busqueda por destino"></ion-searchbar>
 
-<ion-list *ngIf="query.length > 0 && results.length > 0"> 
-  <ion-item *ngFor="let viaje of results">
-    {{ viaje.destino }} - {{ viaje.vehiculo }} - <br>
-    asientos: {{ viaje.asientos }} - Precio: ${{ viaje.precio }} 
-    <ion-button fill="clear" slot="end" (click)="irADetalle(viaje)">
-      Detalle
-    </ion-button>
-  </ion-item>
-</ion-list>
+  <!-- Resultados de la búsqueda -->
+  <ion-list *ngIf="query.length > 0 && results.length > 0">
+    <ion-item *ngFor="let viaje of results">
+      {{ viaje.destino }} - {{ viaje.vehiculo }} - <br>
+      asientos: {{ viaje.asientos }} - Precio: ${{ viaje.precio }}
+      <ion-button fill="clear" slot="end" (click)="irADetalle(viaje)">
+        Detalle
+      </ion-button>
+    </ion-item>
+  </ion-list>
 
-<!-- card 3 -->
+  <!-- Título para los viajes disponibles -->
+  <ion-text>
+    <h2>Viajes Disponibles: </h2>
+  </ion-text>
+
+  <!-- Lista de cards de viajes -->
   <div *ngFor="let viaje of viajes; let i = index">
-    <ion-card mode="md">
+    <ion-card mode="md" *ngIf="viaje.asientos > 0 && viaje.id_user !== this.sesion.getUser()?.id">
       <ion-card-header>
         <ion-card-title>{{ viaje.destino }}</ion-card-title>
-        <ion-card-subtitle>{{ viaje.asientos }} asientos libres,
-          {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
+        <ion-card-subtitle>{{ viaje.asientos }} asientos libres, {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         {{ viaje.descripcion }}
@@ -42,6 +51,5 @@
       <ion-button fill="clear" (click)="irADetalle(viaje)">Detalle</ion-button>
     </ion-card>
   </div>
-
 
 </ion-content>

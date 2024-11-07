@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import {  NgForm } from '@angular/forms';
+import { ViajesIns } from 'src/app/interfaces/viajeIns';
+import { sesionService } from '../../services/sesion.service';
 
 @Component({
   selector: 'app-pago',
@@ -22,11 +24,19 @@ export class PagoPage implements OnInit {
     activo: true, 
     id_user: ''
   };
+
+  viajesIns : ViajesIns = {
+    id: '',
+    usuario: '',
+    viaje: '',
+  };
+
   asientos: number | undefined ;
   uno = 1; 
   pago: string | undefined ; 
 
-  constructor(private alertctrl:AlertController, private router: Router, private route: ActivatedRoute ,private firebase: FirebaseService ) { }
+  constructor(private alertctrl:AlertController, private router: Router, private route: ActivatedRoute ,
+    private firebase: FirebaseService, public sesion: sesionService ) { }
 
   ngOnInit() {
     const viajeId = this.route.snapshot.paramMap.get('id');
@@ -38,14 +48,24 @@ export class PagoPage implements OnInit {
   }
 
   cancelarPago(form: NgForm){
-    if(form.valid){
-      console.log(this.viaje.asientos)
+    if(form.valid && this.viaje.asientos > 0 ){
       this.asientos = this.viaje.asientos;
       this.asientos = (this.asientos - 1) ;
       this.viaje.asientos = this.asientos;
-      console.log(this.asientos)
-      console.log(this.viaje.asientos)
-      this.alerta()
+      this.firebase.createDocumentID(this.viaje, 'viajes', this.viaje.id).then(() => {
+        console.log("Viaje actualizado exitosamente");
+
+        this.viajesIns.id = this.firebase.createId();
+        this.viajesIns.usuario = this.sesion.getUser()?.id;
+        this.viajesIns.viaje = this.viaje.id;
+
+        this.firebase.createDocumentID(this.viajesIns, 'viajesIns', this.viajesIns.id ).then(() => {
+          console.log("Viaje actualizado exitosamente");
+          this.alerta()
+        })
+        // this.alerta()
+      })
+      // this.alerta()
     } if(form.invalid) {
       console.log('error de pago')
       this.alertaPago()

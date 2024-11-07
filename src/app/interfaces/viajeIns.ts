@@ -1,4 +1,5 @@
 export interface ViajesIns {
-    usuario: string;
+    id: string;
+    usuario: any;
     viaje: string;
 }

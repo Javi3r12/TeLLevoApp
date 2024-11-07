@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
   }
 
   constructor( private router: Router, private firebase: FirebaseService,
-    private sesion: sesionService) {}
+    public sesion: sesionService) {}
 
   ngOnInit() {
     this.cargarVehiculos()
@@ -70,11 +70,15 @@ export class HomePage implements OnInit {
 
 
   handleInput(event: any) {
-    this.query = event.target.value.toLowerCase(); 
+    this.query = event.target.value.toLowerCase();
     this.results = this.viajes.filter(viaje => 
-      viaje.destino.toLowerCase().includes(this.query) 
+      viaje.destino.toLowerCase().includes(this.query) && 
+      viaje.asientos > 0 && 
+      viaje.id_user !== this.sesion.getUser()?.id && 
+      viaje.activo
     );
   }
+  
 
 
 

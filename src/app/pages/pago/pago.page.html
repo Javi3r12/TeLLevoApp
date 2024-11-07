@@ -1,3 +1,5 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-back-button defaultHref="home" slot="start"></ion-back-button>
@@ -22,27 +24,33 @@
   </ion-card>
   
   <br>
-  
-  <ion-text>
-    Seleccione metodo de pago
-  </ion-text>
+  <div>
+    <ion-text>
+      Seleccione método de pago:
+    </ion-text>
+  </div>
+
+  <br> <br>
 
   <form #pagoForm="ngForm" (ngSubmit)="cancelarPago(pagoForm)">
 
     <ion-item>
-      <ion-select name="pago" [(ngModel)]="pago" required="pago"> Seleccione su metodo de pago
-        <ion-select-option value="Tarjeta"> 
-          Tarjeta 
+      <ion-label>Elija una opción </ion-label>
+      <ion-select name="pago" [(ngModel)]="pago" required interface="popover">
+        <ion-select-option value="Tarjeta">
+          Tarjeta
         </ion-select-option>
-
-        <ion-select-option value="Efectivo"> 
+        <ion-select-option value="Efectivo">
           Efectivo
         </ion-select-option>
       </ion-select>
     </ion-item>
+    
 
-    <ion-button type="submit" expand="block" fill="solid" color="primary">
+    <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="!pagoForm.valid">
       Confirmar Pago
     </ion-button>
+    
   </form>
+
 </ion-content>

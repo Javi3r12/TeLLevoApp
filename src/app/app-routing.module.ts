@@ -61,10 +61,8 @@ const routes: Routes = [
   {
     path: 'editar-vehiculo/:id',
     loadChildren: () => import('./pages/editar-vehiculo/editar-vehiculo.module').then( m => m.EditarVehiculoPageModule)
-  },  {
-    path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  }
+  },
+  
 
 
 
