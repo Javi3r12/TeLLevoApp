@@ -1,12 +1,10 @@
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio"></ion-icon>
-    <ion-title>Historial</ion-title>
+    <ion-icon slot="end" name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
+    <ion-title>Viajes</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,18 +15,47 @@
     </ion-toolbar>
   </ion-header>
 
+  <!-- Mostrar viajes activos e historial -->
+  <div *ngIf="viajes && viajes.length > 0; else sinViajes">
+     
+    <ion-text class="titulo-viaje" >
+      <h4>Viajes activos a tomar: </h4>
+    </ion-text>
+  
 
-<!-- card 3 -->
-
-    <div *ngIf="viajes && viajes.length > 0; else sinViajes">
-      <div *ngFor="let viaje of viajes; let i = index">
-        <ion-card mode="md" *ngIf="viaje.activo == false">
+    <div *ngFor="let viaje of viajes">
+      <div *ngIf="viaje.activo">    
+        <ion-card mode="md">
           <ion-card-header>
             <ion-card-title>{{ viaje.destino }}</ion-card-title>
-            <ion-card-subtitle> Vehiculo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
+            <ion-card-subtitle> Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
-            Descipcion:  {{ viaje.descripcion }}
+            Descripción: {{ viaje.descripcion }}
+            <br>
+            Precio: ${{ viaje.precio }} <br> 
+
+            <ion-button fill="clear" slot="end" (click)="irADetalle(viaje)">
+              Detalle
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+      <ion-text  class="titulo-historial">
+        <h4>Historial de viajes:  </h4>
+      </ion-text>
+
+    <div *ngFor="let viaje of viajes">      
+      <div *ngIf="!viaje.activo">
+        <ion-card mode="md">
+          <ion-card-header>
+            <ion-card-title>{{ viaje.destino }}</ion-card-title>
+            <ion-card-subtitle> Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Descripción: {{ viaje.descripcion }}
             <br>
             Precio: ${{ viaje.precio }}
           </ion-card-content>
@@ -36,42 +63,40 @@
       </div>
     </div>
 
-      <ng-template #sinViajes>
-        <div *ngIf=" this.loaded">
-          <ion-card>
-            <ion-card-content>
-              <ion-text>
-                No ha realizado viajes o no ha iniciado sesion
-              </ion-text>
-            </ion-card-content>
-          </ion-card>
-        </div>
+  </div>
 
-        <ion-list *ngIf="!this.loaded">
-          <ion-list-header>
-            <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-          </ion-list-header>
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-            </ion-thumbnail>
-            <ion-label>
-              <h3>
-                <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-              </h3>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-              </p>
-              <p>
-                <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-              </p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+  <ng-template #sinViajes>
+    <div *ngIf="!loaded">
+      <ion-list>
+        <ion-list-header>
+          <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+        </ion-list-header>
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <h3>
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </h3>
+            <p>
+              <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
 
-      </ng-template>  
-    
-
-      
-
+    <div *ngIf="loaded && !viajes.length">
+      <ion-card>
+        <ion-card-content>
+          <ion-text>No ha realizado viajes o no ha iniciado sesión</ion-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
+  
 </ion-content>

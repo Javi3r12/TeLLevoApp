@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -18,9 +19,9 @@ export class HistorialViajesPage implements OnInit {
 
   constructor(
     private firebase: FirebaseService,
-    private sesion: sesionService
+    private sesion: sesionService,
+    private router: Router,
   ) { 
-    // Obtener el ID del usuario logueado
     this.userId = this.sesion.getUser()?.id;
   }
 
@@ -34,20 +35,16 @@ export class HistorialViajesPage implements OnInit {
     this.firebase.getCollectionChanges<{ usuario: string, viaje: string }>('viajesIns')
       .subscribe(viajeIns => {
         if (viajeIns) {
-          console.log('viajesIns =>',viajeIns)
 
           const viajesUsuario = viajeIns.filter(v => v.usuario === this.userId);
-          console.log('viajesUsuario', viajesUsuario)
-
           const viajeIds = viajesUsuario.map(v => v.viaje);
-          console.log('viajesIds =>',viajeIds)
 
           this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data => {
             if (data) {
-              console.log('data =>',data)
               this.viajes = data.filter(viaje => viajeIds.includes(viaje.id));
-              console.log('viaje =>', viajeIds)
-              console.log('viajes =>', this.viajes)
+              this.loaded = true;
+            } else {
+              this.loaded = true;
             }
           });
         }
@@ -69,4 +66,10 @@ export class HistorialViajesPage implements OnInit {
       }
     });
   }
+
+  irADetalle(viaje: Viaje) {
+    console.log(viaje)
+    this.router.navigate(['/detalle-viaje', viaje.id ]);
+  }
+
 }

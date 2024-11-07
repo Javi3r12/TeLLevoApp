@@ -59,7 +59,17 @@
     </ion-card>
   </div>
 
-  <ion-button expand="block" fill="solid" color="primary" (click)="irAPago()">
+  <ion-button *ngIf="!viajeEnHistorial; else pagado" expand="block" fill="solid" color="primary" (click)="irAPago()">
     Pagar
   </ion-button>
+
+  <ng-template #pagado>
+    <div>
+      <ion-card>
+        <ion-card-content>
+          <ion-text>Ya se se encuentra registrado a este viaje </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
 </ion-content>

@@ -5,6 +5,7 @@ import { Viaje } from 'src/app/interfaces/viaje.model';
 import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
+import { sesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-detalle-viaje',
@@ -15,9 +16,13 @@ export class DetalleViajePage implements OnInit {
 
   viajee!: Viaje;
   vehiculo!: Vehiculo ;
+  userId: any;
+  viajes: Viaje[] = [];
+  viajeEnHistorial: boolean = false;
 
 
-  constructor(private firebase: FirebaseService, private route: ActivatedRoute, private alertctrl:AlertController, private router: Router ) {}
+  constructor(private firebase: FirebaseService, private route: ActivatedRoute, private alertctrl:AlertController,
+     private router: Router, private sesion: sesionService ) {}
 
   ngOnInit() {
     const viajeId = this.route.snapshot.paramMap.get('id');
@@ -25,6 +30,7 @@ export class DetalleViajePage implements OnInit {
       this.cargarViaje(viajeId);
       console.log(this.viajee)
       console.log(this.vehiculo)
+      this.cargarHistorial();
     } else {
       this.router.navigate(['/home'])
     }
@@ -59,5 +65,20 @@ export class DetalleViajePage implements OnInit {
 
   irAPago() {
     this.router.navigate(['/pago', this.viajee.id]); 
-   }
-}
+  }
+
+  cargarHistorial() {
+    this.userId = this.sesion.getUser()?.id;
+
+    this.firebase.getCollectionChanges<{ usuario: string, viaje: string }>('viajesIns')
+      .subscribe(viajeIns => {
+        if (viajeIns) {
+          const viajesUsuario = viajeIns.filter(v => v.usuario === this.userId);
+          const viajeIds = viajesUsuario.map(v => v.viaje);
+          this.viajeEnHistorial = viajeIds.includes(this.viajee.id);
+        }
+    });
+  }
+};
+  
+
