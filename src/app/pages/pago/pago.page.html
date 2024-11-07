@@ -30,7 +30,7 @@
   <form #pagoForm="ngForm" (ngSubmit)="cancelarPago(pagoForm)">
 
     <ion-item>
-      <ion-select name="pago" [(ngModel)]="pago"> Seleccione su metodo de pago
+      <ion-select name="pago" [(ngModel)]="pago" required="pago"> Seleccione su metodo de pago
         <ion-select-option value="Tarjeta"> 
           Tarjeta 
         </ion-select-option>
