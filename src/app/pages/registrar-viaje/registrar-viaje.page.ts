@@ -4,11 +4,24 @@ import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Vehiculo } from '../../interfaces/vehiculo.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from '../../services/sesion.service';
+import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrecion-viaje.component';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-registrar-viaje',
   templateUrl: './registrar-viaje.page.html',
   styleUrls: ['./registrar-viaje.page.scss'],
+  standalone: true,
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    DirrecionViajeComponent,
+    
+  ],
+  
 })
 
 export class RegistrarViajePage implements OnInit {

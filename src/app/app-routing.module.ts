@@ -62,6 +62,9 @@ const routes: Routes = [
     path: 'editar-vehiculo/:id',
     loadChildren: () => import('./pages/editar-vehiculo/editar-vehiculo.module').then( m => m.EditarVehiculoPageModule)
   },
+  { path: 'map-dirreccion-viaje',
+    loadComponent: () => import('./components/map-dirreccion-viaje/map-dirreccion-viaje.component').then((m) => m.MapDirreccionViajeComponent)
+  },
   
 
 
