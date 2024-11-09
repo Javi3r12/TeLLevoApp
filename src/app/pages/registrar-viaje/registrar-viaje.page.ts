@@ -1,3 +1,4 @@
+import { Marker } from './../../../../node_modules/@capacitor/google-maps/dist/typings/definitions.d';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Viaje } from 'src/app/interfaces/viaje.model';
@@ -35,6 +36,7 @@ export class RegistrarViajePage implements OnInit {
     precio: 0,
     activo: true,
     id_user: this.sesion.getUser()?.id ,
+
   };
 
   vehiculos: Vehiculo[] = [];

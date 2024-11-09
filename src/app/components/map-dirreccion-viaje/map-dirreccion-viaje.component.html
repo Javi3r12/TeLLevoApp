@@ -8,8 +8,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true"
+ [ngStyle]="{'--background': transparency ? 'transparent' : 'var(--ion-color-light)' }">
 
   <capacitor-google-map id="map"></capacitor-google-map>
-  
+
 </ion-content>
