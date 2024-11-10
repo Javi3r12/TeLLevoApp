@@ -15,6 +15,6 @@ import { EditarViajePage } from './editar-viaje.page';
     IonicModule,
     EditarViajePageRoutingModule
   ],
-  declarations: [EditarViajePage]
+  
 })
 export class EditarViajePageModule {}

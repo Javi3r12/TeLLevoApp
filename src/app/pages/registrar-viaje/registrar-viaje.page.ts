@@ -1,4 +1,3 @@
-import { Marker } from './../../../../node_modules/@capacitor/google-maps/dist/typings/definitions.d';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Viaje } from 'src/app/interfaces/viaje.model';
@@ -9,6 +8,8 @@ import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrec
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LocationService } from 'src/app/services/Location.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-viaje',
@@ -36,6 +37,10 @@ export class RegistrarViajePage implements OnInit {
     precio: 0,
     activo: true,
     id_user: this.sesion.getUser()?.id ,
+    cord: {
+      lat: 0, 
+      lng: 0, 
+    },
 
   };
 
@@ -48,10 +53,21 @@ export class RegistrarViajePage implements OnInit {
   userId = this.sesion.getUser()?.id;
   
 
-  constructor(private firebase: FirebaseService, private sesion: sesionService) {}
+  constructor(private firebase: FirebaseService, private sesion: sesionService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['lat'] && params['lng']) {
+        this.nuevoViaje.cord.lat = +params['lat'];
+        this.nuevoViaje.cord.lng = +params['lng'];
+        console.log('Received coordinates:', this.nuevoViaje.cord.lat ,this.nuevoViaje.cord.lng );
+      }
+    });
+
     this.cargarvehiculos()
+    
   }
 
   cargarvehiculos() {

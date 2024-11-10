@@ -8,12 +8,17 @@ export interface Viaje {
     precio: number;
     activo: boolean;
     id_user: any;
-    
-  }
+    cord: Cords;
+}
+
+export interface Cords {
+  lat: Number;
+  lng: Number;
+}
 
 export interface Ubicacion {
   id?: string,
   name: string,
   descripcion: string,
-  marker: Marker,
+  marker: Marker | null,
 }

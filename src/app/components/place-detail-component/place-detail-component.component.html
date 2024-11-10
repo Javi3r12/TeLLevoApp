@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Marcador</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="ubicacion">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ ubicacion.name }}</ion-card-title>
+        <ion-card-subtitle>{{ ubicacion.descripcion }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <strong>Latitud:</strong>
+              <p *ngIf="ubicacion.marker && ubicacion.marker.coordinate">{{ ubicacion.marker.coordinate.lat }}</p>
+            </ion-col>
+            <br> <br>
+            <ion-col size="6">
+              <strong>Longitud:</strong>
+              <p *ngIf="ubicacion.marker && ubicacion.marker.coordinate">{{ ubicacion.marker.coordinate.lng }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" color="success" (click)="selectDestination()">
+      Seleccionar Destino
+    </ion-button>
+  </div>
+</ion-content>

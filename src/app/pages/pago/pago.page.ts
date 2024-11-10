@@ -22,7 +22,11 @@ export class PagoPage implements OnInit {
     descripcion: '',
     precio: 0,
     activo: true, 
-    id_user: ''
+    id_user: '',
+    cord: {
+      lat: 0, 
+      lng: 0, 
+    },
   };
 
   viajesIns : ViajesIns = {

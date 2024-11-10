@@ -10,6 +10,14 @@
 
 <ion-content [fullscreen]="true">
   <form #viajeForm="ngForm" (ngSubmit)="editarViaje(viajeForm)">
+
+    <ion-item>
+      <ion-label position="stacked">Establece la ubicación del viaje</ion-label>
+      <div style="width: 100%; margin-top: 10px;">
+        <app-dirrecion-viaje [nuevoViaje]="nuevoViaje"></app-dirrecion-viaje> 
+      </div>
+    </ion-item>
+
     <ion-item>
       <ion-label position="floating">Destino</ion-label>
       <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino"></ion-input>
@@ -40,7 +48,7 @@
 
 
 
-    <ion-button expand="full" type="submit">Guardar</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="viajeForm.invalid">Guardar</ion-button>
   </form>
 
 </ion-content>

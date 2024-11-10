@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Viaje } from 'src/app/interfaces/viaje.model';
 
 @Component({
   selector: 'app-dirrecion-viaje',
@@ -18,12 +19,31 @@ import { RouterModule } from '@angular/router';
 })
 export class DirrecionViajeComponent implements OnInit {
 
-  constructor() {
+  @Input() nuevoViaje!: Viaje;
+  loading: boolean = true;
+  
+  constructor(private router: Router ) {
 
   }
 
   ngOnInit() {
 
+  }
+
+  navigateToMap() {
+    if (this.nuevoViaje?.cord && this.nuevoViaje?.id) {
+
+      this.router.navigate(['/map-dirreccion-viaje'], {
+        queryParams: {
+          lat: this.nuevoViaje.cord.lat,
+          lng: this.nuevoViaje.cord.lng,
+          idViaje: this.nuevoViaje.id
+        }
+      });
+    } else {
+
+      this.router.navigate(['/map-dirreccion-viaje']);
+    }
   }
 
 }

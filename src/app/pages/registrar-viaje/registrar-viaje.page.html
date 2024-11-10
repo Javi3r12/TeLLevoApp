@@ -3,52 +3,69 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button menu="main"></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio" ></ion-icon>
     <ion-title>Registrar Viaje</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+<ion-content [fullscreen]="true" class="ion-padding">
   <form #viajeForm="ngForm" (ngSubmit)="agregarViaje(viajeForm)">
-    <ion-item>
-      <ion-label position="floating">Destino</ion-label>
-      <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino"></ion-input>
-      <app-dirrecion-viaje> </app-dirrecion-viaje>
-    </ion-item>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Datos del Viaje</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
 
-    <ion-item>
-      <ion-label position="floating">Asientos Libres</ion-label>
-      <ion-input name="asientos" required type="number" [(ngModel)]="nuevoViaje.asientos"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Establece la ubicacion del viaje</ion-label>
+          <div style="width: 100%; margin-top: 10px;">
+            <app-dirrecion-viaje></app-dirrecion-viaje>
+          </div>
+        </ion-item>
 
-    <ion-item>
-      <ion-select name="vehiculo" [(ngModel)]="nuevoViaje.vehiculo"> Seleccione su vehiculo
-        <ion-select-option *ngFor="let vehiculo of vehiculos; let i = index"  [value]="vehiculo.id"> 
-          {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }} 
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+        <ion-item>
+          <ion-label position="floating">Ingrese el Destino</ion-label>
+          <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino"></ion-input>
+        </ion-item>     
 
-    <ion-item>
-      <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea name="descripcion" required [(ngModel)]="nuevoViaje.descripcion"></ion-textarea>
-    </ion-item>
+        <ion-item>
+          <ion-label position="floating">Asientos Libres</ion-label>
+          <ion-input name="asientos" required type="number" [(ngModel)]="nuevoViaje.asientos"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Precio por asiento</ion-label>
-      <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Seleccione su vehículo</ion-label>
+          <ion-select name="vehiculo" [(ngModel)]="nuevoViaje.vehiculo" interface="popover">
+            <ion-select-option *ngFor="let vehiculo of vehiculos; let i = index" [value]="vehiculo.id">
+              {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
 
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea name="descripcion" required [(ngModel)]="nuevoViaje.descripcion"></ion-textarea>
+        </ion-item>
 
+        <ion-item>
+          <ion-label position="floating">Precio por asiento</ion-label>
+          <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio"></ion-input>
+        </ion-item>
 
-    <ion-button expand="full" type="submit">Agregar Viaje</ion-button>
+        <ion-button expand="block" type="submit" color="success" class="ion-margin-top" [disabled]="viajeForm.invalid">
+          Agregar Viaje
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
   </form>
-  @if (cargando) {
-    <div style="text-align: center;">
-    <ion-spinner name="bubbles">
 
-    </ion-spinner>
-  </div>}
+  <div *ngIf="cargando" class="ion-text-center ion-margin-top">
+    <ion-spinner name="bubbles"></ion-spinner>
+    <p>Cargando...</p>
+  </div>
 </ion-content>
