@@ -50,7 +50,7 @@ export class InicioPage implements OnInit {
         if (usuarioEncontrado) {
           this.sesion.login(usuarioEncontrado);
           //this.router.navigate(['/perfil']);
-          //this.router.navigate(['/home']);
+          this.router.navigate(['/home']);
         } else {
           this.mensaje = "Acceso denegado";
           this.alerta();

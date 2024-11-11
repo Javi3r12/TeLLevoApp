@@ -30,12 +30,12 @@
 
         <ion-item>
           <ion-label position="floating">Ingrese el Destino</ion-label>
-          <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino"></ion-input>
+          <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino" errorText="Campo obligatorio"></ion-input>
         </ion-item>     
 
         <ion-item>
           <ion-label position="floating">Asientos Libres</ion-label>
-          <ion-input name="asientos" required type="number" [(ngModel)]="nuevoViaje.asientos"></ion-input>
+          <ion-input name="asientos" required type="number" [(ngModel)]="nuevoViaje.asientos" errorText="Campo obligatorio"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -54,7 +54,7 @@
 
         <ion-item>
           <ion-label position="floating">Precio por asiento</ion-label>
-          <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio"></ion-input>
+          <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio" errorText="Campo obligatorio"></ion-input>
         </ion-item>
 
         <ion-button expand="block" type="submit" color="success" class="ion-margin-top" [disabled]="viajeForm.invalid">
