@@ -5,7 +5,7 @@ import { MapDirreccionViajeComponent } from './components/map-dirreccion-viaje/m
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'inicio',
     pathMatch: 'full'
   },
   {

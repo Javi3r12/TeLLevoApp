@@ -13,27 +13,27 @@
     <form #miForm="ngForm" (ngSubmit)="agregarUsuario(miForm)">
       <ion-item>
         <ion-label position="floating">Nombre</ion-label> <br>
-        <ion-input name="username" required placeholder="Ingrese su nombre" [(ngModel)]="nuevoUsuario.username"></ion-input>
+        <ion-input name="username" required placeholder="Ingrese su nombre" errorText="Campo obligatorio" [(ngModel)]="nuevoUsuario.username"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Correo</ion-label> <br>
-        <ion-input name="correo" required type="email" placeholder="Ingrese su Correo" [(ngModel)]="nuevoUsuario.correo"></ion-input>
+        <ion-input name="correo" required type="email" placeholder="Ingrese su Correo" errorText="Campo obligatorio" [(ngModel)]="nuevoUsuario.correo" required email></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Contraseña</ion-label> <br>
-        <ion-input name="password" required type="password" placeholder="Ingrese Contraseña" minlength="6" [(ngModel)]="nuevoUsuario.password"></ion-input>
+        <ion-input name="password" required type="password" placeholder="Ingrese Contraseña" errorText="Campo obligatorio" minlength="6" [(ngModel)]="nuevoUsuario.password"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Rut</ion-label> <br>
-        <ion-input name="rut" required placeholder="Ingrese su Rut" [(ngModel)]="nuevoUsuario.rut"></ion-input>
+        <ion-input name="rut" required placeholder="Ingrese su Rut" errorText="Campo obligatorio" [(ngModel)]="nuevoUsuario.rut"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Celular</ion-label> <br>
-        <ion-input name="celular" required placeholder="Ingrese su Numero Celular" [(ngModel)]="nuevoUsuario.celular"></ion-input>
+        <ion-input name="celular" required placeholder="Ingrese su Numero Celular" errorText="Campo obligatorio" minlength="9" maxlength="9" [(ngModel)]="nuevoUsuario.celular"></ion-input>
       </ion-item>
       <br>
       <ion-button type="submit" expand="block" fill="solid" color="primary">

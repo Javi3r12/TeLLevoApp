@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from '../../services/sesion.service';
@@ -26,7 +26,7 @@ export class InicioPage implements OnInit {
 
   usuarios : usuarioLog [] = [];
 
-  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,public sesion: sesionService) { }
+  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,public sesion: sesionService, private MenuController: MenuController) { }
 
   ngOnInit() {
     if (this.sesion.isLoggedIn()) {

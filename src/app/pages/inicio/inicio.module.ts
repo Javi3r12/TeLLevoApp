@@ -8,6 +8,8 @@ import { InicioPageRoutingModule } from './inicio-routing.module';
 
 import { InicioPage } from './inicio.page';
 
+import { MenuController } from '@ionic/angular/common';
+
 @NgModule({
   imports: [
     CommonModule,
