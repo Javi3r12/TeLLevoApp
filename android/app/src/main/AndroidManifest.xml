@@ -37,11 +37,9 @@
 
     <!-- Permissions -->
 
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDgTjZXxS4j4vvoXFeAPay_joR6DQdrgH0"/>
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- google maps -->
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
 </manifest>
