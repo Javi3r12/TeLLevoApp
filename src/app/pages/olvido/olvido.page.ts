@@ -39,7 +39,7 @@ export class OlvidoPage implements OnInit {
 
 
 
-  constructor(private alertctrl:AlertController, private router:Router,  private firebase: FirebaseService) { }
+  constructor(private alertctrl:AlertController, private router: Router,  private firebase: FirebaseService) { }
 
   ngOnInit() {
     this.cargarUsuarios()

@@ -33,6 +33,7 @@ export class PagoPage implements OnInit {
     id: '',
     usuario: '',
     viaje: '',
+    visto: false
   };
 
   asientos: number | undefined ;
@@ -62,6 +63,7 @@ export class PagoPage implements OnInit {
         this.viajesIns.id = this.firebase.createId();
         this.viajesIns.usuario = this.sesion.getUser()?.id;
         this.viajesIns.viaje = this.viaje.id;
+        this.viajesIns.visto = false;
 
         this.firebase.createDocumentID(this.viajesIns, 'viajesIns', this.viajesIns.id ).then(() => {
           console.log("Viaje actualizado exitosamente");

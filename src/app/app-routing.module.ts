@@ -63,7 +63,11 @@ const routes: Routes = [
     loadComponent: () => import('./components/map-dirreccion-viaje/map-dirreccion-viaje.component').then((m) => m.MapDirreccionViajeComponent)
   },
   { path: 'map-dirreccion-viaje', component: MapDirreccionViajeComponent },
-  { path: '', redirectTo: '/map-dirreccion-viaje', pathMatch: 'full' },
+  { path: '', redirectTo: '/map-dirreccion-viaje', pathMatch: 'full' },  {
+    path: 'noti',
+    loadChildren: () => import('./pages/noti/noti.module').then( m => m.NotiPageModule)
+  },
+
   
 
 

@@ -6,9 +6,17 @@
           <ion-list-header>MENU</ion-list-header>
           <br>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item 
+              routerDirection="root" 
+              [routerLink]="[p.url]" 
+              lines="none" 
+              detail="false" 
+              routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
+              <ion-badge *ngIf="p.title === 'Notificaciones' && newNotificationsCount > 0" slot="end" color="danger">
+                {{ newNotificationsCount }}
+              </ion-badge>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

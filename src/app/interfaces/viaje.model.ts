@@ -11,6 +11,16 @@ export interface Viaje {
     cord: Cords;
 }
 
+export interface ViajeExtendido extends Viaje {
+  usuariosInscritos?: UsuarioInscrito[];
+}
+
+export interface UsuarioInscrito {
+  username: string;
+  idInscripcion: string;
+  visto: boolean;
+}
+
 export interface Cords {
   lat: Number;
   lng: Number;
