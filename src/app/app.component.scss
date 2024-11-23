@@ -117,3 +117,43 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+#inbox-list {
+  padding-top: 10px;
+}
+
+.menu-item {
+  --min-height: 50px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.menu-label {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ion-text-color);
+}
+
+.menu-icon {
+  font-size: 22px;
+  color: var(--ion-color-primary);
+}
+
+.notification-badge {
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+ion-header {
+  margin-bottom: 10px;
+}
+
+ion-toolbar {
+  --background: var(--ion-color-primary); /* Color de fondo */
+}
+
+ion-title {
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+}

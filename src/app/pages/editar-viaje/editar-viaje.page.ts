@@ -27,6 +27,8 @@ import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrec
 })
 export class EditarViajePage implements OnInit {
   
+  info = 'editar';
+
   nuevoViaje: Viaje = {
     id: this.firebase.createId() ,
     destino: '',

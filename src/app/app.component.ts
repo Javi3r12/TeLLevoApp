@@ -31,31 +31,35 @@ export class AppComponent {
     private cdr: ChangeDetectorRef,
   ) {
     this.userId = this.sesionService.getUser()?.id;
-    if (this.userId) {
-      this.monitorNotificaciones();
-    }
+   
   }
 
-  monitorNotificaciones() {
+  actualizarNotificaciones() {
+    this.userId = this.sesionService.getUser()?.id;
     if (!this.userId) {
       this.newNotificationsCount = 0;
       return;
     }
-      this.firebaseService.getCollectionChanges<Viaje>('viajes').subscribe((viajes: Viaje[]) => {
+  
+    // Obtener los viajes creados por el usuario
+    this.firebaseService.getCollectionChanges<Viaje>('viajes').subscribe((viajes: Viaje[]) => {
       if (viajes) {
         const viajesCreadosPorUsuario = viajes.filter(v => v.id_user === this.userId);
         const viajeIds = viajesCreadosPorUsuario.map(v => v.id);
+  
+        // Obtener inscripciones asociadas a esos viajes
         this.firebaseService.getCollectionChanges<ViajesIns>('viajesIns').subscribe((inscripciones: ViajesIns[]) => {
           if (inscripciones) {
-            const inscripcionesDeViajes = inscripciones.filter(ins => viajeIds.includes(ins.viaje));
-            const nuevasNotificaciones = inscripcionesDeViajes.filter(ins => 
-              ins.visto === false && ins.usuario !== this.userId
+            // Filtrar inscripciones no vistas
+            const nuevasNotificaciones = inscripciones.filter(ins => 
+              viajeIds.includes(ins.viaje) && 
+              ins.visto === false && 
+              ins.usuario !== this.userId
             );
-            
-            this.newNotificationsCount = nuevasNotificaciones.length;
-            // Forzar la detección de cambios en Angular
-            this.cdr.detectChanges();
   
+            // Actualizar contador
+            this.newNotificationsCount = nuevasNotificaciones.length;
+            this.cdr.detectChanges();
             console.log(`Nuevo contador de notificaciones: ${this.newNotificationsCount}`);
           }
         });

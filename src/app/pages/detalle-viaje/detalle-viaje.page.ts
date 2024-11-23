@@ -6,11 +6,23 @@ import { AlertController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { sesionService } from 'src/app/services/sesion.service';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrecion-viaje.component';
 
 @Component({
   selector: 'app-detalle-viaje',
   templateUrl: './detalle-viaje.page.html',
   styleUrls: ['./detalle-viaje.page.scss'],
+  standalone: true,
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    DirrecionViajeComponent,
+    
+  ],
 })
 export class DetalleViajePage implements OnInit {
 
@@ -19,7 +31,7 @@ export class DetalleViajePage implements OnInit {
   userId: any;
   viajes: Viaje[] = [];
   viajeEnHistorial: boolean = false;
-
+  info = 'detalle';
 
   constructor(private firebase: FirebaseService, private route: ActivatedRoute, private alertctrl:AlertController,
      private router: Router, private sesion: sesionService ) {}

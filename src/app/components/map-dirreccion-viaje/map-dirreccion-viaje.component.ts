@@ -29,36 +29,39 @@ export class MapDirreccionViajeComponent  implements OnInit {
   initialCoordinates?: { lat: number, lng: number };
   newMap!: GoogleMap;
   transparency: boolean = false;
-  myLocation!: Ubicacion;
+  myLocation: Ubicacion | null = null;
   private isListenerAttached = false;
   idviaje: string = '';
   private modalOpen = false;
   editar = false;
+  info: string= '';
 
   constructor(private menuController: MenuController, private modalController: ModalController,
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    // Gestión de parámetros iniciales
     this.route.queryParams.subscribe(params => {
-      if (params['lat'] && params['lng'] && params['idViaje']) {
+      if (params['lat'] && params['lng'] && params['idViaje'] || params['info']) {
         this.initialCoordinates = {
           lat: parseFloat(params['lat']),
           lng: parseFloat(params['lng'])
         };
         this.idviaje = params['idViaje'];
-        if (this.initialCoordinates) {
-          this.editar = true;
-          if (!this.newMap) {
-            this.initMap();
-          }
+        this.info = params['info'];
+        console.log('Info =>', this.info);
+  
+        // Configurar modo según el tipo de vista
+        this.editar = this.info === 'editar' || this.info === 'registrar';
+        if (!this.newMap) {
+          this.initMap();
         }
       } else {
-        console.error("No coordinates found in query params");
+        console.error("No se encontraron parámetros en la URL");
       }
     });
   }
+  
 
   ngAfterViewInit() {
     if (!this.newMap) {
@@ -68,15 +71,31 @@ export class MapDirreccionViajeComponent  implements OnInit {
 
   ionViewDidEnter() {
     this.menuController.enable(false, 'main');
-    if (!this.newMap) {
-      this.initMap(); 
+    
+    if (this.newMap) {
+      this.resetMapState(); // Restablece el estado del mapa según el contexto
+    } else {
+      this.initMap();
     }
   }
+  
+  
 
   ionViewDidLeave() {
     this.menuController.enable(true, 'main');
-    this.newMap?.destroy();
+  
+    if (this.newMap) {
+      this.newMap.setOnMapClickListener(undefined); // Limpia el listener
+      this.newMap.destroy(); // Destruye el mapa
+      this.newMap = null as unknown as GoogleMap; // Opcional: fuerza a limpiar con un cast si es necesario
+    }
+  
+    this.isListenerAttached = false;
+    this.myLocation = null; // Limpia la ubicación para evitar datos residuales
   }
+  
+  
+  
 
   async initMap() {
     const mapRef = document.getElementById('map');
@@ -91,43 +110,89 @@ export class MapDirreccionViajeComponent  implements OnInit {
           zoom: 16,
         },
       });
-
+  
+      // Agregar marcador inicial si hay coordenadas
       if (this.initialCoordinates) {
         this.setMarkerMyposition(this.initialCoordinates.lat, this.initialCoordinates.lng);
       }
-
+  
+      // Configurar modo según el estado (detalle, editar, registrar)
       if (!this.editar) {
-        this.newMap.enableCurrentLocation(true);
+        await this.setReadOnlyMode(); // Bloquear interacciones
+      } else {
+        await this.newMap.enableCurrentLocation(true);
+        this.setMyLocation();
       }
-
-      this.setMyLocation();
     } else {
-      console.error('Map element not found!');
+      console.error('¡Elemento del mapa no encontrado!');
     }
   }
+  
 
+  async setReadOnlyMode() {
+    if (this.newMap) {
+      await this.newMap.setCamera({
+        animate: false,
+        zoom: 16,
+        coordinate: this.initialCoordinates || { lat: -36.79525, lng: -73.06216 },
+      });
+  
+      // Limpia cualquier listener existente
+      this.newMap.setOnMapClickListener(undefined);
+      this.isListenerAttached = false; // Asegúrate de actualizar el estado del listener
+  
+      console.log('El mapa está en modo solo lectura.');
+    } else {
+      console.error('El mapa no está inicializado.');
+    }
+  }
+  
+  
+  
+  async disableGestures() {
+    if (this.newMap) {
+      await this.newMap.setCamera({
+        animate: false,
+        zoom: 16,
+        coordinate: this.initialCoordinates || { lat: -36.79525, lng: -73.06216 },
+      });
+  
+      console.log('Gestos deshabilitados para modo detalle.');
+    }
+  }
+  
   async setMyLocation() {
-    if (this.isListenerAttached) {
-      return; // Evita adjuntar el listener más de una vez
+    if (this.isListenerAttached || !this.editar) {
+      return; // No adjuntar listeners si ya están adjuntos o en modo "detalle"
     }
   
     this.newMap.setOnMapClickListener(async (res) => {
-      console.log('MapClickListener =>', res);
+      if (!this.editar) {
+        console.log('Modo detalle: no se permiten interacciones.');
+        return;
+      }
   
       if (this.modalOpen) {
         console.log('El modal ya está abierto.');
-        return; // Evita la apertura del modal si ya está abierto
+        return;
       }
   
       // Añadir marcador en la posición clickeada
       await this.setMarkerMyposition(res.latitude, res.longitude);
   
       // Mostrar el modal
-      this.showDetailMarker(this.myLocation, this.editar, this.idviaje);
+      if (this.myLocation) {
+        this.showDetailMarker(this.myLocation, this.info, this.idviaje);
+      } else {
+        console.log('No se puede mostrar el detalle, ya que la ubicación es nula.');
+      }    
     });
   
-    this.isListenerAttached = true; // Marca el listener como activo
+    this.isListenerAttached = true;
   }
+  
+  
+  
 
   async setMarkerMyposition(latitude: number, longitude: number) {
     if (!this.newMap) {
@@ -135,40 +200,35 @@ export class MapDirreccionViajeComponent  implements OnInit {
       return;
     }
   
-    if (!this.myLocation) {
-      this.myLocation = {
-        name: 'Destino',
-        descripcion: 'Esta es la ubicacion del destino',
-        marker: null, // Inicialmente null
-      };
+    // Si ya existe un marcador, lo eliminamos
+    if (this.myLocation && this.myLocation.marker) {
+      console.log('Eliminando marcador previo.');
+      await this.removePreviousMarker();
     }
   
-    // Eliminar marcador anterior si ya existe
-    if (this.myLocation.marker && this.myLocation.id) {
-      console.log("Eliminando marcador con ID:", this.myLocation.id);
-      try {
-        await this.removePreviousMarker();
-      } catch (error) {
-        console.error('Error al eliminar marcador anterior:', error);
-      }
-    }
-  
+    // Crear un nuevo marcador
     const newMarker: Marker = {
       title: 'Destino',
-      draggable: false,
+      draggable: this.editar,  // Solo es arrastrable en modo "editar"
       coordinate: { lat: latitude, lng: longitude },
     };
   
-    this.myLocation.marker = newMarker;
-  
     try {
-      const id = await this.newMap.addMarker(this.myLocation.marker);
-      this.myLocation.id = id; // Asignar nuevo ID al marcador
-      this.centerMarkerWithBounds(this.myLocation.marker);
+      const id = await this.newMap.addMarker(newMarker);
+      this.myLocation = {
+        name: 'Destino',
+        descripcion: 'Ubicación seleccionada',
+        marker: newMarker,
+        id: id,
+      };
+      this.centerMarkerWithBounds(newMarker);
     } catch (error) {
       console.error('Error al agregar marcador:', error);
     }
   }
+  
+  
+  
 
   centerMarkerWithBounds(marker: Marker) {
     this.newMap.setCamera({
@@ -180,13 +240,18 @@ export class MapDirreccionViajeComponent  implements OnInit {
     });
   }
 
-  async showDetailMarker(ubicacion: Ubicacion, markNew: boolean, IdViaje: string) {
-    if (this.modalOpen) {
-      console.log('Modal ya está abierto');
-      return; // Evitar que se cree un modal si ya está abierto
+  async showDetailMarker(ubicacion: Ubicacion, markNew: string, IdViaje: string) {
+    if (!this.editar) {
+      console.log('Modal deshabilitado en modo "detalle".');
+      return; // No abrir modal en modo "detalle"
     }
   
-    this.modalOpen = true; // Marca el modal como abierto
+    if (this.modalOpen) {
+      console.log('Modal ya está abierto');
+      return;
+    }
+  
+    this.modalOpen = true;
   
     const modal = await this.modalController.create({
       component: PlaceDetailComponentComponent,
@@ -196,13 +261,12 @@ export class MapDirreccionViajeComponent  implements OnInit {
     });
   
     modal.onDidDismiss().then((data) => {
-      this.modalOpen = false; // Cambiar el estado cuando el modal se cierra
+      this.modalOpen = false;
   
       if (data.data) {
         const { lat, lng } = data.data;
         console.log('Coordenadas recibidas del modal:', lat, lng);
   
-        // Actualizar marcador con las nuevas coordenadas
         if (this.myLocation && this.myLocation.marker) {
           this.myLocation.marker.coordinate.lat = lat;
           this.myLocation.marker.coordinate.lng = lng;
@@ -213,6 +277,8 @@ export class MapDirreccionViajeComponent  implements OnInit {
   
     await modal.present();
   }
+  
+  
   
 
   async removePreviousMarker() {
@@ -231,6 +297,27 @@ export class MapDirreccionViajeComponent  implements OnInit {
   }
   
   
+  async resetMapState() {
+    if (!this.newMap) {
+      console.error('El mapa no está inicializado.');
+      return;
+    }
+  
+    // Limpia cualquier listener existente
+    this.newMap.setOnMapClickListener(undefined);
+    this.isListenerAttached = false;
+  
+    // Configura el mapa según el tipo de vista
+    if (this.editar) {
+      await this.newMap.enableCurrentLocation(true); // Modo edición o registro
+      this.setMyLocation();
+    } else {
+      await this.setReadOnlyMode(); // Modo detalle (solo lectura)
+      if (this.initialCoordinates) {
+        this.setMarkerMyposition(this.initialCoordinates.lat, this.initialCoordinates.lng); // Asegura el marcador inicial
+      }
+    }
+  }
   
 
   async updateMarkerInMap() {

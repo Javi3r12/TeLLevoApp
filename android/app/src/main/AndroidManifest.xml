@@ -33,9 +33,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDgTjZXxS4j4vvoXFeAPay_joR6DQdrgH0"/>
+
+
     </application>
 
     <!-- Permissions -->
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />  
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

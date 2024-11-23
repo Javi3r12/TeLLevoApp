@@ -20,7 +20,7 @@
         <ion-label>Correo</ion-label>
         <ion-text>{{ sesion.getUser()?.correo }}</ion-text>
       </ion-item>
-      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/inicio'])">
+      <ion-button expand="block" color="danger" (click)="logout()">
         Cerrar sesión
       </ion-button>
     </ion-list>

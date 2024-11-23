@@ -31,7 +31,7 @@ export class PlaceDetailComponentComponent  implements OnInit {
       }
     }
   }; 
-  @Input() markNew!: boolean;
+  @Input() markNew!: string;
   @Input() IdViaje!: string;
 
   @Output() coordinatesSelected = new EventEmitter<{ lat: number, lng: number }>();
@@ -73,26 +73,33 @@ export class PlaceDetailComponentComponent  implements OnInit {
       };
       console.log('Lat => ', cords.lat);
       console.log('Lng => ', cords.lng);
-      
+  
       console.log('editar => ', this.markNew);
-      if (this.markNew === false) {
+  
+      // Si estamos en "modo registro" (markNew es falso), solo pasamos las coordenadas
+      if (this.markNew === 'registrar') {
         console.log('Registrar');
         this.dismiss();
         this.router.navigate(['/registrar-viaje'], {
           queryParams: { lat: cords.lat, lng: cords.lng }
         });
-        this.dismiss();
-      } else if (this.markNew === true) {
-        console.log('Editar');
-        this.dismiss();
-        this.router.navigate(['/editar-viaje', this.IdViaje], {
-          queryParams: { lat: cords.lat, lng: cords.lng }
-        });
-        this.dismiss();
+  
+      } if (this.markNew === 'editar') { // Si estamos en "modo edición" (markNew es verdadero)
+        if (this.IdViaje) { // Aseguramos que el IdViaje esté presente antes de redirigir
+          console.log('Editar');
+          this.dismiss();
+          this.router.navigate(['/editar-viaje', this.IdViaje], {
+            queryParams: { lat: cords.lat, lng: cords.lng }
+          });
+        } else {
+          console.error('ID de viaje no disponible para edición');
+        }
       }
     } else {
       console.error('Coordenadas no disponibles para la selección.');
     }
   }
+  
+  
   
 }

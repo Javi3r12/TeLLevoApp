@@ -30,6 +30,7 @@ export class InicioPage implements OnInit {
 
   ngOnInit() {
     if (this.sesion.isLoggedIn()) {
+      this.cargarUsuarios()
       // this.router.navigate(['/perfil']);
     } else {
       this.cargarUsuarios()
@@ -60,6 +61,7 @@ export class InicioPage implements OnInit {
       } 
     }
   }
+
   cargarUsuarios(){
     this.firebase.getCollectionChanges<usuarioLog>('usuario').subscribe(data =>{
       console.log(data)
@@ -70,6 +72,16 @@ export class InicioPage implements OnInit {
     })
   }
   
+  logout() {
+    this.sesion.logout(); 
+
+    this.router.navigate(['/inicio']).then(() => {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false; 
+      this.router.onSameUrlNavigation = 'reload'; 
+      this.router.navigate(['/inicio']); 
+    });
+  }
+
   async alerta(){
     console.log("Alerta desde controller");
     const alert = await this.alertctrl.create({

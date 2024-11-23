@@ -25,6 +25,13 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>Descripción</ion-card-title>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">Establece la ubicación del viaje</ion-label>
+          <div style="width: 100%; margin-top: 10px;">
+            <app-dirrecion-viaje [nuevoViaje]="this.viajee" [info]="this.info"></app-dirrecion-viaje> 
+          </div>
+        </ion-item>
       </ion-card-header>
       <ion-card-content>
         <div *ngIf="vehiculo; else loadingVehiculo">

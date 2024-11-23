@@ -44,6 +44,7 @@ export class RegistrarViajePage implements OnInit {
 
   };
 
+  info = 'registrar';
   vehiculos: Vehiculo[] = [];
 
   viajes: Viaje[] = [];

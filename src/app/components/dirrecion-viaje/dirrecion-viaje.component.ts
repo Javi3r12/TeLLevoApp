@@ -20,6 +20,7 @@ import { Viaje } from 'src/app/interfaces/viaje.model';
 export class DirrecionViajeComponent implements OnInit {
 
   @Input() nuevoViaje!: Viaje;
+  @Input() info: string = '';
   loading: boolean = true;
   
   constructor(private router: Router ) {
@@ -31,18 +32,23 @@ export class DirrecionViajeComponent implements OnInit {
   }
 
   navigateToMap() {
-    if (this.nuevoViaje?.cord && this.nuevoViaje?.id) {
+    if (this.nuevoViaje?.cord && this.nuevoViaje?.id && this.info) {
 
       this.router.navigate(['/map-dirreccion-viaje'], {
         queryParams: {
           lat: this.nuevoViaje.cord.lat,
           lng: this.nuevoViaje.cord.lng,
-          idViaje: this.nuevoViaje.id
+          idViaje: this.nuevoViaje.id,
+          info: this.info
         }
       });
     } else {
 
-      this.router.navigate(['/map-dirreccion-viaje']);
+      this.router.navigate(['/map-dirreccion-viaje'], {
+        queryParams: {
+          info: this.info
+        }
+      });
     }
   }
 
