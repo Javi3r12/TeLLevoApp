@@ -43,10 +43,15 @@ export class MapDirreccionViajeComponent  implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['lat'] && params['lng'] && params['idViaje'] || params['info']) {
-        this.initialCoordinates = {
-          lat: parseFloat(params['lat']),
-          lng: parseFloat(params['lng'])
-        };
+        const lat = parseFloat(params['lat']);
+        const lng = parseFloat(params['lng']);
+        
+        if (!isNaN(lat) && !isNaN(lng)) {
+          this.initialCoordinates = { lat, lng };
+        } else {
+          console.error("Coordenadas no válidas");
+        }
+        
         this.idviaje = params['idViaje'];
         this.info = params['info'];
         console.log('Info =>', this.info);
@@ -137,9 +142,8 @@ export class MapDirreccionViajeComponent  implements OnInit {
         coordinate: this.initialCoordinates || { lat: -36.79525, lng: -73.06216 },
       });
   
-      // Limpia cualquier listener existente
       this.newMap.setOnMapClickListener(undefined);
-      this.isListenerAttached = false; // Asegúrate de actualizar el estado del listener
+      this.isListenerAttached = false;
   
       console.log('El mapa está en modo solo lectura.');
     } else {
@@ -209,7 +213,7 @@ export class MapDirreccionViajeComponent  implements OnInit {
     // Crear un nuevo marcador
     const newMarker: Marker = {
       title: 'Destino',
-      draggable: this.editar,  // Solo es arrastrable en modo "editar"
+      draggable: false,  // Solo es arrastrable en modo "editar"
       coordinate: { lat: latitude, lng: longitude },
     };
   
@@ -243,7 +247,7 @@ export class MapDirreccionViajeComponent  implements OnInit {
   async showDetailMarker(ubicacion: Ubicacion, markNew: string, IdViaje: string) {
     if (!this.editar) {
       console.log('Modal deshabilitado en modo "detalle".');
-      return; // No abrir modal en modo "detalle"
+      return; 
     }
   
     if (this.modalOpen) {
