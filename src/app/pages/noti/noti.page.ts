@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { Viaje, ViajeExtendido } from 'src/app/interfaces/viaje.model';
 import { ViajesIns } from 'src/app/interfaces/viajeIns';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from 'src/app/services/sesion.service';
 
@@ -17,20 +18,49 @@ export class NotiPage implements OnInit {
   usuarios: usuarioLog[] = [];
   loaded = false;
   notificacionesNoVistas: number = 0;
-
+  isOnline = false;
 
   constructor(
     private firebase: FirebaseService,
     private sesion: sesionService,
+    private connectivityService: ConnectivityService,
 
   ) { 
     this.userId = this.sesion.getUser()?.id;
   }
 
   ngOnInit() {
-    console.log('userid =>',this.userId)
-    this.cargarviajes();
+    this.connectivityService.isOnline().then(isOnline => {
+      console.log('¿Está en línea?', isOnline);
+      this.isOnline = isOnline;
+    });
+    this.isOnline = this.connectivityService.isBrowserOnline();
+
+    if (this.isOnline) {
+      console.log('userid =>',this.userId)
+      this.cargarviajes();
+    } else {
+      this.cargarDatosLocales();
+    }
   }
+
+
+  // sin conexion
+  cargarDatosLocales() {
+    const viajesGuardados = localStorage.getItem('viajesNoti');
+    const notificacionesGuardadas = localStorage.getItem('notificacionesNoVistas');
+    
+    if (viajesGuardados && notificacionesGuardadas) {
+      this.viajes = JSON.parse(viajesGuardados);
+      this.notificacionesNoVistas = parseInt(notificacionesGuardadas, 10);
+      this.loaded = true;
+      console.log('Datos cargados desde localStorage');
+    } else {
+      console.log('No hay datos locales disponibles');
+      this.loaded = true;
+    }
+  }
+  // normal
 
   cargarviajes() {
     this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(viajes => {
@@ -55,16 +85,23 @@ export class NotiPage implements OnInit {
                 });
                 this.loaded = true;
                 this.obtenerNotificacionesNoVistas(); 
+
+                localStorage.setItem('viajesNoti', JSON.stringify(this.viajes));
+                localStorage.setItem('notificacionesNoVistas', this.notificacionesNoVistas.toString());
               }
             });
           } else {
             this.loaded = true;
             this.obtenerNotificacionesNoVistas();  
+            localStorage.setItem('notificacionesNoVistas', this.notificacionesNoVistas.toString());
+
           }
         });
       } else {
         this.loaded = true;
         this.obtenerNotificacionesNoVistas();  
+        localStorage.setItem('notificacionesNoVistas', this.notificacionesNoVistas.toString());
+
       }
     });
   }

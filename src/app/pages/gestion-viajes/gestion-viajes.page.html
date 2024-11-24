@@ -43,18 +43,18 @@
             <div class="viaje-actions">
               
               <div class="action-row">
-                <ion-button size="small" color="primary" (click)="editarViaje(viaje)">
+                <ion-button size="small" color="primary" (click)="editarViaje(viaje)" [disabled]="!isOnline">
                   <ion-icon name="create-outline" slot="start"></ion-icon>
                   Editar
                 </ion-button>
-                <ion-button size="small" color="danger" (click)="eliminarViaje(viaje)">
+                <ion-button size="small" color="danger" (click)="eliminarViaje(viaje)" [disabled]="!isOnline" >
                   <ion-icon name="trash-outline" slot="start"></ion-icon>
                   Eliminar
                 </ion-button>
               </div>
 
               <div class="action-row iniciar-button">
-                <ion-button expand="block" size="small" color="success" (click)="iniciarViaje(viaje)">
+                <ion-button expand="block" size="small" color="success" (click)="iniciarViaje(viaje)" [disabled]="!isOnline" >
                   <ion-icon name="play-outline" slot="start"></ion-icon>
                   Iniciar
                 </ion-button>

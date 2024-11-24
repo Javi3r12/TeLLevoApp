@@ -27,3 +27,16 @@ Para android e ios al crear la app o proyecto para estos se debe implementar per
 -- Video guia IOS: https://www.youtube.com/watch?v=_bHmEHMzIBA
 
 -- Documentacion: https://capacitorjs.com/docs/apis/google-maps 
+
+
+**********************************************************************************************************************************************************************************************************
+
+ANDROID
+
+
+ionic build
+
+npx cap sync android
+
+-- Abrir en adroid studio --
+npx cap open android

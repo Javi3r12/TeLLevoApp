@@ -42,11 +42,11 @@
             </p>
 
             <div class="vehiculo-actions">
-              <ion-button size="small" color="primary" (click)="editarVehiculo(vehiculo)">
+              <ion-button size="small" color="primary" (click)="editarVehiculo(vehiculo)" [disabled]="!isOnline" >
                 <ion-icon name="create-outline" slot="start"></ion-icon>
                 Editar
               </ion-button>
-              <ion-button size="small" color="danger" (click)="eliminarVehiculo(vehiculo)">
+              <ion-button size="small" color="danger" (click)="eliminarVehiculo(vehiculo)" [disabled]="!isOnline" >
                 <ion-icon name="trash-outline" slot="start"></ion-icon>
                 Eliminar
               </ion-button>

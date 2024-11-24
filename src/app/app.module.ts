@@ -12,10 +12,12 @@ import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingServ
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from '../environments/environment.prod';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { LocalStorageService } from './services/LocalStorage.service';
 
 @NgModule({
   declarations: [AppComponent,],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,IonicStorageModule.forRoot(),],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideFirebaseApp(() => initializeApp(environment.firebase)), 
     provideAuth(() => getAuth()), 
@@ -27,4 +29,5 @@ import { environment } from '../environments/environment.prod';
 
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

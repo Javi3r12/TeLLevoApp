@@ -16,9 +16,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
+  <ion-list *ngIf="userId; else notuser ">
     <ng-container *ngFor="let viaje of viajes">
-      <ng-container *ngIf="viaje.usuariosInscritos?.length">
+      <ng-container *ngIf="viaje.usuariosInscritos?.length; else notviajes">
         <ion-card>
 
           <ion-card-header>
@@ -45,7 +45,7 @@
                   *ngIf="!usuario.visto"
                   fill="clear" 
                   slot="end" 
-                  (click)="marcarComoVista(usuario.idInscripcion)">
+                  (click)="marcarComoVista(usuario.idInscripcion)" [disabled]="!isOnline">
                   <ion-icon name="checkmark-circle" color="success"></ion-icon>
                 </ion-button>
               </ion-item>              
@@ -54,6 +54,24 @@
           
         </ion-card>
       </ng-container>
+      
+    <ng-template #notviajes>
+      <div class="no-viajes">
+        <ion-icon name="help-circle-outline" size="large"></ion-icon>
+        <p>No tiene notificaciones </p>
+      </div>
+    </ng-template>
+
+
     </ng-container>
   </ion-list>
+
+  <ng-template #notuser>
+    <div class="no-viajes">
+      <ion-icon name="help-circle-outline" size="large"></ion-icon>
+      <p>Debe iniciar sesion para ver sus notificaciones </p>
+    </div>      
+  </ng-template>
+  
+
 </ion-content>

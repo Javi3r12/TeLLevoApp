@@ -9,6 +9,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-registrar-viaje',
@@ -51,23 +52,32 @@ export class RegistrarViajePage implements OnInit {
   cargando: boolean | undefined;
 
   userId = this.sesion.getUser()?.id;
-  
+  isOnline = false;
 
   constructor(private firebase: FirebaseService, private sesion: sesionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,private connectivityService: ConnectivityService,
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params['lat'] && params['lng']) {
-        this.nuevoViaje.cord.lat = +params['lat'];
-        this.nuevoViaje.cord.lng = +params['lng'];
-        console.log('Received coordinates:', this.nuevoViaje.cord.lat ,this.nuevoViaje.cord.lng );
-      }
+    this.connectivityService.isOnline().then(isOnline => {
+      console.log('¿Está en línea?', isOnline);
+      this.isOnline = isOnline;
     });
+    this.isOnline = this.connectivityService.isBrowserOnline();
 
-    this.cargarvehiculos()
-    
+    if (this.isOnline) {
+      this.route.queryParams.subscribe(params => {
+        if (params['lat'] && params['lng']) {
+          this.nuevoViaje.cord.lat = +params['lat'];
+          this.nuevoViaje.cord.lng = +params['lng'];
+          console.log('Received coordinates:', this.nuevoViaje.cord.lat ,this.nuevoViaje.cord.lng );
+        }
+      });
+
+      this.cargarvehiculos()
+    } else {
+      
+    }
   }
 
   cargarvehiculos() {

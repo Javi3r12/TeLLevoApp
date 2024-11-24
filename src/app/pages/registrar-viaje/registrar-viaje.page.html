@@ -14,7 +14,7 @@
 
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <form #viajeForm="ngForm" (ngSubmit)="agregarViaje(viajeForm)">
+  <form #viajeForm="ngForm" (ngSubmit)="agregarViaje(viajeForm)" *ngIf="isOnline; else notnet">
     <ion-card>
       <ion-card-header>
         <ion-card-title>Datos del Viaje</ion-card-title>
@@ -28,9 +28,18 @@
           </div>
         </ion-item>
 
-        <ion-item>
+        <ion-item  >
           <ion-label position="floating">Ingrese el Destino</ion-label>
-          <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino" errorText="Campo obligatorio"></ion-input>
+          <div *ngIf="isOnline; else notmap">
+            <ion-input name="destino" required [(ngModel)]="nuevoViaje.destino" errorText="Campo obligatorio"></ion-input>
+          </div>
+
+          <ng-template #notmap>
+            <div>
+              <p>Mapa no disponible sin conexion</p>
+            </div>
+          </ng-template>
+
         </ion-item>     
 
         <ion-item>
@@ -57,12 +66,23 @@
           <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio" errorText="Campo obligatorio"></ion-input>
         </ion-item>
 
-        <ion-button expand="block" type="submit" color="success" class="ion-margin-top" [disabled]="viajeForm.invalid">
+        <ion-button expand="block" type="submit" color="success" class="ion-margin-top" [disabled]="viajeForm.invalid" [disabled]="!isOnline">
           Agregar Viaje
         </ion-button>
       </ion-card-content>
     </ion-card>
   </form>
+
+  <ng-template #notnet>
+    <ion-card>
+      <ion-header>
+        <strong class="ion-text-center">
+          No puede registrar un viaje sin tener conexion a internet
+        </strong>
+      </ion-header>
+    </ion-card>
+  </ng-template>
+  
 
   <div *ngIf="cargando" class="ion-text-center ion-margin-top">
     <ion-spinner name="bubbles"></ion-spinner>

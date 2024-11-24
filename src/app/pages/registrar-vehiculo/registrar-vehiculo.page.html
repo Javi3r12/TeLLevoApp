@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form #vehiculoForm="ngForm" (ngSubmit)="agregarVehiculo(vehiculoForm)">
+  <form #vehiculoForm="ngForm" (ngSubmit)="agregarVehiculo(vehiculoForm)" *ngIf="isOnline; else notnet">
     <ion-item>
       <ion-label position="floating">Tipo de Vehículo</ion-label>
       <ion-input name="vehiculo" required [(ngModel)]="nuevoVehiculo.tipo" errorText="Campo obligatorio"></ion-input>
@@ -34,4 +34,15 @@
 
     <ion-button expand="full" type="submit">Agregar Vehiculo</ion-button>
   </form>
+
+  <ng-template #notnet>
+    <ion-card>
+      <ion-header>
+        <strong class="ion-text-center">
+          No puede registrar un vehiculo sin tener conexion a internet
+        </strong>
+      </ion-header>
+    </ion-card>
+  </ng-template>
+
 </ion-content>

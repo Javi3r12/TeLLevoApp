@@ -10,70 +10,72 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <div *ngIf="viajes && viajes.length > 0; else sinViajes">
+  <div *ngIf="userId; else notuser ">
+    <div *ngIf="viajes && viajes.length > 0; else sinViajes">
 
-    <div>
+      <div>
 
-      <ion-text class="titulo-seccion">
-        <h4>Viajes activos a tomar:</h4>
-      </ion-text>
-      
-      <ion-list lines="none">
-        <ng-container *ngFor="let viaje of viajes">
-          <ng-container *ngIf="viaje.activo">
-            <ion-item class="viaje-item">
-              <ion-card mode="md" class="viaje-card">
-                <ion-card-header>
-                  <ion-card-title class="viaje-destino">{{ viaje.destino }}</ion-card-title>
-                  <ion-card-subtitle class="viaje-vehiculo">
-                    Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}
-                  </ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                  <p class="viaje-descripcion"><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
-                  <p class="viaje-precio"><strong>Precio:</strong> ${{ viaje.precio }}</p>
+        <ion-text class="titulo-seccion">
+          <h4>Viajes activos a tomar:</h4>
+        </ion-text>
 
-                  <ion-button size="small" fill="solid" color="primary" (click)="irADetalle(viaje)">
-                    Detalle
-                  </ion-button>
-                </ion-card-content>
-              </ion-card>
-            </ion-item>
+        <ion-list lines="none">
+          <ng-container *ngFor="let viaje of viajes">
+            <ng-container *ngIf="viaje.activo">
+              <ion-item class="viaje-item">
+                <ion-card mode="md" class="viaje-card">
+                  <ion-card-header>
+                    <ion-card-title class="viaje-destino">{{ viaje.destino }}</ion-card-title>
+                    <ion-card-subtitle class="viaje-vehiculo">
+                      Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}
+                    </ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <p class="viaje-descripcion"><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+                    <p class="viaje-precio"><strong>Precio:</strong> ${{ viaje.precio }}</p>
+
+                    <ion-button size="small" fill="solid" color="primary" (click)="irADetalle(viaje)">
+                      Detalle
+                    </ion-button>
+                  </ion-card-content>
+                </ion-card>
+              </ion-item>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </ion-list>
+        </ion-list>
+
+      </div>
+
+      <div>
+
+        <ion-text class="titulo-seccion">
+          <h4>Historial de viajes:</h4>
+        </ion-text>
+
+        <ion-list lines="none">
+          <ng-container *ngFor="let viaje of viajes">
+            <ng-container *ngIf="!viaje.activo">
+              <ion-item class="viaje-item">
+                <ion-card mode="md" class="viaje-card">
+                  <ion-card-header>
+                    <ion-card-title class="viaje-destino">{{ viaje.destino }}</ion-card-title>
+                    <ion-card-subtitle class="viaje-vehiculo">
+                      Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}
+                    </ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <p class="viaje-descripcion"><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+                    <p class="viaje-precio"><strong>Precio:</strong> ${{ viaje.precio }}</p>
+                  </ion-card-content>
+                </ion-card>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+        </ion-list>
+
+      </div>
 
     </div>
-
-    <div>
-
-      <ion-text class="titulo-seccion">
-        <h4>Historial de viajes:</h4>
-      </ion-text>
-      
-      <ion-list lines="none">
-        <ng-container *ngFor="let viaje of viajes">
-          <ng-container *ngIf="!viaje.activo">
-            <ion-item class="viaje-item">
-              <ion-card mode="md" class="viaje-card">
-                <ion-card-header>
-                  <ion-card-title class="viaje-destino">{{ viaje.destino }}</ion-card-title>
-                  <ion-card-subtitle class="viaje-vehiculo">
-                    Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}
-                  </ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                  <p class="viaje-descripcion"><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
-                  <p class="viaje-precio"><strong>Precio:</strong> ${{ viaje.precio }}</p>
-                </ion-card-content>
-              </ion-card>
-            </ion-item>
-          </ng-container>
-        </ng-container>
-      </ion-list>
-      
-    </div>
-
   </div>
 
   <ng-template #sinViajes>
@@ -82,6 +84,13 @@
       <p>No ha realizado viajes o no ha iniciado sesión.</p>
     </div>
   </ng-template>
-  
+
+  <ng-template #notuser>
+    <div class="no-viajes">
+      <ion-icon name="help-circle-outline" size="large"></ion-icon>
+      <p>Debe iniciar sesion para ver sus historial de viajes </p>
+    </div>      
+  </ng-template>
+
 </ion-content>
 

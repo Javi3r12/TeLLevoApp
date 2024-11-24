@@ -28,9 +28,16 @@
         <br>
         <ion-item>
           <ion-label position="stacked">Ver la ubicación del viaje</ion-label>
-          <div style="width: 100%; margin-top: 10px;">
+          <div *ngIf="isOnline; else notmap"  style="width: 100%; margin-top: 10px;">
             <app-dirrecion-viaje [nuevoViaje]="this.viajee" [info]="this.info"></app-dirrecion-viaje> 
           </div>
+
+          <ng-template #notmap>
+            <div>
+              <p>Mapa no disponible sin conexion</p>
+            </div>
+          </ng-template>
+
         </ion-item>
       </ion-card-header>
       <ion-card-content>
@@ -46,9 +53,11 @@
             </ion-label>
           </ion-item>
         </div>
+
         <ng-template #loadingVehiculo>
           <p>Cargando información del vehículo...</p>
         </ng-template>
+
         <br>
         <p>{{ viajee.descripcion }}</p>
       </ion-card-content>
@@ -66,7 +75,7 @@
     </ion-card>
   </div>
 
-  <ion-button *ngIf="!viajeEnHistorial; else pagado" expand="block" fill="solid" color="primary" (click)="irAPago()">
+  <ion-button *ngIf="!viajeEnHistorial; else pagado" [disabled]="!isOnline" expand="block" fill="solid" color="primary" (click)="irAPago()">
     Pagar
   </ion-button>
 

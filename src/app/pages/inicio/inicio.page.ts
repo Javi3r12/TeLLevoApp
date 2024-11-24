@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, MenuController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from '../../services/sesion.service';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-inicio',
@@ -25,15 +26,30 @@ export class InicioPage implements OnInit {
   }
 
   usuarios : usuarioLog [] = [];
+  isOnline = false;
 
-  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,public sesion: sesionService, private MenuController: MenuController) { }
+  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,
+    public sesion: sesionService, private MenuController: MenuController, private connectivityService: ConnectivityService,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    if (this.sesion.isLoggedIn()) {
-      this.cargarUsuarios()
-      // this.router.navigate(['/perfil']);
+    this.connectivityService.isOnline().then(isOnline => {
+      console.log('¿Está en línea?', isOnline);
+      this.isOnline = isOnline; 
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.isOnline = this.connectivityService.isBrowserOnline();
+
+    if (this.isOnline){
+      if (this.sesion.isLoggedIn()) {
+        this.cargarUsuarios()
+        // this.router.navigate(['/perfil']);
+      } else {
+        this.cargarUsuarios()
+      }
     } else {
-      this.cargarUsuarios()
+
     }
   }
 

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { sesionService } from 'src/app/services/sesion.service';
+import { LocalStorageService } from 'src/app/services/LocalStorage.service';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,7 @@ export class HomePage implements OnInit {
   results: Viaje[] = [];
   query: string = '';
   vehiculos: Vehiculo[] = [];
-
+  Online = false;
   nuevoVehiculo: Vehiculo = {
     patente: '',
     tipo: '',
@@ -26,36 +28,106 @@ export class HomePage implements OnInit {
   }
 
   constructor( private router: Router, private firebase: FirebaseService,
-    public sesion: sesionService) {}
+    public sesion: sesionService, private connectivityService: ConnectivityService,
+    private localStorageService: LocalStorageService) {}
 
-  ngOnInit() {
-    this.cargarVehiculos()
-    this.cargarviajes()
+    async ngOnInit() {
+      this.connectivityService.isOnline().then(isOnline => {
+        console.log('¿Está en línea?', isOnline);
+        this.Online = true;
+      });
+      this.Online = this.connectivityService.isBrowserOnline();
+    
+      if (this.Online) {
+        // Espera a que los viajes y vehículos se carguen
+        await this.cargarVehiculos();
+        await this.cargarviajes();
+    
+        console.log('online');
+        if (this.viajes.length > 1 && this.vehiculos.length > 1) {
+          await this.guardarViajesEnLocal(this.viajes);
+          await this.guardarVehiculosEnLocal(this.vehiculos);
+        }
+        console.log('almacenado local');
+      } else {
+        await this.cargarViajesDeLocal();
+        await this.cargarVehiculosDeLocal();
+      }
+    }
+    
+    
+  
+  // sin conexion
+  async guardarViajesEnLocal(viajes: Viaje[]) {
+    if (viajes && viajes.length > 0) {
+      await this.localStorageService.saveData('viajes', viajes);
+      console.log('Viajes almacenados en local:', viajes);
+    } else {
+      console.log('No hay viajes para guardar.');
+    }
   }
   
+  async guardarVehiculosEnLocal(vehiculos: Vehiculo[]) {
+    if (vehiculos && vehiculos.length > 0) {
+      await this.localStorageService.saveData('vehiculos', vehiculos);
+      console.log('Vehículos almacenados en local:', vehiculos);
+    } else {
+      console.log('No hay vehículos para guardar.');
+    }
+  }
+
+  async cargarViajesDeLocal() {
+    const viajesGuardados = await this.localStorageService.getData('viajes');
+    if (viajesGuardados) {
+      this.viajes = viajesGuardados;
+      console.log('Viajes cargados de local:', this.viajes);
+    } else {
+      console.log('No se encontraron viajes en local.');
+    }
+  }
+  
+  async cargarVehiculosDeLocal() {
+    const vehiculosGuardados = await this.localStorageService.getData('vehiculos');
+    if (vehiculosGuardados) {
+      this.vehiculos = vehiculosGuardados;
+      console.log('Vehículos cargados de local:', this.vehiculos);
+    } else {
+      console.log('No se encontraron vehículos en local.');
+    }
+  }
+
+  // normal
+
   irADetalle(viaje: Viaje) {
     console.log(viaje)
     this.router.navigate(['/detalle-viaje', viaje.id ]);
   }
   
 
-  cargarviajes(){
-    this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data =>{
-      console.log(data)
-      if(data){
-        console.log(this.viajes)
-        this.viajes = data;
-        this.results = data;
-        
-      }
-    })
+  async cargarviajes() {
+    return new Promise<void>((resolve) => {
+      this.firebase.getCollectionChanges<Viaje>('viajes').subscribe(data => {
+        console.log('Viajes obtenidos desde Firebase:', data); 
+        if (data && data.length > 0) {
+          this.viajes = data;
+          this.results = data;
+          console.log('Viajes asignados:', this.viajes);
+        }
+        resolve();
+      });
+    });
   }
 
-  cargarVehiculos() {
-    this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data => {
-      if (data) {
-        this.vehiculos = data; 
-      }
+  async cargarVehiculos() {
+    return new Promise<void>((resolve) => {
+      this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data => {
+        console.log('Vehículos obtenidos desde Firebase:', data);
+        if (data && data.length > 0) {
+          this.vehiculos = data;
+          console.log('Vehículos asignados:', this.vehiculos);
+        }
+        resolve();
+      });
     });
   }
 
