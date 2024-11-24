@@ -8,7 +8,6 @@ import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrec
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LocationService } from 'src/app/services/Location.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
