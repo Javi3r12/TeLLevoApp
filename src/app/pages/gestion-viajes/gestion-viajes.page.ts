@@ -121,7 +121,7 @@ export class GestionViajesPage implements OnInit {
   async alertaInicio(viaje: Viaje){
     const alert = await this.alertctrl.create({
       header: 'Confirmacion',
-      message: 'Seguro que desea eliminar este vehiculo,',
+      message: 'Seguro que desea iniciar el viaje?',
       buttons: [{ text: 'aceptar',
                   cssClass: 'color-aceptar', 
                   handler: ()=> {viaje.activo = false;
