@@ -1,5 +1,3 @@
-Se le agregan algunos datos de ejemplos como un usuarios, viajes de ejemplos en el Home y al cambiar la contraseña por olvido se genera un codigo que se muestra por consola para para realizar el cambio de contraseña y al entrar en el inicio de sesion se genera un usuario automaticamente
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
