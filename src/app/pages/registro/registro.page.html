@@ -8,40 +8,89 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <ion-list class="ion-padding">
-    <form #miForm="ngForm" (ngSubmit)="agregarUsuario(miForm)">
+    <form #miForm="ngForm" (ngSubmit)="agregarUsuario(miForm)" novalidate>
+      
       <ion-item>
-        <ion-label position="floating">Nombre</ion-label> <br>
-        <ion-input name="username" required placeholder="Ingrese su nombre" errorText="Campo obligatorio" [(ngModel)]="nuevoUsuario.username"></ion-input>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input 
+          name="username" 
+          required 
+          placeholder="Ingrese su nombre" 
+          [(ngModel)]="nuevoUsuario.username" 
+          #username="ngModel">
+        </ion-input>
       </ion-item>
+      <ion-note *ngIf="username.invalid && username.touched" color="danger">
+        El nombre es obligatorio.
+      </ion-note>
 
       <ion-item>
-        <ion-label position="floating">Correo</ion-label> <br>
-        <ion-input name="correo" required type="email" placeholder="Ingrese su Correo" errorText="Campo obligatorio" [(ngModel)]="nuevoUsuario.correo" required email></ion-input>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input 
+          name="correo" 
+          required 
+          type="email" 
+          placeholder="Ingrese su Correo" 
+          [(ngModel)]="nuevoUsuario.correo" 
+          #correo="ngModel">
+        </ion-input>
       </ion-item>
+      <ion-note *ngIf="correo.invalid && correo.touched" color="danger">
+        Introduzca un correo válido.
+      </ion-note>
 
       <ion-item>
-        <ion-label position="floating">Contraseña</ion-label> <br>
-        <ion-input name="password" required type="password" placeholder="Ingrese Contraseña" errorText="Campo obligatorio" minlength="6" [(ngModel)]="nuevoUsuario.password"></ion-input>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input 
+          name="password" 
+          required 
+          type="password" 
+          placeholder="Ingrese Contraseña" 
+          minlength="6" 
+          [(ngModel)]="nuevoUsuario.password" 
+          #password="ngModel">
+        </ion-input>
       </ion-item>
+      <ion-note *ngIf="password.invalid && password.touched" color="danger">
+        La contraseña debe tener al menos 6 caracteres.
+      </ion-note>
 
       <ion-item>
-        <ion-label position="floating">Rut</ion-label> <br>
-        <ion-input name="rut" required placeholder="Ingrese su Rut" errorText="Campo obligatorio" [(ngModel)]="nuevoUsuario.rut"></ion-input>
+        <ion-label position="floating">Rut</ion-label>
+        <ion-input 
+          name="rut" 
+          required 
+          placeholder="Ingrese su Rut" 
+          [(ngModel)]="nuevoUsuario.rut" 
+          #rut="ngModel">
+        </ion-input>
       </ion-item>
+      <ion-note *ngIf="rut.invalid && rut.touched" color="danger">
+        El RUT es obligatorio.
+      </ion-note>
 
       <ion-item>
-        <ion-label position="floating">Celular</ion-label> <br>
-        <ion-input name="celular" required placeholder="Ingrese su Numero Celular" errorText="Campo obligatorio" minlength="9" maxlength="9" [(ngModel)]="nuevoUsuario.celular"></ion-input>
+        <ion-label position="floating">Celular</ion-label>
+        <ion-input 
+          name="celular" 
+          required 
+          type="tel" 
+          placeholder="Ingrese su Número Celular" 
+          minlength="9" 
+          maxlength="9" 
+          [(ngModel)]="nuevoUsuario.celular" 
+          #celular="ngModel">
+        </ion-input>
       </ion-item>
-      <br>
-      <ion-button type="submit" expand="block" fill="solid" color="primary">
+      <ion-note *ngIf="celular.invalid && celular.touched" color="danger">
+        El número celular debe tener exactamente 9 dígitos.
+      </ion-note>
+
+      <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="miForm.invalid">
         Registrar
       </ion-button>
 
-      
     </form>
-    
   </ion-list>
 </ion-content>
