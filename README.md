@@ -39,4 +39,5 @@ ionic build
 npx cap sync android
 
 -- Abrir en adroid studio --
+
 npx cap open android
