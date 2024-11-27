@@ -5,8 +5,12 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
-    <ion-title>Home</ion-title>
+    <ion-title>Viajes Disponibles</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -23,7 +27,7 @@
   <!-- Resultados de la búsqueda -->
   <ion-list *ngIf="query.length > 0 && results.length > 0">
     <ion-item *ngFor="let viaje of results">
-      {{ viaje.destino }} - {{ viaje.vehiculo }} - <br>
+      {{ viaje.destino }} - {{ obtenerModeloVehiculo(viaje.vehiculo) }} - <br>
       asientos: {{ viaje.asientos }} - Precio: ${{ viaje.precio }}
       <ion-button fill="clear" slot="end" (click)="irADetalle(viaje)">
         Detalle

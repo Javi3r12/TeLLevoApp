@@ -3,11 +3,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button menu="main"></ion-menu-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Registrar Viaje</ion-title>
     <ion-buttons slot="end">
-      <ion-icon name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -63,7 +65,7 @@
 
         <ion-item>
           <ion-label position="floating">Precio por asiento</ion-label>
-          <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio" errorText="Campo obligatorio"></ion-input>
+          <ion-input name="precio" required type="number" [(ngModel)]="nuevoViaje.precio" maxlength="5" errorText="Campo obligatorio"></ion-input>
         </ion-item>
 
         <ion-button expand="block" type="submit" color="success" class="ion-margin-top" [disabled]="viajeForm.invalid" [disabled]="!isOnline">
