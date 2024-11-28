@@ -1,79 +1,91 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Registrar Vehículo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true">
   <form #vehiculoForm="ngForm" (ngSubmit)="agregarVehiculo(vehiculoForm)" *ngIf="isOnline; else notnet">
-
+    
+    <!-- Validación del tipo de vehículo -->
     <ion-item>
       <ion-label position="floating">Tipo de Vehículo</ion-label>
-      <ion-input
-        name="vehiculo"
-        required
-        minlength="3"
-        [(ngModel)]="nuevoVehiculo.tipo"
-        #tipo="ngModel">
+      <ion-input 
+        name="vehiculo" 
+        required 
+        [(ngModel)]="nuevoVehiculo.tipo" 
+        #vehiculo="ngModel">
       </ion-input>
     </ion-item>
-    <ion-note *ngIf="tipo.invalid && tipo.touched" color="danger">
-      El tipo de vehículo es obligatorio y debe tener al menos 3 caracteres.
+    <ion-note *ngIf="vehiculo.invalid && vehiculo.touched" color="danger">
+      El tipo de vehículo es obligatorio.
     </ion-note>
 
+    <!-- Validación del modelo -->
     <ion-item>
       <ion-label position="floating">Modelo</ion-label>
-      <ion-input
-        name="modelo"
-        required
-        minlength="2"
-        [(ngModel)]="nuevoVehiculo.modelo"
+      <ion-input 
+        name="modelo" 
+        required 
+        [(ngModel)]="nuevoVehiculo.modelo" 
         #modelo="ngModel">
       </ion-input>
     </ion-item>
     <ion-note *ngIf="modelo.invalid && modelo.touched" color="danger">
-      El modelo es obligatorio y debe tener al menos 2 caracteres.
+      El modelo es obligatorio.
     </ion-note>
 
+    <!-- Validación de la patente -->
     <ion-item>
       <ion-label position="floating">Patente</ion-label>
-      <ion-input
-        name="patente"
-        required
-        minlength="6"
-        maxlength="6"
-        [(ngModel)]="nuevoVehiculo.patente"
+      <ion-input 
+        name="patento" 
+        maxlength="6" 
+        minlength="6" 
+        required 
+        [(ngModel)]="nuevoVehiculo.patente" 
         #patente="ngModel">
       </ion-input>
     </ion-item>
     <ion-note *ngIf="patente.invalid && patente.touched" color="danger">
-      La patente es obligatoria y debe tener exactamente 6 caracteres.
+      La patente debe tener exactamente 6 caracteres.
     </ion-note>
 
+    <!-- Validación del color -->
     <ion-item>
       <ion-label position="floating">Color</ion-label>
-      <ion-input
-        name="color"
-        required
-        minlength="3"
-        [(ngModel)]="nuevoVehiculo.color"
+      <ion-textarea 
+        name="descripcion" 
+        required 
+        [(ngModel)]="nuevoVehiculo.color" 
         #color="ngModel">
-      </ion-input>
+      </ion-textarea>
     </ion-item>
     <ion-note *ngIf="color.invalid && color.touched" color="danger">
-      El color es obligatorio y debe tener al menos 3 caracteres.
+      El color es obligatorio.
     </ion-note>
 
-    <ion-button
-      expand="full"
-      type="submit"
-      color="success"
-      [disabled]="vehiculoForm.invalid || !isOnline">
-      Agregar Vehículo
-    </ion-button>
+    <ion-button expand="full" type="submit" [disabled]="vehiculoForm.invalid">Agregar Vehiculo</ion-button>
   </form>
 
   <ng-template #notnet>
     <ion-card>
       <ion-header>
         <strong class="ion-text-center">
-          No puede registrar un vehículo sin tener conexión a internet
+          No puede registrar un vehículo sin tener conexión a internet.
         </strong>
       </ion-header>
     </ion-card>
   </ng-template>
+
 </ion-content>

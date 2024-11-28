@@ -1,3 +1,20 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Registrar Viaje</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
 <ion-content [fullscreen]="true" class="ion-padding">
   <form #viajeForm="ngForm" (ngSubmit)="agregarViaje(viajeForm)" *ngIf="isOnline; else notnet">
     <ion-card>
@@ -6,98 +23,96 @@
       </ion-card-header>
       <ion-card-content>
 
-        <ion-item>
-          <ion-label position="stacked">Establece la ubicación del viaje</ion-label>
-          <div style="width: 100%; margin-top: 10px;">
-            <app-dirrecion-viaje [info]="this.info"></app-dirrecion-viaje>
-          </div>
-        </ion-item>
+<!-- Destino -->
+<ion-item>
+  <ion-label position="floating">Ingrese el Destino</ion-label>
+  <ion-input
+    name="destino"
+    required
+    minlength="3"
+    [(ngModel)]="nuevoViaje.destino"
+    #destino="ngModel">
+  </ion-input>
+</ion-item>
+<ion-note *ngIf="destino.invalid && destino.touched" color="danger">
+  El destino es obligatorio y debe tener al menos 3 caracteres.
+</ion-note>
 
-        <ion-item>
-          <ion-label position="floating">Ingrese el Destino</ion-label>
-          <ion-input
-            name="destino"
-            required
-            minlength="3"
-            [(ngModel)]="nuevoViaje.destino"
-            #destino="ngModel">
-          </ion-input>
-        </ion-item>
-        <ion-note *ngIf="destino.invalid && destino.touched" color="danger">
-          El destino es obligatorio y debe tener al menos 3 caracteres.
-        </ion-note>
+<!-- Asientos Libres -->
+<ion-item>
+  <ion-label position="floating">Asientos Libres</ion-label>
+  <ion-input
+    name="asientos"
+    required
+    type="number"
+    min="1"
+    [(ngModel)]="nuevoViaje.asientos"
+    #asientos="ngModel">
+  </ion-input>
+</ion-item>
+<ion-note *ngIf="asientos.invalid && asientos.touched" color="danger">
+  Ingrese un número válido de asientos (mayor o igual a 1).
+</ion-note>
 
-        <ion-item>
-          <ion-label position="floating">Asientos Libres</ion-label>
-          <ion-input
-            name="asientos"
-            required
-            type="number"
-            min="1"
-            [(ngModel)]="nuevoViaje.asientos"
-            #asientos="ngModel">
-          </ion-input>
-        </ion-item>
-        <ion-note *ngIf="asientos.invalid && asientos.touched" color="danger">
-          Ingrese un número válido de asientos (mayor o igual a 1).
-        </ion-note>
+<!-- Selección de Vehículo -->
+<ion-item>
+  <ion-label position="stacked">Seleccione su vehículo</ion-label>
+  <ion-select
+    name="vehiculo"
+    [(ngModel)]="nuevoViaje.vehiculo"
+    required
+    #vehiculo="ngModel"
+    interface="popover">
+    <ion-select-option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.id">
+      {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-note *ngIf="vehiculo.invalid && vehiculo.touched" color="danger">
+  Seleccione un vehículo de la lista.
+</ion-note>
 
-        <ion-item>
-          <ion-label position="stacked">Seleccione su vehículo</ion-label>
-          <ion-select
-            name="vehiculo"
-            [(ngModel)]="nuevoViaje.vehiculo"
-            required
-            #vehiculo="ngModel"
-            interface="popover">
-            <ion-select-option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.id">
-              {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-note *ngIf="vehiculo.invalid && vehiculo.touched" color="danger">
-          Seleccione un vehículo de la lista.
-        </ion-note>
+<!-- Descripción -->
+<ion-item>
+  <ion-label position="floating">Descripción</ion-label>
+  <ion-textarea
+    name="descripcion"
+    required
+    minlength="10"
+    [(ngModel)]="nuevoViaje.descripcion"
+    #descripcion="ngModel">
+  </ion-textarea>
+</ion-item>
+<ion-note *ngIf="descripcion.invalid && descripcion.touched" color="danger">
+  La descripción debe tener al menos 10 caracteres.
+</ion-note>
 
-        <ion-item>
-          <ion-label position="floating">Descripción</ion-label>
-          <ion-textarea
-            name="descripcion"
-            required
-            minlength="10"
-            [(ngModel)]="nuevoViaje.descripcion"
-            #descripcion="ngModel">
-          </ion-textarea>
-        </ion-item>
-        <ion-note *ngIf="descripcion.invalid && descripcion.touched" color="danger">
-          La descripción debe tener al menos 10 caracteres.
-        </ion-note>
+<!-- Precio por asiento -->
+<ion-item>
+  <ion-label position="floating">Precio por asiento</ion-label>
+  <ion-input
+    name="precio"
+    required
+    type="number"
+    min="0"
+    max="10000"
+    [(ngModel)]="nuevoViaje.precio"
+    #precio="ngModel">
+  </ion-input>
+</ion-item>
+<ion-note *ngIf="precio.invalid && precio.touched" color="danger">
+  Ingrese un precio válido (0 a 10000).
+</ion-note>
 
-        <ion-item>
-          <ion-label position="floating">Precio por asiento</ion-label>
-          <ion-input
-            name="precio"
-            required
-            type="number"
-            min="0"
-            max="10000"
-            [(ngModel)]="nuevoViaje.precio"
-            #precio="ngModel">
-          </ion-input>
-        </ion-item>
-        <ion-note *ngIf="precio.invalid && precio.touched" color="danger">
-          Ingrese un precio válido (0 a 10000).
-        </ion-note>
-
-        <ion-button
-          expand="block"
-          type="submit"
-          color="success"
-          class="ion-margin-top"
-          [disabled]="viajeForm.invalid || !isOnline">
-          Agregar Viaje
-        </ion-button>
-
+<!-- Botón de Enviar -->
+<ion-button
+  expand="block"
+  type="submit"
+  color="success"
+  class="ion-margin-top"
+  [disabled]="viajeForm.invalid || !isOnline">
+  Agregar Viaje
+</ion-button>
       </ion-card-content>
     </ion-card>
   </form>
@@ -106,11 +121,12 @@
     <ion-card>
       <ion-header>
         <strong class="ion-text-center">
-          No puede registrar un viaje sin tener conexión a internet
+          No puede registrar un viaje sin tener conexion a internet
         </strong>
       </ion-header>
     </ion-card>
   </ng-template>
+  
 
   <div *ngIf="cargando" class="ion-text-center ion-margin-top">
     <ion-spinner name="bubbles"></ion-spinner>

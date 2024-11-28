@@ -1,3 +1,13 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-back-button defaultHref="inicio" slot="start"></ion-back-button>
+    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/gestion-viaje" ></ion-icon>
+    <ion-title>Editar Viaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true">
   <form #viajeForm="ngForm" (ngSubmit)="editarViaje(viajeForm)">
 
@@ -8,89 +18,90 @@
       </div>
     </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Destino</ion-label>
-      <ion-input
-        name="destino"
-        required
-        minlength="3"
-        maxlength="100"
-        [(ngModel)]="nuevoViaje.destino"
-        #destino="ngModel">
-      </ion-input>
-    </ion-item>
-    <ion-note *ngIf="destino.invalid && destino.touched" color="danger">
-      El destino es obligatorio, debe tener entre 3 y 100 caracteres.
-    </ion-note>
+<!-- Destino -->
+<ion-item>
+  <ion-label position="floating">Ingrese el Destino</ion-label>
+  <ion-input
+    name="destino"
+    required
+    minlength="3"
+    [(ngModel)]="nuevoViaje.destino"
+    #destino="ngModel">
+  </ion-input>
+</ion-item>
+<ion-note *ngIf="destino.invalid && destino.touched" color="danger">
+  El destino es obligatorio y debe tener al menos 3 caracteres.
+</ion-note>
 
-    <ion-item>
-      <ion-label position="floating">Asientos Libres</ion-label>
-      <ion-input
-        name="asientos"
-        required
-        type="number"
-        min="1"
-        [(ngModel)]="nuevoViaje.asientos"
-        #asientos="ngModel">
-      </ion-input>
-    </ion-item>
-    <ion-note *ngIf="asientos.invalid && asientos.touched" color="danger">
-      Los asientos libres son obligatorios y deben ser un número positivo.
-    </ion-note>
+<!-- Asientos Libres -->
+<ion-item>
+  <ion-label position="floating">Asientos Libres</ion-label>
+  <ion-input
+    name="asientos"
+    required
+    type="number"
+    min="1"
+    [(ngModel)]="nuevoViaje.asientos"
+    #asientos="ngModel">
+  </ion-input>
+</ion-item>
+<ion-note *ngIf="asientos.invalid && asientos.touched" color="danger">
+  Ingrese un número válido de asientos (mayor o igual a 1).
+</ion-note>
 
-    <ion-item>
-      <ion-label position="stacked">Seleccione su vehículo</ion-label>
-      <ion-select
-        name="vehiculo"
-        required
-        [(ngModel)]="nuevoViaje.vehiculo"
-        #vehiculo="ngModel">
-        <ion-select-option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.id">
-          {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-note *ngIf="vehiculo.invalid && vehiculo.touched" color="danger">
-      Seleccione un vehículo para el viaje.
-    </ion-note>
+<!-- Selección de Vehículo -->
+<ion-item>
+  <ion-label position="stacked">Seleccione su vehículo</ion-label>
+  <ion-select
+    name="vehiculo"
+    [(ngModel)]="nuevoViaje.vehiculo"
+    required
+    #vehiculo="ngModel"
+    interface="popover">
+    <ion-select-option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.id">
+      {{ vehiculo.modelo }} - Patente: {{ vehiculo.patente }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-note *ngIf="vehiculo.invalid && vehiculo.touched" color="danger">
+  Seleccione un vehículo de la lista.
+</ion-note>
 
-    <ion-item>
-      <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea
-        name="descripcion"
-        required
-        minlength="10"
-        maxlength="500"
-        [(ngModel)]="nuevoViaje.descripcion"
-        #descripcion="ngModel">
-      </ion-textarea>
-    </ion-item>
-    <ion-note *ngIf="descripcion.invalid && descripcion.touched" color="danger">
-      La descripción es obligatoria, debe tener entre 10 y 500 caracteres.
-    </ion-note>
+<!-- Descripción -->
+<ion-item>
+  <ion-label position="floating">Descripción</ion-label>
+  <ion-textarea
+    name="descripcion"
+    required
+    minlength="10"
+    [(ngModel)]="nuevoViaje.descripcion"
+    #descripcion="ngModel">
+  </ion-textarea>
+</ion-item>
+<ion-note *ngIf="descripcion.invalid && descripcion.touched" color="danger">
+  La descripción debe tener al menos 10 caracteres.
+</ion-note>
 
-    <ion-item>
-      <ion-label position="floating">Precio por asiento</ion-label>
-      <ion-input
-        name="precio"
-        required
-        type="number"
-        min="1"
-        max="100000"
-        [(ngModel)]="nuevoViaje.precio"
-        #precio="ngModel">
-      </ion-input>
-    </ion-item>
-    <ion-note *ngIf="precio.invalid && precio.touched" color="danger">
-      El precio es obligatorio, debe ser un número positivo menor o igual a 100,000.
-    </ion-note>
+<!-- Precio por asiento -->
+<ion-item>
+  <ion-label position="floating">Precio por asiento</ion-label>
+  <ion-input
+    name="precio"
+    required
+    type="number"
+    min="0"
+    max="10000"
+    [(ngModel)]="nuevoViaje.precio"
+    #precio="ngModel">
+  </ion-input>
+</ion-item>
+<ion-note *ngIf="precio.invalid && precio.touched" color="danger">
+  Ingrese un precio válido (0 a 10000).
+</ion-note>
 
-    <ion-button
-      expand="full"
-      type="submit"
-      color="success"
-      [disabled]="viajeForm.invalid">
-      Guardar
-    </ion-button>
+
+
+    <ion-button expand="full" type="submit" [disabled]="viajeForm.invalid">Guardar</ion-button>
   </form>
+
 </ion-content>
