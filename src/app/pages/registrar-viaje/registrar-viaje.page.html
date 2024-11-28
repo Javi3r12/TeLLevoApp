@@ -23,6 +23,13 @@
       </ion-card-header>
       <ion-card-content>
 
+          <ion-item>
+            <ion-label position="stacked">Establece la ubicación del viaje</ion-label>
+            <div style="width: 100%; margin-top: 10px;">
+              <app-dirrecion-viaje [nuevoViaje]="nuevoViaje" [info]="this.info"></app-dirrecion-viaje> 
+            </div>
+          </ion-item>
+
 <!-- Destino -->
 <ion-item>
   <ion-label position="floating">Ingrese el Destino</ion-label>
