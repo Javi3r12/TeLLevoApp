@@ -1,10 +1,56 @@
-.edit-button {
-    background-color: #00bfff; 
-    color: white;
+.vehiculo-card {
+  margin: 0 auto 1rem; /* Margen inferior entre cards y centrado horizontal */
+  max-width: 95%; /* Controla el ancho del card */
+  width: 380px; /* Todos los cards tendrán el mismo ancho */
+  min-height: 180px; /* Altura mínima uniforme */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  border-radius: 8px;
+
+  ion-card-header {
+    padding: 12px;
+
+    .vehiculo-patente {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
   }
-  
-  .delete-button {
-    background-color: #ff3b30; 
-    color: white;
+
+  ion-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el contenido de forma uniforme */
+    min-height: 120px; /* Garantiza que el contenido no colapse */
+    font-size: 0.95rem;
+
+    .vehiculo-detalle {
+      margin-bottom: 0.5rem; /* Espaciado entre detalles */
+    }
+
+    .vehiculo-actions {
+      display: flex;
+      justify-content: space-between; /* Botones alineados horizontalmente */
+      gap: 8px; /* Espaciado entre botones */
+
+      ion-button {
+        flex: 1; /* Todos los botones ocupan el mismo ancho */
+        --padding-start: 10px;
+        --padding-end: 10px;
+      }
+    }
   }
-  
+}
+
+.no-vehiculos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--ion-color-medium);
+  margin-top: 20vh;
+
+  ion-icon {
+    color: var(--ion-color-primary);
+    margin-bottom: 1rem;
+  }
+}

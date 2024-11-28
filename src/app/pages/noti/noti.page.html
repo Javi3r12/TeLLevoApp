@@ -1,0 +1,80 @@
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notificaciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list *ngIf="userId; else notuser">
+    <ng-container *ngIf="viajes.length >= 1; else notviajes">
+    
+      <ng-container *ngFor="let viaje of viajes" >
+        <ng-container *ngIf="viaje.usuariosInscritos?.length">
+          <ion-card>
+
+            <ion-card-header>
+              <ion-card-title>
+                Destino: <strong>{{ viaje.destino }}</strong>
+              </ion-card-title>
+              <ion-card-subtitle>
+                Descripción: <em>{{ viaje.descripcion }}</em>
+              </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                <ion-item *ngFor="let usuario of viaje.usuariosInscritos">
+                  <ion-avatar slot="start">
+                    <ion-icon name="person-circle" size="large"></ion-icon>
+                  </ion-avatar>
+                  <ion-label>
+                    <h2>{{ usuario.username }}</h2>
+                    <p>Se inscribió a este viaje</p>
+                  </ion-label>
+                  <ion-badge *ngIf="!usuario.visto" color="danger">Nuevo</ion-badge>
+                  <ion-button 
+                    *ngIf="!usuario.visto"
+                    fill="clear" 
+                    slot="end" 
+                    (click)="marcarComoVista(usuario.idInscripcion)" [disabled]="!isOnline">
+                    <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                  </ion-button>
+                </ion-item>              
+              </ion-list>
+            </ion-card-content>
+
+          </ion-card>
+        </ng-container>
+
+      
+
+
+      </ng-container>
+    </ng-container>
+  </ion-list>
+
+  <ng-template #notuser>
+    <div class="no-viajes">
+      <ion-icon name="help-circle-outline" size="large"></ion-icon>
+      <p>Debe iniciar sesion para ver sus notificaciones </p>
+    </div>      
+  </ng-template>
+  
+  <ng-template #notviajes>
+    <div class="no-viajes">
+      <ion-icon name="help-circle-outline" size="large"></ion-icon>
+      <p>No tiene notificaciones </p>
+    </div>
+  </ng-template>
+
+</ion-content>

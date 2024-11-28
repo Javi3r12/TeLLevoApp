@@ -5,4 +5,4 @@ export interface Vehiculo {
     color: string;
     id: string;
     id_user: any;
-  }
+}

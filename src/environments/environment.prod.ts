@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   firebase: {
     apiKey: "AIzaSyDgTjZXxS4j4vvoXFeAPay_joR6DQdrgH0",
     authDomain: "tellevoapp-v1.firebaseapp.com",

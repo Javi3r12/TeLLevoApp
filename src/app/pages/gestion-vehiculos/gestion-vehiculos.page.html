@@ -1,63 +1,72 @@
-<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
 
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio"></ion-icon>
-    <ion-title>Gestion De Vehiculos</ion-title>
+    <ion-title>Gestión de Vehículos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Gestion De Vehiculos</ion-title>
+      <ion-title size="large">Gestión de <br> Vehículos </ion-title>
     </ion-toolbar>
   </ion-header>
+  <br>
 
   <div *ngIf="vehiculos && vehiculos.length > 0; else sinVehiculos">
-    <div *ngFor="let vehiculo of vehiculos; let i = index">
-      <ion-card mode="md">
-        <ion-card-header>
-          <ion-card-title>Patente: {{ vehiculo.patente }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          Tipo: {{ vehiculo.tipo }} <br> 
-          Modelo: {{ vehiculo.modelo }} <br>
-          Color: {{ vehiculo.color }}
-          <br> <br>
-          <ion-buttons>
-            <ion-button class="edit-button" (click)="editarVehiculo(vehiculo)" >
-              Editar Vehiculo
-            </ion-button>
-          
-            <ion-button class="delete-button" (click)="eliminarVehiculo(vehiculo)" >
-              Eliminar
-            </ion-button>
-          </ion-buttons>
-        </ion-card-content>
-      </ion-card>
-    </div>
-  </div> 
+    <ion-list lines="none">
+      <ion-item *ngFor="let vehiculo of vehiculos; let i = index">
+        <ion-card mode="md" class="vehiculo-card">
+          <ion-card-header>
+            <ion-card-title class="vehiculo-patente">Patente: {{ vehiculo.patente }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="vehiculo-detalle">
+              <strong>Tipo:</strong> {{ vehiculo.tipo }}
+            </p>
+            <p class="vehiculo-detalle">
+              <strong>Modelo:</strong> {{ vehiculo.modelo }}
+            </p>
+            <p class="vehiculo-detalle">
+              <strong>Color:</strong> {{ vehiculo.color }}
+            </p>
+
+            <div class="vehiculo-actions">
+              <ion-button size="small" color="primary" (click)="editarVehiculo(vehiculo)" [disabled]="!isOnline" >
+                <ion-icon name="create-outline" slot="start"></ion-icon>
+                Editar
+              </ion-button>
+              <ion-button size="small" color="danger" (click)="eliminarVehiculo(vehiculo)" [disabled]="!isOnline" >
+                <ion-icon name="trash-outline" slot="start"></ion-icon>
+                Eliminar
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </div>
+
 
   <ng-template #sinVehiculos>
-    <div *ngIf=" this.loaded">
-      <ion-card>
-        <ion-card-content>
-          <ion-text>
-            No ha registrado vehiculos o no ha iniciado sesion
-          </ion-text>
-        </ion-card-content>
-      </ion-card>
+    <div class="no-vehiculos">
+      <ion-icon name="car-outline" size="large"></ion-icon>
+      <p>No ha registrado vehículos o no ha iniciado sesión</p>
     </div>
 
-    <ion-list *ngIf="!this.loaded">
-      <ion-list-header>
-        <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-      </ion-list-header>
-      <ion-item>
+
+    <ion-list *ngIf="!loaded">
+      <ion-item *ngFor="let _ of [1, 2, 3]">
         <ion-thumbnail slot="start">
           <ion-skeleton-text [animated]="true"></ion-skeleton-text>
         </ion-thumbnail>
@@ -68,13 +77,9 @@
           <p>
             <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
           </p>
-          <p>
-            <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-          </p>
         </ion-label>
       </ion-item>
     </ion-list>
-
-  </ng-template> 
+  </ng-template>
 
 </ion-content>

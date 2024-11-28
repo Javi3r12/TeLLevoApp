@@ -6,14 +6,29 @@ import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { Viaje } from 'src/app/interfaces/viaje.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from 'src/app/services/sesion.service';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrecion-viaje.component';
+
 
 @Component({
   selector: 'app-editar-viaje',
   templateUrl: './editar-viaje.page.html',
   styleUrls: ['./editar-viaje.page.scss'],
+  standalone: true,
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    DirrecionViajeComponent,
+    
+  ],
 })
 export class EditarViajePage implements OnInit {
   
+  info = 'editar';
+
   nuevoViaje: Viaje = {
     id: this.firebase.createId() ,
     destino: '',
@@ -22,7 +37,11 @@ export class EditarViajePage implements OnInit {
     descripcion: '',
     precio: 0,
     activo: true,
-    id_user: this.sesion.getUser()?.id
+    id_user: this.sesion.getUser()?.id,
+    cord: {
+      lat: 0, 
+      lng: 0, 
+    },
   };
   userId = this.sesion.getUser()?.id;
   vehiculos: Vehiculo[] = [];
@@ -33,6 +52,14 @@ export class EditarViajePage implements OnInit {
 
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['lat'] && params['lng']) {
+        this.nuevoViaje.cord.lat = params['lat'];
+        this.nuevoViaje.cord.lng = params['lng'];
+        console.log('Received coordinates:', this.nuevoViaje.cord.lat ,this.nuevoViaje.cord.lng );
+      }
+    });
+
     this.cargarvehiculos();
     const viajeId = this.route.snapshot.paramMap.get('id');
     if (viajeId) {
@@ -53,6 +80,9 @@ export class EditarViajePage implements OnInit {
     this.firebase.getDocument<Viaje>('viajes', id).subscribe(viaje => {
       if (viaje) {
         this.nuevoViaje = viaje;
+
+        console.log("Cargando coordenadas:", this.nuevoViaje.cord);
+      
       }
     });
   }

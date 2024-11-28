@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, collectionData, deleteDoc, doc,docData, setDoc } from "@angular/fire/firestore";
+import { Firestore, collection, collectionData, deleteDoc, doc,docData, setDoc, updateDoc } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import {v4 as uuidv4} from 'uuid';
 
@@ -49,5 +49,11 @@ export class FirebaseService{
       const document = doc(this.firestore, `${enlace}/${idDoc}`);
       return deleteDoc(document)
     }
+
+    updateVistoEstado(inscripcionId: string, visto: boolean) {
+      const inscripcionRef = doc(this.firestore, `viajesIns/${inscripcionId}`);
+      return updateDoc(inscripcionRef, {visto: visto});
+    }
+    
 }
   

@@ -20,7 +20,7 @@
         <ion-label>Correo</ion-label>
         <ion-text>{{ sesion.getUser()?.correo }}</ion-text>
       </ion-item>
-      <ion-button expand="block" color="danger" (click)="sesion.logout(); router.navigate(['/inicio'])">
+      <ion-button expand="block" color="danger" (click)="logout()">
         Cerrar sesión
       </ion-button>
     </ion-list>
@@ -28,6 +28,13 @@
 
   <ng-template #loginForm>
     <ion-list class="ion-padding">
+
+      <ion-text *ngIf="!isOnline">
+        <strong>
+          Sin tener conexion a internet no se puede logear
+        </strong>
+      </ion-text>
+      
       <form #inicioForm="ngForm" (ngSubmit)="enviar(inicioForm)">
         <ion-item>
           <ion-input required mode="ios" label="Nombre" labelPlacement="fixed"
@@ -44,14 +51,21 @@
           </ion-input>
         </ion-item>
 
-        <ion-item lines="none">
+        <ion-item lines="none" *ngIf="isOnline; else notnet">
           <ion-text color="secondary" routerLink="/olvido">¿Olvidó su contraseña?</ion-text>
         </ion-item>
+
+        <ng-template #notnet>
+          <ion-item lines="none" >
+            <ion-text color="secondary" >¿Olvidó su contraseña?</ion-text>
+          </ion-item>
+        </ng-template>
+        
         <br>
-        <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="inicioForm.invalid">
+        <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="inicioForm.invalid" [disabled]="!isOnline">
           Iniciar Sesión
         </ion-button>
-        <ion-button expand="block" fill="solid" color="tertiary" href="registro">
+        <ion-button expand="block" fill="solid" color="tertiary" href="registro" [disabled]="!isOnline">
           Registrar
         </ion-button>
       </form>

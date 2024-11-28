@@ -1,10 +1,70 @@
-.edit-button {
-    background-color: #00bfff; 
-    color: white;
+ion-content {
+  .no-viajes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--ion-color-medium);
+    margin-top: 20vh;
+
+    ion-icon {
+      color: var(--ion-color-primary);
+      margin-bottom: 1rem;
+    }
+  }
+
+  .viaje-card {
+    margin: 0 auto 1rem; /* Margen inferior entre cards y centrado horizontal */
+    max-width: 95%; /* Controla el ancho del card */
+    width: 380px; /* Todos los cards tendrán el mismo ancho (adaptable según pantalla) */
+    min-height: 200px; /* Altura mínima para uniformidad */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejor visual */
+    border-radius: 8px; /* Esquinas redondeadas */
+  
+    ion-card-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 12px;
+    }
+  
+    ion-card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Distribución uniforme del contenido */
+      min-height: 120px; /* Evita colapsos por contenido corto */
+  
+      .viaje-descripcion,
+      .viaje-precio {
+        margin-bottom: 0.5rem;
+      }
+  
+      .viaje-actions {
+        display: flex;
+        flex-direction: column; /* Organización vertical de botones */
+        gap: 8px; /* Espaciado entre filas de botones */
+  
+        .action-row {
+          display: flex;
+          justify-content: space-between; /* Alinea los botones en una fila */
+          gap: 8px; /* Espaciado horizontal entre botones */
+  
+          ion-button {
+            flex: 1; /* Espaciado equitativo entre botones */
+            --padding-start: 10px;
+            --padding-end: 10px;
+          }
+        }
+  
+        .iniciar-button {
+          ion-button {
+            --min-height: 40px; /* Botón más grande */
+          }
+        }
+      }
+    }
   }
   
-  .delete-button {
-    background-color: #ff3b30; 
-    color: white;
-  }
-  
+}
+

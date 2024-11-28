@@ -4,6 +4,8 @@ import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { sesionService } from 'src/app/services/sesion.service';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
+import { LocalStorageService } from 'src/app/services/LocalStorage.service';
 
 @Component({
   selector: 'app-gestion-viajes',
@@ -14,17 +16,43 @@ export class GestionViajesPage implements OnInit {
   userId: any;
   viajes : Viaje[] = [];
   loaded = false;
+  isOnline  = false;
 
   constructor(private router: Router, private firebase: FirebaseService, 
-    private alertctrl: AlertController, private sesion: sesionService) 
+    private alertctrl: AlertController, private sesion: sesionService,
+    private connectivityService: ConnectivityService, private localStorageService: LocalStorageService) 
     {
       this.userId = this.sesion.getUser()?.id;
      }
 
   ngOnInit() {
-    this.cargarviajes()
+    this.connectivityService.isOnline().then(isOnline => {
+      console.log('¿Está en línea?', isOnline)
+      isOnline = true;
+    });
+
+    this.isOnline = this.connectivityService.isBrowserOnline()
+    if (this.isOnline){
+      this.cargarviajes()
+    } else {
+      this.cargarViajesDeLocal()
+    }
   }
 
+  // sin conexion
+
+  async cargarViajesDeLocal() {
+    const vehiculosGuardados = await this.localStorageService.getData('viajes');
+    if (vehiculosGuardados) {
+      this.viajes = vehiculosGuardados.filter((viaje: Viaje) => viaje.id_user === this.userId);
+      console.log('Viajes cargados de local:', this.viajes);
+    } else {
+      console.log('No se encontraron viajes en local.');
+    }
+  }
+
+  // normal
+  
   editarViaje(viaje: Viaje){
     console.log('edit =>', viaje)
     this.router.navigate(['/editar-viaje', viaje.id ]);
@@ -93,7 +121,7 @@ export class GestionViajesPage implements OnInit {
   async alertaInicio(viaje: Viaje){
     const alert = await this.alertctrl.create({
       header: 'Confirmacion',
-      message: 'Seguro que desea eliminar este vehiculo,',
+      message: 'Seguro que desea iniciar el viaje?',
       buttons: [{ text: 'aceptar',
                   cssClass: 'color-aceptar', 
                   handler: ()=> {viaje.activo = false;

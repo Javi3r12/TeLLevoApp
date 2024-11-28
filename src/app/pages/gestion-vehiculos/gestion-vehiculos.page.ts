@@ -4,6 +4,8 @@ import { Vehiculo } from 'src/app/interfaces/vehiculo.model';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { sesionService } from 'src/app/services/sesion.service';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
+import { LocalStorageService } from 'src/app/services/LocalStorage.service';
 
 @Component({
   selector: 'app-gestion-vehiculos',
@@ -14,16 +16,45 @@ export class GestionVehiculosPage implements OnInit {
   userId: any;
   vehiculos : Vehiculo[] = [];
   loaded = false; 
+  isOnline = false;
 
   constructor(private firebase: FirebaseService, private router: Router,
-    private alertctrl: AlertController, private sesion: sesionService) 
+    private alertctrl: AlertController, private sesion: sesionService,
+    private connectivityService: ConnectivityService, private localStorageService: LocalStorageService) 
     { 
       this.userId = this.sesion.getUser()?.id;
     }
 
-  ngOnInit() {
-    this.cargarVehiculos()
+    async ngOnInit() {
+      this.connectivityService.isOnline().then(isOnline => {
+        console.log('¿Está en línea?', isOnline);
+        this.isOnline = isOnline;
+      });
+      this.isOnline = this.connectivityService.isBrowserOnline();
+  
+      if (this.isOnline) {
+        await this.cargarVehiculos();
+        console.log('online');
+        
+      } else {
+        await this.cargarVehiculosDeLocal();
+      }
+    }
+  
+
+  // sin conexion
+
+  async cargarVehiculosDeLocal() {
+    const vehiculosGuardados = await this.localStorageService.getData('vehiculos');
+    if (vehiculosGuardados) {
+      this.vehiculos = vehiculosGuardados.filter((vehiculo: Vehiculo) => vehiculo.id_user === this.userId);
+      console.log('Vehículos cargados de local:', this.vehiculos);
+    } else {
+      console.log('No se encontraron vehículos en local.');
+    }
   }
+
+  // normal
 
   editarVehiculo(vehiculo: Vehiculo){
     console.log('edit =>', vehiculo)
@@ -35,16 +66,6 @@ export class GestionVehiculosPage implements OnInit {
     console.log('eliminar =>', vehiculo)
     this.alerta(vehiculo)
     // this.firebase.deleteDocument('vehiculos', vehiculo.id)
-  }
-
-  cargarvehiculos(){
-    this.firebase.getCollectionChanges<Vehiculo>('vehiculos').subscribe(data =>{
-      console.log(data)
-      if(data){
-        console.log(this.vehiculos)
-        this.vehiculos = data
-      }
-    })
   }
 
   cargarVehiculos() {

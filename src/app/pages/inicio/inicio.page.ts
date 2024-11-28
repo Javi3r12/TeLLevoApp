@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from '../../services/sesion.service';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-inicio',
@@ -25,14 +26,30 @@ export class InicioPage implements OnInit {
   }
 
   usuarios : usuarioLog [] = [];
+  isOnline = false;
 
-  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,public sesion: sesionService) { }
+  constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,
+    public sesion: sesionService, private MenuController: MenuController, private connectivityService: ConnectivityService,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    if (this.sesion.isLoggedIn()) {
-      // this.router.navigate(['/perfil']);
+    this.connectivityService.isOnline().then(isOnline => {
+      console.log('¿Está en línea?', isOnline);
+      this.isOnline = isOnline; 
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.isOnline = this.connectivityService.isBrowserOnline();
+
+    if (this.isOnline){
+      if (this.sesion.isLoggedIn()) {
+        this.cargarUsuarios()
+        // this.router.navigate(['/perfil']);
+      } else {
+        this.cargarUsuarios()
+      }
     } else {
-      this.cargarUsuarios()
+
     }
   }
 
@@ -50,7 +67,7 @@ export class InicioPage implements OnInit {
         if (usuarioEncontrado) {
           this.sesion.login(usuarioEncontrado);
           //this.router.navigate(['/perfil']);
-          //this.router.navigate(['/home']);
+          this.router.navigate(['/home']);
         } else {
           this.mensaje = "Acceso denegado";
           this.alerta();
@@ -60,6 +77,7 @@ export class InicioPage implements OnInit {
       } 
     }
   }
+
   cargarUsuarios(){
     this.firebase.getCollectionChanges<usuarioLog>('usuario').subscribe(data =>{
       console.log(data)
@@ -70,6 +88,16 @@ export class InicioPage implements OnInit {
     })
   }
   
+  logout() {
+    this.sesion.logout(); 
+
+    this.router.navigate(['/inicio']).then(() => {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false; 
+      this.router.onSameUrlNavigation = 'reload'; 
+      this.router.navigate(['/inicio']); 
+    });
+  }
+
   async alerta(){
     console.log("Alerta desde controller");
     const alert = await this.alertctrl.create({

@@ -3,100 +3,98 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
-    <ion-title>Viajes</ion-title>
+    <ion-title>Historial de viajes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/inicio">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Historial</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-  <!-- Mostrar viajes activos e historial -->
-  <div *ngIf="viajes && viajes.length > 0; else sinViajes">
-     
-    <ion-text class="titulo-viaje" >
-      <h4>Viajes activos a tomar: </h4>
-    </ion-text>
-  
+  <div *ngIf="userId; else notuser ">
+    <div *ngIf="viajes && viajes.length > 0; else sinViajes">
 
-    <div *ngFor="let viaje of viajes">
-      <div *ngIf="viaje.activo">    
-        <ion-card mode="md">
-          <ion-card-header>
-            <ion-card-title>{{ viaje.destino }}</ion-card-title>
-            <ion-card-subtitle> Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Descripción: {{ viaje.descripcion }}
-            <br>
-            Precio: ${{ viaje.precio }} <br> 
+      <div>
 
-            <ion-button fill="clear" slot="end" (click)="irADetalle(viaje)">
-              Detalle
-            </ion-button>
-          </ion-card-content>
-        </ion-card>
+        <ion-text class="titulo-seccion">
+          <h4>Viajes activos a tomar:</h4>
+        </ion-text>
+
+        <ion-list lines="none">
+          <ng-container *ngFor="let viaje of viajes">
+            <ng-container *ngIf="viaje.activo">
+              <ion-item class="viaje-item">
+                <ion-card mode="md" class="viaje-card">
+                  <ion-card-header>
+                    <ion-card-title class="viaje-destino">{{ viaje.destino }}</ion-card-title>
+                    <ion-card-subtitle class="viaje-vehiculo">
+                      Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}
+                    </ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <p class="viaje-descripcion"><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+                    <p class="viaje-precio"><strong>Precio:</strong> ${{ viaje.precio }}</p>
+
+                    <ion-button size="small" fill="solid" color="primary" (click)="irADetalle(viaje)">
+                      Detalle
+                    </ion-button>
+                  </ion-card-content>
+                </ion-card>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+        </ion-list>
+
       </div>
-    </div>
 
-      <ion-text  class="titulo-historial">
-        <h4>Historial de viajes:  </h4>
-      </ion-text>
+      <div>
 
-    <div *ngFor="let viaje of viajes">      
-      <div *ngIf="!viaje.activo">
-        <ion-card mode="md">
-          <ion-card-header>
-            <ion-card-title>{{ viaje.destino }}</ion-card-title>
-            <ion-card-subtitle> Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Descripción: {{ viaje.descripcion }}
-            <br>
-            Precio: ${{ viaje.precio }}
-          </ion-card-content>
-        </ion-card>
+        <ion-text class="titulo-seccion">
+          <h4>Historial de viajes:</h4>
+        </ion-text>
+
+        <ion-list lines="none">
+          <ng-container *ngFor="let viaje of viajes">
+            <ng-container *ngIf="!viaje.activo">
+              <ion-item class="viaje-item">
+                <ion-card mode="md" class="viaje-card">
+                  <ion-card-header>
+                    <ion-card-title class="viaje-destino">{{ viaje.destino }}</ion-card-title>
+                    <ion-card-subtitle class="viaje-vehiculo">
+                      Vehículo: {{ obtenerModeloVehiculo(viaje.vehiculo) }}
+                    </ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-card-content>
+                    <p class="viaje-descripcion"><strong>Descripción:</strong> {{ viaje.descripcion }}</p>
+                    <p class="viaje-precio"><strong>Precio:</strong> ${{ viaje.precio }}</p>
+                  </ion-card-content>
+                </ion-card>
+              </ion-item>
+            </ng-container>
+          </ng-container>
+        </ion-list>
+
       </div>
-    </div>
 
+    </div>
   </div>
 
   <ng-template #sinViajes>
-    <div *ngIf="!loaded">
-      <ion-list>
-        <ion-list-header>
-          <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-        </ion-list-header>
-        <ion-item>
-          <ion-thumbnail slot="start">
-            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-          </ion-thumbnail>
-          <ion-label>
-            <h3>
-              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
-            </h3>
-            <p>
-              <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
-            </p>
-            <p>
-              <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
-            </p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </div>
-
-    <div *ngIf="loaded && !viajes.length">
-      <ion-card>
-        <ion-card-content>
-          <ion-text>No ha realizado viajes o no ha iniciado sesión</ion-text>
-        </ion-card-content>
-      </ion-card>
+    <div class="no-viajes">
+      <ion-icon name="help-circle-outline" size="large"></ion-icon>
+      <p>No ha realizado viajes o no ha iniciado sesión.</p>
     </div>
   </ng-template>
-  
+
+  <ng-template #notuser>
+    <div class="no-viajes">
+      <ion-icon name="help-circle-outline" size="large"></ion-icon>
+      <p>Debe iniciar sesion para ver sus historial de viajes </p>
+    </div>      
+  </ng-template>
+
 </ion-content>
+

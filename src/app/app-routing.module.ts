@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { MapDirreccionViajeComponent } from './components/map-dirreccion-viaje/map-dirreccion-viaje.component'; 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'inicio',
     pathMatch: 'full'
-  },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
     path: 'inicio',
@@ -62,6 +59,15 @@ const routes: Routes = [
     path: 'editar-vehiculo/:id',
     loadChildren: () => import('./pages/editar-vehiculo/editar-vehiculo.module').then( m => m.EditarVehiculoPageModule)
   },
+  { path: 'map-dirreccion-viaje',
+    loadComponent: () => import('./components/map-dirreccion-viaje/map-dirreccion-viaje.component').then((m) => m.MapDirreccionViajeComponent)
+  },
+  { path: 'map-dirreccion-viaje', component: MapDirreccionViajeComponent },
+  { path: '', redirectTo: '/map-dirreccion-viaje', pathMatch: 'full' },  {
+    path: 'noti',
+    loadChildren: () => import('./pages/noti/noti.module').then( m => m.NotiPageModule)
+  },
+
   
 
 

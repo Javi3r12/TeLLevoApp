@@ -12,7 +12,7 @@ npm install -g firebase-tools
 -- uuid --
 npm install uuid
 npm install -g uuid
-<<<<<<< maps
+
 
 -- Google maps -- 
 
@@ -42,4 +42,4 @@ npx cap sync android
 -- Abrir en adroid studio --
 
 npx cap open android
-=======
+

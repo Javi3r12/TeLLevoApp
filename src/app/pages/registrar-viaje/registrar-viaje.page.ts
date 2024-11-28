@@ -4,11 +4,26 @@ import { Viaje } from 'src/app/interfaces/viaje.model';
 import { Vehiculo } from '../../interfaces/vehiculo.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from '../../services/sesion.service';
+import { DirrecionViajeComponent } from '../../components/dirrecion-viaje/dirrecion-viaje.component';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConnectivityService } from 'src/app/services/connectivity.service';
 
 @Component({
   selector: 'app-registrar-viaje',
   templateUrl: './registrar-viaje.page.html',
   styleUrls: ['./registrar-viaje.page.scss'],
+  standalone: true,
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    DirrecionViajeComponent,
+    
+  ],
+  
 })
 
 export class RegistrarViajePage implements OnInit {
@@ -22,8 +37,14 @@ export class RegistrarViajePage implements OnInit {
     precio: 0,
     activo: true,
     id_user: this.sesion.getUser()?.id ,
+    cord: {
+      lat: 0, 
+      lng: 0, 
+    },
+
   };
 
+  info = 'registrar';
   vehiculos: Vehiculo[] = [];
 
   viajes: Viaje[] = [];
@@ -31,12 +52,32 @@ export class RegistrarViajePage implements OnInit {
   cargando: boolean | undefined;
 
   userId = this.sesion.getUser()?.id;
-  
+  isOnline = false;
 
-  constructor(private firebase: FirebaseService, private sesion: sesionService) {}
+  constructor(private firebase: FirebaseService, private sesion: sesionService,
+    private route: ActivatedRoute,private connectivityService: ConnectivityService,
+  ) {}
 
   ngOnInit() {
-    this.cargarvehiculos()
+    this.connectivityService.isOnline().then(isOnline => {
+      console.log('¿Está en línea?', isOnline);
+      this.isOnline = isOnline;
+    });
+    this.isOnline = this.connectivityService.isBrowserOnline();
+
+    if (this.isOnline) {
+      this.route.queryParams.subscribe(params => {
+        if (params['lat'] && params['lng']) {
+          this.nuevoViaje.cord.lat = +params['lat'];
+          this.nuevoViaje.cord.lng = +params['lng'];
+          console.log('Received coordinates:', this.nuevoViaje.cord.lat ,this.nuevoViaje.cord.lng );
+        }
+      });
+
+      this.cargarvehiculos()
+    } else {
+      
+    }
   }
 
   cargarvehiculos() {
