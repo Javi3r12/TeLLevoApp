@@ -1,37 +1,81 @@
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-icon slot="end" name="person"  routerDirection="root" routerLink="/inicio" ></ion-icon>
-    <ion-title>Editar Vehiculo</ion-title>
+    <ion-icon slot="end" name="person" routerDirection="root" routerLink="/inicio"></ion-icon>
+    <ion-title>Editar Vehículo</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <form #vehiculoForm="ngForm" (ngSubmit)="editarVehiculo(vehiculoForm)">
+    
+    <!-- Tipo de Vehículo -->
     <ion-item>
       <ion-label position="floating">Tipo de Vehículo</ion-label>
-      <ion-input name="vehiculo" required [(ngModel)]="nuevoVehiculo.tipo"></ion-input>
+      <ion-input
+        name="vehiculo"
+        required
+        [(ngModel)]="nuevoVehiculo.tipo"
+        #vehiculo="ngModel">
+      </ion-input>
     </ion-item>
+    <ion-note *ngIf="vehiculo.invalid && vehiculo.touched" color="danger">
+      El tipo de vehículo es obligatorio.
+    </ion-note>
+
+    <!-- Modelo -->
     <ion-item>
       <ion-label position="floating">Modelo</ion-label>
-      <ion-input name="modelo" required [(ngModel)]="nuevoVehiculo.modelo"></ion-input>
+      <ion-input
+        name="modelo"
+        required
+        minlength="2"
+        maxlength="50"
+        [(ngModel)]="nuevoVehiculo.modelo"
+        #modelo="ngModel">
+      </ion-input>
     </ion-item>
+    <ion-note *ngIf="modelo.invalid && modelo.touched" color="danger">
+      El modelo es obligatorio, debe tener entre 2 y 50 caracteres.
+    </ion-note>
 
+    <!-- Patente -->
     <ion-item>
       <ion-label position="floating">Patente</ion-label>
-      <ion-input name="patento" maxlength="6" minlength="6" required [(ngModel)]="nuevoVehiculo.patente"></ion-input>
+      <ion-input
+        name="patente"
+        maxlength="6"
+        minlength="6"
+        required
+        [(ngModel)]="nuevoVehiculo.patente"
+        #patente="ngModel">
+      </ion-input>
     </ion-item>
+    <ion-note *ngIf="patente.invalid && patente.touched" color="danger">
+      La patente debe tener exactamente 6 caracteres.
+    </ion-note>
 
+    <!-- Color -->
     <ion-item>
       <ion-label position="floating">Color</ion-label>
-      <ion-textarea name="descripcion" required [(ngModel)]="nuevoVehiculo.color"></ion-textarea>
+      <ion-textarea
+        name="color"
+        required
+        minlength="3"
+        maxlength="30"
+        [(ngModel)]="nuevoVehiculo.color"
+        #color="ngModel">
+      </ion-textarea>
     </ion-item>
+    <ion-note *ngIf="color.invalid && color.touched" color="danger">
+      El color es obligatorio, debe tener entre 3 y 30 caracteres.
+    </ion-note>
 
-
-    <ion-button expand="full" type="submit">Guardar</ion-button>
+    <!-- Botón Guardar -->
+    <ion-button expand="full" type="submit" [disabled]="vehiculoForm.invalid">
+      Guardar
+    </ion-button>
   </form>
 </ion-content>

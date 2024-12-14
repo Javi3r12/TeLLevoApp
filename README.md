@@ -1,9 +1,9 @@
-Se le agregan algunos datos de ejemplos como un usuarios, viajes de ejemplos en el Home y al cambiar la contraseña por olvido se genera un codigo que se muestra por consola para para realizar el cambio de contraseña y al entrar en el inicio de sesion se genera un usuario automaticamente
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+
+=======
 
 ---Fire Base ---
 npm install firebase
@@ -12,6 +12,7 @@ npm install -g firebase-tools
 -- uuid --
 npm install uuid
 npm install -g uuid
+
 
 -- Google maps -- 
 
@@ -41,3 +42,4 @@ npx cap sync android
 -- Abrir en adroid studio --
 
 npx cap open android
+
