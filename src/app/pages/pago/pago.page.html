@@ -32,7 +32,7 @@
 
   <br> <br>
 
-  <form #pagoForm="ngForm" (ngSubmit)="cancelarPago(pagoForm)">
+  <form #pagoForm="ngForm" (ngSubmit)="cancelarPago(pagoForm)" *ngIf="!this.enviando else Enviando">
 
     <ion-item>
       <ion-label>Elija una opción </ion-label>
@@ -52,5 +52,13 @@
     </ion-button>
     
   </form>
+
+  <ng-template #Enviando>
+    <ion-card>
+      <ion-card-content>
+        Se esta cargando la informacion 
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
 
 </ion-content>

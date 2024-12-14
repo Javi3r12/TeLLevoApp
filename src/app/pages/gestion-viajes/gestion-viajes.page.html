@@ -53,7 +53,7 @@
                 </ion-button>
               </div>
 
-              <div class="action-row iniciar-button">
+              <div class="action-row iniciar-button" *ngIf="viaje.activo else Iniciado">
                 <ion-button expand="block" size="small" color="success" (click)="iniciarViaje(viaje)" [disabled]="!isOnline" >
                   <ion-icon name="play-outline" slot="start"></ion-icon>
                   Iniciar
@@ -72,6 +72,12 @@
     <div class="no-viajes">
       <ion-icon name="help-circle-outline" size="large"></ion-icon>
       <p>No ha realizado viajes o no ha iniciado sesión</p>
+    </div>
+  </ng-template>
+
+  <ng-template #Iniciado>
+    <div>
+      <p>Ya ha iniciado este viaje</p>
     </div>
   </ng-template>
 

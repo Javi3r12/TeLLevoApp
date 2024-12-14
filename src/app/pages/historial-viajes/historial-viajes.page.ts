@@ -25,8 +25,9 @@ export class HistorialViajesPage implements OnInit {
   constructor(
     private firebase: FirebaseService,
     private sesion: sesionService,
-    private router: Router,private connectivityService: ConnectivityService,
-    private localStorageService: LocalStorageService
+    private router: Router,
+    private connectivityService: ConnectivityService,
+    private localStorageService: LocalStorageService,
   ) { 
     this.userId = this.sesion.getUser()?.id;
   }

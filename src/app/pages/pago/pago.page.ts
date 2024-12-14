@@ -39,6 +39,7 @@ export class PagoPage implements OnInit {
   asientos: number | undefined ;
   uno = 1; 
   pago: string | undefined ; 
+  enviando: boolean = false;
 
   constructor(private alertctrl:AlertController, private router: Router, private route: ActivatedRoute ,
     private firebase: FirebaseService, public sesion: sesionService ) { }
@@ -53,7 +54,8 @@ export class PagoPage implements OnInit {
   }
 
   cancelarPago(form: NgForm){
-    if(form.valid && this.viaje.asientos > 0 ){
+    if(form.valid && this.viaje.asientos > 0 && this.enviando == false){
+      this.enviando = true;
       this.asientos = this.viaje.asientos;
       this.asientos = (this.asientos - 1) ;
       this.viaje.asientos = this.asientos;
@@ -67,6 +69,7 @@ export class PagoPage implements OnInit {
 
         this.firebase.createDocumentID(this.viajesIns, 'viajesIns', this.viajesIns.id ).then(() => {
           console.log("Viaje actualizado exitosamente");
+          
           this.alerta()
         })
         // this.alerta()
@@ -97,7 +100,8 @@ export class PagoPage implements OnInit {
         text:'Aceptar',
         cssClass:'color-aceptar',
         handler:()=>{
-          this.router.navigate(['/home']);
+          this.enviando = false;
+          this.router.navigate(['/historial-viajes']);
         }
       }],
     });

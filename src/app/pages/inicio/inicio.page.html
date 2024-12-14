@@ -31,7 +31,7 @@
 
       <ion-text *ngIf="!isOnline">
         <strong>
-          Sin tener conexion a internet no se puede logear
+          Sin tener conexion a internet no se puede registrar usuarios
         </strong>
       </ion-text>
       
@@ -62,7 +62,7 @@
         </ng-template>
         
         <br>
-        <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="inicioForm.invalid" [disabled]="!isOnline">
+        <ion-button type="submit" expand="block" fill="solid" color="primary" [disabled]="inicioForm.invalid">
           Iniciar Sesión
         </ion-button>
         <ion-button expand="block" fill="solid" color="tertiary" href="registro" [disabled]="!isOnline">
