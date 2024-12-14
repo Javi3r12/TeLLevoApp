@@ -6,6 +6,7 @@ import { usuarioLog } from 'src/app/interfaces/usuario-log';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { sesionService } from '../../services/sesion.service';
 import { ConnectivityService } from 'src/app/services/connectivity.service';
+import { LocalStorageService } from 'src/app/services/LocalStorage.service';
 
 @Component({
   selector: 'app-inicio',
@@ -30,9 +31,9 @@ export class InicioPage implements OnInit {
 
   constructor(private alertctrl:AlertController, public router:Router, private firebase: FirebaseService,
     public sesion: sesionService, private MenuController: MenuController, private connectivityService: ConnectivityService,
-    private changeDetectorRef: ChangeDetectorRef) { }
+    private changeDetectorRef: ChangeDetectorRef, private localStorageService: LocalStorageService,) { }
 
-  ngOnInit() {
+   async ngOnInit() {
     this.connectivityService.isOnline().then(isOnline => {
       console.log('¿Está en línea?', isOnline);
       this.isOnline = isOnline; 
@@ -45,14 +46,39 @@ export class InicioPage implements OnInit {
       if (this.sesion.isLoggedIn()) {
         this.cargarUsuarios()
         // this.router.navigate(['/perfil']);
+        if (this.usuarios.length > 0) {
+          await this.guardarUsuariosEnLocal(this.usuarios);
+        }
       } else {
         this.cargarUsuarios()
       }
     } else {
-
+      await this.cargarUsuariosDeLocal();
     }
   }
 
+  //Sin conexion
+
+  async guardarUsuariosEnLocal(usuarios: usuarioLog[]) {
+    if (usuarios && usuarios.length > 0) {
+      await this.localStorageService.saveData('usuario', usuarios);
+      console.log('Usuarios almacenados en local:', usuarios);
+    } else {
+      console.log('No hay usuarios para guardar o los datos están vacíos.');
+    }
+  } 
+
+  async cargarUsuariosDeLocal() {
+    const usuariosGuardados = await this.localStorageService.getData('usuario');
+    if (usuariosGuardados) {
+      this.usuarios = usuariosGuardados
+      console.log('Viajes cargados de local:', this.usuarios);
+    } else {
+      console.log('No se encontraron viajes en local.');
+    }
+  }
+
+  // Online
   enviar(form: NgForm){
     if (form.valid) {
       console.log("Form Enviado...");
@@ -117,5 +143,6 @@ export class InicioPage implements OnInit {
     await alert.present();
   }
 
+  
 
 }
